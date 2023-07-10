@@ -1,46 +1,31 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
+import { useSync } from './hooks/sync'
+import { SyncDataResponse } from '@kroust/swarm-client/dist/endpoints/player/sync'
 
-interface SyncResponse {
-  city: {
-    plastic: number
-    mushroom: number
-  }
-}
-
-const sync = async (token: string) : Promise<SyncResponse> => {
-  const res = await fetch('http://localhost:3000/sync', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ token })
-  })
-
-  const data = await res.json()
-  return data
-}
 
 const App = () => {
-  const token = 'Kroustille'
-  const [mushroom, setMushroom] = useState(0)
   const [plastic, setPlastic] = useState(0)
+  const [mushroom, setMushroom] = useState(0)
+  const onSyncChange = (data: SyncDataResponse) => {
+    if (!data.cities.length) {
+      console.warn('there is no city here 😬')
+      return
+    }
 
-  useEffect(() => { sync(token).then(data => {
-    console.log(data)
-    setMushroom(data.city.mushroom)
-    setPlastic(data.city.plastic)
-  }) }, [])
+    const first_city = data.cities[0]
+
+    setPlastic(first_city.plastic)
+    setMushroom(first_city.mushroom)
+  }
+
+  useSync({ onChange: onSyncChange})
 
   return (
     <main>
-      <header>
-        <p>
-          Plastique: {plastic}
-        </p>
-        <p>
-          Champignon: {mushroom}
-        </p>
-      </header>
+      <ul>
+        <li>Plastique: {plastic}</li>
+        <li>Champignon: {mushroom}</li>
+      </ul>
     </main>
   )
 }
