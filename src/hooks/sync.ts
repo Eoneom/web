@@ -10,7 +10,6 @@ interface UseSyncProps {
 
 export const useSync = ({ token, onSync }: UseSyncProps) => {
   const refreshAndSync = async () => {
-
     const refresh_res = await client.player.refresh(token)
     if (isError(refresh_res)) {
       console.error(refresh_res.error_code)
@@ -32,7 +31,6 @@ export const useSync = ({ token, onSync }: UseSyncProps) => {
 
   useEffect(() => {
     if (!token) {
-      console.log('refresh but no token')
       return
     }
 

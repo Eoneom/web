@@ -2,23 +2,23 @@ import { toast } from 'react-toastify'
 import { client } from '..'
 import { isError } from '../../utils'
 
-export const upgradeBuilding = async ({
+export const researchTechnology = async ({
   token,
   city_id,
-  building_code
+  technology_code
 }: {
   token: string
   city_id?: string
-  building_code: string
+  technology_code: string
 }) => {
   if (!city_id) {
     toast.error('no city id defined')
     return
   }
 
-  const upgrade_res = await client.building.upgrade(token, {
+  const upgrade_res = await client.technology.research(token, {
     city_id,
-    building_code
+    technology_code
   })
   if (isError(upgrade_res)) {
     toast.error(upgrade_res.error_code)

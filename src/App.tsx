@@ -6,6 +6,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import { upgradeBuilding } from './api/building/upgrade'
 import { transformDecimals } from './helpers/transform'
 import { LoginForm } from './components/LoginForm'
+import { researchTechnology } from './api/technology/research'
 
 const App: React.FC = () => {
   const [token, setToken] = useState('')
@@ -16,6 +17,10 @@ const App: React.FC = () => {
   const is_building_in_progress = useMemo(() => {
     return buildings.some(building => building.upgrade_at)
   }, [buildings])
+
+  const is_technology_in_progress = useMemo(() => {
+    return technologies.some(technology => technology.research_at)
+  }, [technologies])
 
   useEffect(() => {
     const stored_token = window.localStorage.getItem('token')
@@ -31,7 +36,7 @@ const App: React.FC = () => {
 
   const onSync = (data: SyncDataResponse) => {
     if (!data.cities.length) {
-      toast('there is no city here 😬')
+      toast.error('there is no city here 😬')
       return
     }
 
@@ -60,7 +65,7 @@ const App: React.FC = () => {
       {!token && <LoginForm onLogin={onLogin}/>}
       {
         Boolean(token) && Boolean(city) && <>
-          <h1>{city?.name} ({city?.id})</h1>
+          <h1>{city?.name}</h1>
           <h2>Ressources</h2>
           <ul>
             <li>Plastique: {transformDecimals(city?.plastic)}</li>
@@ -83,7 +88,11 @@ const App: React.FC = () => {
           <ul>
             {technologies.map(technology => (
               <li key={technology.code}>
-                {technology.code} {technology.level}
+                {technology.code} {technology.level} {displayRemainingTime(technology.research_at)} {
+                  !is_technology_in_progress && <button onClick={() => {
+                    researchTechnology({ token, city_id: city?.id, technology_code: technology.code })
+                  }}>Rechercher</button>
+                }
               </li>
             ))}
           </ul>
