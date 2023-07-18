@@ -25,5 +25,5 @@ export const upgradeBuilding = async ({
     return
   }
 
-  toast.success('upgrade in progress')
+  toast.success('Construction lancée')
 }

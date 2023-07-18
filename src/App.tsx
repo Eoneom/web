@@ -50,7 +50,16 @@ const App: React.FC = () => {
     setTechnologies(data.technologies)
   }
 
-  useSync({ token, onSync })
+  const onSyncError = (errorCode: string) => {
+    if (errorCode === 'auth:not-found') {
+      window.localStorage.removeItem('token')
+      setToken('')
+    } else {
+      toast.error(errorCode)
+    }
+  }
+
+  useSync({ token, onSync, onError: onSyncError })
 
   const displayRemainingTime = (upgrade_at?: number) => {
     if (!upgrade_at) {
@@ -75,7 +84,7 @@ const App: React.FC = () => {
           <ul>
             {buildings.map(building => (
               <li key={building.code}>
-                {building.code} {building.level} {displayRemainingTime(building.upgrade_at)} {
+                {building.name} {building.level} {displayRemainingTime(building.upgrade_at)} {
                   !is_building_in_progress && <button onClick={() => {
                     upgradeBuilding({ token, city_id: city?.id, building_code: building.code })
                   } }>

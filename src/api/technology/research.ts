@@ -25,5 +25,5 @@ export const researchTechnology = async ({
     return
   }
 
-  toast.success('upgrade in progress')
+  toast.success('Recherche lancée')
 }
