@@ -3,7 +3,7 @@ import { toast } from 'react-toastify'
 import { login } from '../api/player/login'
 
 interface Props {
-  onLogin: ({ token }: { token: string} ) => void
+  onLogin: ({ token }: { token: string }) => void
 }
 
 export const LoginForm: React.FC<Props> = ({ onLogin }) => {

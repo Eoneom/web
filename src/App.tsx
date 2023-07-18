@@ -1,8 +1,8 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
+import 'react-toastify/dist/ReactToastify.css'
 import { useSync } from './hooks/sync'
 import { SyncDataResponse } from '@kroust/swarm-client/dist/endpoints/player/sync'
 import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
 import { upgradeBuilding } from './api/building/upgrade'
 import { transformDecimals } from './helpers/transform'
 import { LoginForm } from './components/LoginForm'
@@ -12,11 +12,24 @@ const App: React.FC = () => {
   const [city, setCity] = useState<SyncDataResponse['cities'][number] | null>(null)
   const [buildings, setBuildings] = useState<SyncDataResponse['cities'][number]['buildings']>([])
   const [technologies, setTechnologies] = useState<SyncDataResponse['technologies']>([])
+
   const is_building_in_progress = useMemo(() => {
     return buildings.some(building => building.upgrade_at)
   }, [buildings])
 
-  const onSyncChange = (data: SyncDataResponse) => {
+  useEffect(() => {
+    const stored_token = window.localStorage.getItem('token')
+    if (stored_token) {
+      setToken(stored_token)
+    }
+  }, [])
+
+  const onLogin = ({ token }: {token: string}) => {
+    window.localStorage.setItem('token', token)
+    setToken(token)
+  }
+
+  const onSync = (data: SyncDataResponse) => {
     if (!data.cities.length) {
       toast('there is no city here 😬')
       return
@@ -32,7 +45,7 @@ const App: React.FC = () => {
     setTechnologies(data.technologies)
   }
 
-  useSync({ token, onChange: onSyncChange })
+  useSync({ token, onSync })
 
   const displayRemainingTime = (upgrade_at?: number) => {
     if (!upgrade_at) {
@@ -44,7 +57,7 @@ const App: React.FC = () => {
 
   return (
     <main>
-      {!token && <LoginForm onLogin={({token}) => setToken(token)}/>}
+      {!token && <LoginForm onLogin={onLogin}/>}
       {
         Boolean(token) && Boolean(city) && <>
           <h1>{city?.name} ({city?.id})</h1>

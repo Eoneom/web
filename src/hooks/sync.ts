@@ -5,10 +5,10 @@ import { SyncDataResponse } from '@kroust/swarm-client/dist/endpoints/player/syn
 
 interface UseSyncProps {
   token: string
-  onChange: (payload: SyncDataResponse) => void
+  onSync: (payload: SyncDataResponse) => void
 }
 
-export const useSync = ({ token, onChange }: UseSyncProps) => {
+export const useSync = ({ token, onSync }: UseSyncProps) => {
   const refreshAndSync = async () => {
 
     const refresh_res = await client.player.refresh(token)
@@ -27,7 +27,7 @@ export const useSync = ({ token, onChange }: UseSyncProps) => {
       return
     }
 
-    onChange(sync_res.data)
+    onSync(sync_res.data)
   }
 
   useEffect(() => {
@@ -37,9 +37,10 @@ export const useSync = ({ token, onChange }: UseSyncProps) => {
     }
 
     const interval = setInterval (() => {
-
       refreshAndSync()
     }, 1000)
+
+    refreshAndSync()
 
     return () => clearInterval(interval)
   }, [token])
