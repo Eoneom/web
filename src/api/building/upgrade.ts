@@ -3,11 +3,11 @@ import { client } from '..'
 import { isError } from '../../utils'
 
 export const upgradeBuilding = async ({
-  player_id,
+  token,
   city_id,
   building_code
 }: {
-  player_id: string
+  token: string
   city_id?: string
   building_code: string
 }) => {
@@ -16,8 +16,7 @@ export const upgradeBuilding = async ({
     return
   }
 
-  const upgrade_res = await client.building.upgrade({
-    player_id,
+  const upgrade_res = await client.building.upgrade(token, {
     city_id,
     building_code
   })
