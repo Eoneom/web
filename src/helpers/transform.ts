@@ -1,3 +1,11 @@
+export const displayRemainingTime = (upgrade_at?: number) => {
+  if (!upgrade_at) {
+    return
+  }
+
+  return ` - construit dans ${Math.ceil((upgrade_at - new Date().getTime()) / 1000)}s`
+}
+
 export const transformDecimals = (value?: number): string => {
   if (!value) {
     return ''

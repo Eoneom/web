@@ -1,26 +1,20 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import 'react-toastify/dist/ReactToastify.css'
 import { useSync } from './hooks/sync'
 import { SyncDataResponse } from '@kroust/swarm-client/dist/endpoints/player/sync'
 import { ToastContainer, toast } from 'react-toastify'
-import { upgradeBuilding } from './api/building/upgrade'
-import { transformDecimals } from './helpers/transform'
 import { LoginForm } from './components/LoginForm'
-import { researchTechnology } from './api/technology/research'
+import { CityNavbar } from './components/city/navbar'
+import { ContentBuildings } from './components/content/buildings'
+
+import './styles.css'
+import { ContentTechnologies } from './components/content/technologies'
 
 const App: React.FC = () => {
   const [token, setToken] = useState('')
   const [city, setCity] = useState<SyncDataResponse['cities'][number] | null>(null)
-  const [buildings, setBuildings] = useState<SyncDataResponse['cities'][number]['buildings']>([])
   const [technologies, setTechnologies] = useState<SyncDataResponse['technologies']>([])
-
-  const is_building_in_progress = useMemo(() => {
-    return buildings.some(building => building.upgrade_at)
-  }, [buildings])
-
-  const is_technology_in_progress = useMemo(() => {
-    return technologies.some(technology => technology.research_at)
-  }, [technologies])
+  const [selectedPage, setSelectedPage] = useState('buildings')
 
   useEffect(() => {
     const stored_token = window.localStorage.getItem('token')
@@ -35,18 +29,12 @@ const App: React.FC = () => {
   }
 
   const onSync = (data: SyncDataResponse) => {
-    if (!data.cities.length) {
-      toast.error('there is no city here 😬')
-      return
-    }
-
     const first_city = data.cities[0]
     if (!first_city) {
       return
     }
 
     setCity(first_city)
-    setBuildings(first_city.buildings)
     setTechnologies(data.technologies)
   }
 
@@ -61,51 +49,28 @@ const App: React.FC = () => {
 
   useSync({ token, onSync, onError: onSyncError })
 
-  const displayRemainingTime = (upgrade_at?: number) => {
-    if (!upgrade_at) {
-      return
-    }
-
-    return ` - construit dans ${Math.ceil((upgrade_at - new Date().getTime()) / 1000)}s`
-  }
-
   return (
     <main>
-      {!token && <LoginForm onLogin={onLogin}/>}
       {
-        Boolean(token) && Boolean(city) && <>
-          <h1>{city?.name}</h1>
-          <h2>Ressources</h2>
-          <ul>
-            <li>Plastique: {transformDecimals(city?.plastic)}</li>
-            <li>Champignon: {transformDecimals(city?.mushroom)}</li>
-          </ul>
-          <h2>Constructions</h2>
-          <ul>
-            {buildings.map(building => (
-              <li key={building.code}>
-                {building.name} {building.level} {displayRemainingTime(building.upgrade_at)} {
-                  !is_building_in_progress && <button onClick={() => {
-                    upgradeBuilding({ token, city_id: city?.id, building_code: building.code })
-                  } }>
-              Construire
-                  </button>}
-              </li>
-            ))}
-          </ul>
-          <h2>Technologies</h2>
-          <ul>
-            {technologies.map(technology => (
-              <li key={technology.code}>
-                {technology.code} {technology.level} {displayRemainingTime(technology.research_at)} {
-                  !is_technology_in_progress && <button onClick={() => {
-                    researchTechnology({ token, city_id: city?.id, technology_code: technology.code })
-                  }}>Rechercher</button>
-                }
-              </li>
-            ))}
-          </ul>
-        </>
+        !token && <LoginForm onLogin={onLogin} />
+      }
+      {
+        city &&
+        <CityNavbar
+          city={city}
+          onGoToTechnologies={() => setSelectedPage('technologies')}
+          onGoToBuildings={() => setSelectedPage('buildings')}/>
+      }
+      {
+        city &&
+        selectedPage === 'buildings' &&
+        <ContentBuildings token={token} city={city} />
+      }
+      {
+        city &&
+        Boolean(technologies?.length) &&
+        selectedPage === 'technologies' &&
+        <ContentTechnologies token={token} technologies={technologies} cityId={city.id}/>
       }
       <ToastContainer
         position='bottom-right'

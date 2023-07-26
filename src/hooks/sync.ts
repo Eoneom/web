@@ -28,7 +28,13 @@ export const useSync = ({ token, onSync, onError }: UseSyncProps) => {
       return
     }
 
-    onSync(sync_res.data)
+    const { data } = sync_res
+    if (!data.cities.length) {
+      toast.error('there is no city here 😬')
+      return
+    }
+
+    onSync(data)
   }
 
   useEffect(() => {
