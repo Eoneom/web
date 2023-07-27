@@ -11,24 +11,19 @@ interface UseSyncProps {
 }
 
 export const useSync = ({ token, onSync, onError }: UseSyncProps) => {
-  const refreshAndSync = async () => {
-    const refresh_res = await client.player.refresh(token)
-    if (isError(refresh_res)) {
-      onError(refresh_res.error_code)
-      return
-    }
-    const sync_res = await client.player.sync(token)
-    if (isError(sync_res)) {
-      onError(sync_res.error_code)
+  const sync = async () => {
+    const res = await client.player.sync(token)
+    if (isError(res)) {
+      onError(res.error_code)
       return
     }
 
-    if (!sync_res.data) {
+    if (!res.data) {
       toast.warn('data not found')
       return
     }
 
-    const { data } = sync_res
+    const { data } = res
     if (!data.cities.length) {
       toast.error('there is no city here 😬')
       return
@@ -43,10 +38,10 @@ export const useSync = ({ token, onSync, onError }: UseSyncProps) => {
     }
 
     const interval = setInterval (() => {
-      refreshAndSync()
+      sync()
     }, 1000)
 
-    refreshAndSync()
+    sync()
 
     return () => clearInterval(interval)
   }, [token])
