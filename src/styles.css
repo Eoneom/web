@@ -25,3 +25,11 @@
 .city-navbar ul li {
   margin: auto;
 }
+
+.details {
+  bottom: 0;
+  height: 30%;
+  width: 100%;
+  position: fixed;
+  border: solid black 1px;
+}

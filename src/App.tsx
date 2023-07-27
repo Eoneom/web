@@ -9,12 +9,19 @@ import { ContentBuildings } from './components/content/buildings'
 
 import './styles.css'
 import { ContentTechnologies } from './components/content/technologies'
+import { DetailsBuilding } from './components/details/building'
+import { Building, Technology } from './types'
+
+type SelectedItem = { type: 'building', data: Building } |
+  { type: 'technology', data: Technology } |
+  null
 
 const App: React.FC = () => {
   const [token, setToken] = useState('')
   const [city, setCity] = useState<SyncDataResponse['cities'][number] | null>(null)
   const [technologies, setTechnologies] = useState<SyncDataResponse['technologies']>([])
   const [selectedPage, setSelectedPage] = useState('buildings')
+  const [selectedItem, setSelectedItem] = useState<SelectedItem>(null)
 
   useEffect(() => {
     const stored_token = window.localStorage.getItem('token')
@@ -47,6 +54,11 @@ const App: React.FC = () => {
     }
   }
 
+  const selectPage = (page: string) => {
+    setSelectedItem(null)
+    setSelectedPage(page)
+  }
+
   useSync({ token, onSync, onError: onSyncError })
 
   return (
@@ -58,19 +70,23 @@ const App: React.FC = () => {
         city &&
         <CityNavbar
           city={city}
-          onGoToTechnologies={() => setSelectedPage('technologies')}
-          onGoToBuildings={() => setSelectedPage('buildings')}/>
+          onGoToTechnologies={() => selectPage('technologies')}
+          onGoToBuildings={() => selectPage('buildings')}/>
       }
       {
         city &&
         selectedPage === 'buildings' &&
-        <ContentBuildings token={token} city={city} />
+        <ContentBuildings token={token} city={city} onSelectBuilding={(building) => setSelectedItem({type: 'building', data: building })}/>
       }
       {
         city &&
         Boolean(technologies?.length) &&
         selectedPage === 'technologies' &&
         <ContentTechnologies token={token} technologies={technologies} cityId={city.id}/>
+      }
+      {
+        selectedItem?.type === 'building' &&
+        <DetailsBuilding building={selectedItem.data} cost={{plastic: 100, mushroom: 100 }}/>
       }
       <ToastContainer
         position='bottom-right'
