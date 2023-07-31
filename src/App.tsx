@@ -3,15 +3,15 @@ import 'react-toastify/dist/ReactToastify.css'
 import { useSync } from './hooks/sync'
 import { SyncDataResponse } from '@kroust/swarm-client/dist/endpoints/player/sync'
 import { ToastContainer, toast } from 'react-toastify'
-import { AuthLoginForm } from './components/auth/login-form'
-import { CityNavbar } from './components/city/navbar'
-import { BuildingContentList } from './components/building/content/list'
+import { AuthLoginForm } from './modules/auth/login-form'
+import { CityNavbar } from './modules/city/navbar'
+import { BuildingContentList } from './modules/building/content/list'
 
 import './styles.css'
-import { TechnologyContentList } from './components/technology/content/list'
-import { BuildingDetails } from './components/building/details'
+import { TechnologyContentList } from './modules/technology/content/list'
+import { BuildingDetails } from './modules/building/details'
 import { Building, Technology } from './types'
-import { BuildingContextProvider } from './components/building/hook/context'
+import { BuildingContextProvider } from './modules/building/hook/context'
 
 type SelectedItem = { type: 'building', data: Building } |
   { type: 'technology', data: Technology } |
