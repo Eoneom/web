@@ -5,10 +5,9 @@ import { TechnologyContentItem } from './item'
 interface Props {
   technologies: SyncDataResponse['technologies']
   cityId: string
-  token: string
 }
 
-export const TechnologyContentList: React.FC<Props> = ({ cityId, technologies, token }) => {
+export const TechnologyContentList: React.FC<Props> = ({ cityId, technologies }) => {
   const is_technology_in_progress: boolean = useMemo(() => {
     return technologies.some(technology => technology.research_at)
   }, [technologies])
@@ -19,7 +18,7 @@ export const TechnologyContentList: React.FC<Props> = ({ cityId, technologies, t
       cityId={cityId}
       isTechnologyInProgress={is_technology_in_progress}
       technology={technology}
-      token={token}/>)
+    />)
   }, [cityId, technologies])
 
   return <section>

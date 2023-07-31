@@ -3,14 +3,15 @@ import { client } from '../api'
 import { isError } from '../helpers/assertion'
 import { SyncDataResponse } from '@kroust/swarm-client/dist/endpoints/player/sync'
 import { toast } from 'react-toastify'
+import { useAuth } from '../modules/auth/hook'
 
 interface UseSyncProps {
-  token: string
   onSync: (payload: SyncDataResponse) => void
   onError: (errorCode: string) => void
 }
 
-export const useSync = ({ token, onSync, onError }: UseSyncProps) => {
+export const useSync = ({ onSync, onError }: UseSyncProps) => {
+  const { token } = useAuth()
   const sync = async () => {
     const res = await client.player.sync(token)
     if (isError(res)) {

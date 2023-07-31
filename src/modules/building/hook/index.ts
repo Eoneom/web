@@ -3,6 +3,7 @@ import { Building } from '../../../types'
 import { listBuildings } from '../../../api/building/list'
 import { BuildingContext } from './context'
 import { upgradeBuilding } from '../../../api/building/upgrade'
+import { useAuth } from '../../auth/hook'
 
 interface HookUseBuilding {
   buildings: Building[]
@@ -16,11 +17,11 @@ interface UpgradeProps {
 
 interface HookUseBuildingProps {
   cityId: string
-  token: string
 }
 
-export const useBuilding = ({ token, cityId }: HookUseBuildingProps): HookUseBuilding => {
+export const useBuilding = ({ cityId }: HookUseBuildingProps): HookUseBuilding => {
   const { buildings, setBuildings } = useContext(BuildingContext)
+  const { token } = useAuth()
 
   const upgrade = async ({ buildingCode }: UpgradeProps) => {
     const res = await upgradeBuilding({

@@ -1,13 +1,10 @@
 import React, { FormEvent, useState } from 'react'
 import { toast } from 'react-toastify'
-import { login } from '../../api/player/login'
+import { useAuth } from './hook'
 
-interface Props {
-  onLogin: ({ token }: { token: string }) => void
-}
-
-export const AuthLoginForm: React.FC<Props> = ({ onLogin }) => {
+export const AuthLoginForm: React.FC = () => {
   const [playerName, setPlayerName] = useState('')
+  const { login, token } = useAuth()
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.stopPropagation()
@@ -18,12 +15,11 @@ export const AuthLoginForm: React.FC<Props> = ({ onLogin }) => {
       return
     }
 
-    try {
-      const token = await login({ player_name: playerName })
-      onLogin({ token })
-    } catch (err) {
-      toast.error(`${err}`)
-    }
+    await login({ playerName })
+  }
+
+  if (token) {
+    return null
   }
 
   return <form onSubmit={onSubmit}>

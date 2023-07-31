@@ -5,16 +5,15 @@ import { useBuilding } from '../hook'
 
 interface Props {
   cityId: string
-  token: string
   onSelectBuilding: (building: Building) => void
 }
 
-export const BuildingContentList: React.FC<Props> = ({ cityId, token, onSelectBuilding }) => {
-  const { buildings, list } = useBuilding({ token, cityId })
+export const BuildingContentList: React.FC<Props> = ({ cityId, onSelectBuilding }) => {
+  const { buildings, list } = useBuilding({ cityId })
 
   useEffect(() => {
     list()
-  }, [token, cityId])
+  }, [cityId])
 
   const isBuildingInProgress = useMemo(() => {
     return buildings.some(building => building.upgrade_at) ?? false
@@ -26,7 +25,6 @@ export const BuildingContentList: React.FC<Props> = ({ cityId, token, onSelectBu
       isBuildingInProgress={isBuildingInProgress}
       key={building.id}
       building={building}
-      token={token}
       cityId={building.city_id}/>)
   }, [buildings])
 

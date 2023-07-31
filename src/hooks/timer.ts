@@ -11,7 +11,7 @@ export const useTimer = ({ doneAt, onDone }: { doneAt?: number, onDone: () => vo
 
     const interval = setInterval(() => {
       const time = getRemaingTime(doneAt)
-      if (time < 0) {
+      if (time <= 0) {
         setRemainingTime(0)
         clearInterval(interval)
         onDone()

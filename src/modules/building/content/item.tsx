@@ -7,13 +7,12 @@ import { useTimer } from '../../../hooks/timer'
 interface Props {
   building: Building
   cityId: string
-  token: string
   isBuildingInProgress: boolean
   onSelectBuilding: (building: Building) => void
 }
 
-export const BuildingContentItem: React.FC<Props> = ({ building, cityId, token, isBuildingInProgress, onSelectBuilding }) => {
-  const { upgrade, list } = useBuilding({ token, cityId })
+export const BuildingContentItem: React.FC<Props> = ({ building, cityId, isBuildingInProgress, onSelectBuilding }) => {
+  const { upgrade, list } = useBuilding({ cityId })
   const { remainingTime } = useTimer({ doneAt: building.upgrade_at, onDone: () => list()})
 
   return <article key={building.code}>
