@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getRemaingTime } from '../helpers/transform'
+import { getRemaingTime } from '../../helpers/transform'
 
 export const useTimer = ({ doneAt, onDone }: { doneAt?: number, onDone: () => void }): { remainingTime: number } => {
   const [remainingTime, setRemainingTime] = useState(getRemaingTime(doneAt))

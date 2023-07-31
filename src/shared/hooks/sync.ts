@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
 import { client } from '../api'
-import { isError } from '../helpers/assertion'
+import { isError } from '../../helpers/assertion'
 import { SyncDataResponse } from '@kroust/swarm-client/dist/endpoints/player/sync'
 import { toast } from 'react-toastify'
-import { useAuth } from '../modules/auth/hook'
+import { useAuth } from '../../modules/auth/hook'
 
 interface UseSyncProps {
   onSync: (payload: SyncDataResponse) => void

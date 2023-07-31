@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react'
 import { BuildingContentItem } from './item'
-import { Building } from '../../../types'
+import { Building } from '../../../shared/types'
 import { useBuilding } from '../hook'
 
 interface Props {

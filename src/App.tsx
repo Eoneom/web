@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import 'react-toastify/dist/ReactToastify.css'
-import { useSync } from './hooks/sync'
+
+import { useSync } from './shared/hooks/sync'
 import { SyncDataResponse } from '@kroust/swarm-client/dist/endpoints/player/sync'
 import { ToastContainer, toast } from 'react-toastify'
 import { AuthLoginForm } from './modules/auth/login-form'
@@ -8,9 +9,11 @@ import { CityNavbar } from './modules/city/navbar'
 import { BuildingContentList } from './modules/building/content/list'
 import { TechnologyContentList } from './modules/technology/content/list'
 import { BuildingDetails } from './modules/building/details'
-import { Building, Technology } from './types'
+import { Building, Technology } from './shared/types'
 import { BuildingContextProvider } from './modules/building/hook/context'
 import { useAuth } from './modules/auth/hook'
+import { TechnologyContextProvider } from './modules/technology/hook/context'
+import { TechnologyDetails } from './modules/technology/details'
 
 import './styles.css'
 
@@ -21,8 +24,7 @@ type SelectedItem = { type: 'building', data: Building } |
 const App: React.FC = () => {
   const { logout } = useAuth()
   const [city, setCity] = useState<SyncDataResponse['cities'][number] | null>(null)
-  const [technologies, setTechnologies] = useState<SyncDataResponse['technologies']>([])
-  const [selectedPage, setSelectedPage] = useState('buildings')
+  const [selectedPage, setSelectedPage] = useState('technologies')
   const [selectedItem, setSelectedItem] = useState<SelectedItem>(null)
 
   const onSync = (data: SyncDataResponse) => {
@@ -32,7 +34,6 @@ const App: React.FC = () => {
     }
 
     setCity(first_city)
-    setTechnologies(data.technologies)
   }
 
   const onSyncError = async (errorCode: string) => {
@@ -53,36 +54,44 @@ const App: React.FC = () => {
   return (
     <main>
       <BuildingContextProvider>
-        <AuthLoginForm />
-        {
-          city &&
+        <TechnologyContextProvider>
+          <AuthLoginForm />
+          {
+            city &&
             <CityNavbar
               city={city}
               onGoToTechnologies={() => selectPage('technologies')}
               onGoToBuildings={() => selectPage('buildings')}/>
-        }
-        {
-          city &&
-          selectedPage === 'buildings' &&
-          <BuildingContentList
-            cityId={city.id}
-            onSelectBuilding={(building) => setSelectedItem({ type: 'building', data: building })}
-          />
-        }
-        {
-          city &&
-            Boolean(technologies?.length) &&
+          }
+          {
+            city &&
+            selectedPage === 'buildings' &&
+            <BuildingContentList
+              cityId={city.id}
+              onSelectBuilding={(building) => setSelectedItem({ type: 'building', data: building })}
+            />
+          }
+          {
+            city &&
             selectedPage === 'technologies' &&
-            <TechnologyContentList technologies={technologies} cityId={city.id}/>
-        }
-        {
-          selectedItem?.type === 'building' &&
+            <TechnologyContentList
+              cityId={city.id}
+              onSelectTechnology={(technology) => setSelectedItem({ type: 'technology', data: technology })}
+            />
+          }
+          {
+            selectedItem?.type === 'building' &&
             <BuildingDetails building={selectedItem.data} />
-        }
-        <ToastContainer
-          position='bottom-right'
-          autoClose={3000}
-        />
+          }
+          {
+            selectedItem?.type === 'technology' &&
+            <TechnologyDetails technology={selectedItem.data}/>
+          }
+          <ToastContainer
+            position='bottom-right'
+            autoClose={3000}
+          />
+        </TechnologyContextProvider>
       </BuildingContextProvider>
     </main>
   )

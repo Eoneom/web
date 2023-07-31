@@ -1,26 +1,28 @@
-import { SyncDataResponse } from '@kroust/swarm-client/dist/endpoints/player/sync'
 import React from 'react'
 import { displayRemainingTime } from '../../../helpers/transform'
-import { researchTechnology } from '../../../api/technology/research'
-import { useAuth } from '../../auth/hook'
+import { useTechnology } from '../hook'
+import { useTimer } from '../../../shared/hooks/timer'
+import { Technology } from '../../../shared/types'
 
 interface Props {
-  technology: SyncDataResponse['technologies'][number]
+  technology: Technology
   isTechnologyInProgress: boolean
   cityId: string
+  onSelectTechnology: (technology: Technology) => void
 }
 
-export const TechnologyContentItem: React.FC<Props> = ({ technology, cityId, isTechnologyInProgress }) => {
-  const { token } = useAuth()
+export const TechnologyContentItem: React.FC<Props> = ({ technology, cityId, isTechnologyInProgress, onSelectTechnology }) => {
+  const { list, research } = useTechnology()
+  const { remainingTime } = useTimer({ doneAt: technology.research_at, onDone: () => list()})
+
   return <article>
-    {technology.code} {technology.level} {displayRemainingTime(technology.research_at)} {
-      !isTechnologyInProgress && <button onClick={() => {
-        researchTechnology({
-          token,
-          city_id: cityId,
-          technology_code: technology.code
-        })
-      }}>Rechercher</button>
+    <h4 onClick={() => onSelectTechnology(technology)}>{technology.code} {technology.level}</h4>
+    {displayRemainingTime(remainingTime)}
+    {
+      !isTechnologyInProgress &&
+      <button onClick={() => {research({ technologyCode: technology.code, cityId })}}>
+        Rechercher
+      </button>
     }
   </article>
 }

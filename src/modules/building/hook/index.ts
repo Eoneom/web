@@ -1,8 +1,8 @@
 import { useContext } from 'react'
-import { Building } from '../../../types'
-import { listBuildings } from '../../../api/building/list'
+import { Building } from '../../../shared/types'
+import { listBuildings } from '../api/list'
 import { BuildingContext } from './context'
-import { upgradeBuilding } from '../../../api/building/upgrade'
+import { upgradeBuilding } from '../api/upgrade'
 import { useAuth } from '../../auth/hook'
 
 interface HookUseBuilding {

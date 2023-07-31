@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify'
-import { client } from '..'
-import { isError } from '../../helpers/assertion'
+import { client } from '../../../shared/api'
+import { isError } from '../../../helpers/assertion'
 
 export const upgradeBuilding = async ({
   token,
@@ -21,7 +21,7 @@ export const upgradeBuilding = async ({
   }
 
   if (!res.data) {
-    toast.error('Pas de data dans la réponse')
+    toast.error('Pas de data dans la réponse 🤷')
     return null
   }
 

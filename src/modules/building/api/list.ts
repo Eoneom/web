@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify'
-import { client } from '..'
-import { isError } from '../../helpers/assertion'
+import { client } from '../../../shared/api'
+import { isError } from '../../../helpers/assertion'
 import { BuildingListDataResponse } from '@kroust/swarm-client/dist/endpoints/building/list'
 
 export const listBuildings = async ({
