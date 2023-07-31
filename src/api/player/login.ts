@@ -1,5 +1,5 @@
 import { client } from '..'
-import { isError } from '../../utils'
+import { isError } from '../../helpers/assertion'
 
 export const login = async ({
   player_name

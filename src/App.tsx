@@ -3,14 +3,15 @@ import 'react-toastify/dist/ReactToastify.css'
 import { useSync } from './hooks/sync'
 import { SyncDataResponse } from '@kroust/swarm-client/dist/endpoints/player/sync'
 import { ToastContainer, toast } from 'react-toastify'
-import { LoginForm } from './components/LoginForm'
+import { AuthLoginForm } from './components/auth/login-form'
 import { CityNavbar } from './components/city/navbar'
-import { ContentBuildings } from './components/content/buildings'
+import { BuildingContentList } from './components/building/content/list'
 
 import './styles.css'
-import { ContentTechnologies } from './components/content/technologies'
-import { DetailsBuilding } from './components/details/building'
+import { TechnologyContentList } from './components/technology/content/list'
+import { BuildingDetails } from './components/building/details'
 import { Building, Technology } from './types'
+import { BuildingContextProvider } from './components/building/hook/context'
 
 type SelectedItem = { type: 'building', data: Building } |
   { type: 'technology', data: Technology } |
@@ -63,35 +64,41 @@ const App: React.FC = () => {
 
   return (
     <main>
-      {
-        !token && <LoginForm onLogin={onLogin} />
-      }
-      {
-        city &&
-        <CityNavbar
-          city={city}
-          onGoToTechnologies={() => selectPage('technologies')}
-          onGoToBuildings={() => selectPage('buildings')}/>
-      }
-      {
-        city &&
-        selectedPage === 'buildings' &&
-        <ContentBuildings token={token} city={city} onSelectBuilding={(building) => setSelectedItem({type: 'building', data: building })}/>
-      }
-      {
-        city &&
-        Boolean(technologies?.length) &&
-        selectedPage === 'technologies' &&
-        <ContentTechnologies token={token} technologies={technologies} cityId={city.id}/>
-      }
-      {
-        selectedItem?.type === 'building' &&
-        <DetailsBuilding building={selectedItem.data} cost={{plastic: 100, mushroom: 100 }}/>
-      }
-      <ToastContainer
-        position='bottom-right'
-        autoClose={3000}
-      />
+      <BuildingContextProvider>
+        {
+          !token && <AuthLoginForm onLogin={onLogin} />
+        }
+        {
+          city &&
+          <CityNavbar
+            city={city}
+            onGoToTechnologies={() => selectPage('technologies')}
+            onGoToBuildings={() => selectPage('buildings')}/>
+        }
+        {
+          city &&
+          selectedPage === 'buildings' &&
+          <BuildingContentList
+            token={token}
+            cityId={city.id}
+            onSelectBuilding={(building) => setSelectedItem({ type: 'building', data: building })}
+          />
+        }
+        {
+          city &&
+          Boolean(technologies?.length) &&
+          selectedPage === 'technologies' &&
+          <TechnologyContentList token={token} technologies={technologies} cityId={city.id}/>
+        }
+        {
+          selectedItem?.type === 'building' &&
+          <BuildingDetails building={selectedItem.data} />
+        }
+        <ToastContainer
+          position='bottom-right'
+          autoClose={3000}
+        />
+      </BuildingContextProvider>
     </main>
   )
 }

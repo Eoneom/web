@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { client } from '../api'
-import { isError } from '../utils'
+import { isError } from '../helpers/assertion'
 import { SyncDataResponse } from '@kroust/swarm-client/dist/endpoints/player/sync'
 import { toast } from 'react-toastify'
 

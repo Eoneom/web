@@ -3,21 +3,18 @@ import { Building } from '../../types'
 
 interface Props {
   building: Building
-  cost: {
-    plastic: number
-    mushroom: number
-  }
 }
 
-export const DetailsBuilding: React.FC<Props> = ({ building, cost }) => {
+export const BuildingDetails: React.FC<Props> = ({ building }) => {
   return <section className="details">
     <aside className="building-prerequesite"><h3>Pré-requis</h3></aside>
     <article><h2>{building.name}</h2></article>
     <aside className="building-action">
       <h3>Coût</h3>
       <li>
-        <ul>Plastique: {cost.plastic}</ul>
-        <ul>Champignon: {cost.mushroom}</ul>
+        <ul>Plastique: {building.upgrade_cost.plastic}</ul>
+        <ul>Champignon: {building.upgrade_cost.mushroom}</ul>
+        <ul>Durée: {building.upgrade_cost.duration}</ul>
       </li>
     </aside>
   </section>

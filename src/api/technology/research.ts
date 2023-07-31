@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify'
 import { client } from '..'
-import { isError } from '../../utils'
+import { isError } from '../../helpers/assertion'
 
 export const researchTechnology = async ({
   token,

@@ -1,12 +1,12 @@
 import React, { FormEvent, useState } from 'react'
 import { toast } from 'react-toastify'
-import { login } from '../api/player/login'
+import { login } from '../../api/player/login'
 
 interface Props {
   onLogin: ({ token }: { token: string }) => void
 }
 
-export const LoginForm: React.FC<Props> = ({ onLogin }) => {
+export const AuthLoginForm: React.FC<Props> = ({ onLogin }) => {
   const [playerName, setPlayerName] = useState('')
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {

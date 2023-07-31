@@ -1,7 +1,7 @@
 import { SyncDataResponse } from '@kroust/swarm-client/dist/endpoints/player/sync'
 import React from 'react'
-import { displayRemainingTime } from '../../helpers/transform'
-import { researchTechnology } from '../../api/technology/research'
+import { displayRemainingTime } from '../../../helpers/transform'
+import { researchTechnology } from '../../../api/technology/research'
 
 interface Props {
   technology: SyncDataResponse['technologies'][number]
@@ -10,7 +10,7 @@ interface Props {
   cityId: string
 }
 
-export const ContentTechnology: React.FC<Props> = ({ technology,token, cityId, isTechnologyInProgress }) => {
+export const TechnologyContentItem: React.FC<Props> = ({ technology,token, cityId, isTechnologyInProgress }) => {
   return <article>
     {technology.code} {technology.level} {displayRemainingTime(technology.research_at)} {
       !isTechnologyInProgress && <button onClick={() => {

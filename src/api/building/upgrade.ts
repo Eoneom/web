@@ -1,29 +1,32 @@
 import { toast } from 'react-toastify'
 import { client } from '..'
-import { isError } from '../../utils'
+import { isError } from '../../helpers/assertion'
 
 export const upgradeBuilding = async ({
   token,
-  city_id,
-  building_code
+  cityId,
+  buildingCode
 }: {
   token: string
-  city_id?: string
-  building_code: string
-}) => {
-  if (!city_id) {
-    toast.error('no city id defined')
-    return
+  cityId: string
+  buildingCode: string
+}): Promise<{ upgrade_at: number } | null> => {
+  const res = await client.building.upgrade(token, {
+    city_id: cityId,
+    building_code: buildingCode
+  })
+  if (isError(res)) {
+    toast.error(res.error_code)
+    return null
   }
 
-  const upgrade_res = await client.building.upgrade(token, {
-    city_id,
-    building_code
-  })
-  if (isError(upgrade_res)) {
-    toast.error(upgrade_res.error_code)
-    return
+  if (!res.data) {
+    toast.error('Pas de data dans la réponse')
+    return null
   }
 
   toast.success('Construction lancée')
+  return {
+    upgrade_at: res.data.upgrade_at
+  }
 }
