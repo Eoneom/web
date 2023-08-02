@@ -7,8 +7,12 @@ import { researchTechnology } from '../api/research'
 
 interface HookUseTechnology {
   technologies: Technology[]
-  list: () => Promise<void>
+  list: (props: ListProps) => Promise<void>
   research: (props: ResearchProps) => void
+}
+
+interface ListProps {
+  cityId: string
 }
 
 interface ResearchProps {
@@ -42,8 +46,8 @@ export const useTechnology = (): HookUseTechnology => {
     setTechnologies(new_technologies)
   }
 
-  const list = async () => {
-    const data = await listTechnologies({ token })
+  const list = async ({ cityId }: ListProps) => {
+    const data = await listTechnologies({ token, cityId })
     if (!data) {
       return
     }

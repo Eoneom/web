@@ -1,21 +1,24 @@
 import React from 'react'
 import { Building } from '../../shared/types'
+import { transformDecimals } from '../../helpers/transform'
+import { BuildingTranslations } from './translations'
 
 interface Props {
   building: Building
 }
 
 export const BuildingDetails: React.FC<Props> = ({ building }) => {
-  return <section className="details">
+  const { name } = BuildingTranslations[building.code]
+  return <>
     <aside><h3>Pré-requis</h3></aside>
-    <article><h2>{building.name}</h2></article>
+    <article><h2>{name}</h2></article>
     <aside>
       <h3>Coût</h3>
-      <li>
-        <ul>Plastique: {building.upgrade_cost.plastic}</ul>
-        <ul>Champignon: {building.upgrade_cost.mushroom}</ul>
-        <ul>Durée: {building.upgrade_cost.duration}</ul>
-      </li>
+      <ul>
+        <li>Plastique: {transformDecimals(building.upgrade_cost.plastic)}</li>
+        <li>Champignon: {transformDecimals(building.upgrade_cost.mushroom)}</li>
+        <li>Durée: {building.upgrade_cost.duration}</li>
+      </ul>
     </aside>
-  </section>
+  </>
 }

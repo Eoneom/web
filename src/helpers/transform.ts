@@ -1,9 +1,8 @@
-export const displayRemainingTime = (remainingTime?: number) => {
-  if (!remainingTime) {
-    return
+export const formatTime = (seconds: number): string => {
+  if (seconds > 60) {
+    return `${Math.floor(seconds / 60)}:${seconds % 60}s`
   }
-
-  return `construit dans ${Math.ceil(remainingTime / 1000)}s`
+  return `${seconds}s`
 }
 
 export const getRemaingTime = (date?: number): number => {
@@ -11,7 +10,8 @@ export const getRemaingTime = (date?: number): number => {
     return 0
   }
 
-  return (date ?? 0) - (new Date().getTime())
+  const remainingTime = (date ?? 0) - (new Date().getTime())
+  return Math.ceil(remainingTime/1000)
 }
 
 export const transformDecimals = (value?: number): string => {

@@ -28,8 +28,10 @@ export const BuildingContentList: React.FC<Props> = ({ cityId, onSelectBuilding 
       cityId={building.city_id}/>)
   }, [buildings])
 
-  return <section>
+  return <>
     <h2>Constructions</h2>
-    {building_items}
-  </section>
+    <div className='list'>
+      {building_items}
+    </div>
+  </>
 }

@@ -1,8 +1,9 @@
 import React from 'react'
-import { displayRemainingTime } from '../../../helpers/transform'
 import { Building } from '../../../shared/types'
 import { useBuilding } from '../hook'
 import { useTimer } from '../../../shared/hooks/timer'
+import { UIItem } from '../../../shared/ui/item'
+import { BuildingTranslations } from '../translations'
 
 interface Props {
   building: Building
@@ -14,15 +15,17 @@ interface Props {
 export const BuildingContentItem: React.FC<Props> = ({ building, cityId, isBuildingInProgress, onSelectBuilding }) => {
   const { upgrade, list } = useBuilding({ cityId })
   const { remainingTime } = useTimer({ doneAt: building.upgrade_at, onDone: () => list()})
+  const { name } = BuildingTranslations[building.code]
 
-  return <article>
-    <h4 onClick={() => onSelectBuilding(building)}>{building.name} {building.level}</h4>
-    {displayRemainingTime(remainingTime)}
-    {
+  return <UIItem
+    title={`${name} ${building.level}`}
+    onTitleClick={() => onSelectBuilding(building)}
+    time={ remainingTime || building.upgrade_cost.duration}
+    action={
       !isBuildingInProgress &&
-      <button onClick={async () => upgrade({ buildingCode: building.code })}>
-        Construire
-      </button>
+       <button onClick={async () => upgrade({ buildingCode: building.code })}>
+         Construire
+       </button>
     }
-  </article>
+  />
 }

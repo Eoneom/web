@@ -1,8 +1,9 @@
 import React from 'react'
-import { displayRemainingTime } from '../../../helpers/transform'
 import { useTechnology } from '../hook'
 import { useTimer } from '../../../shared/hooks/timer'
 import { Technology } from '../../../shared/types'
+import { UIItem } from '../../../shared/ui/item'
+import { TechnologyTranslations } from '../translations'
 
 interface Props {
   technology: Technology
@@ -13,16 +14,18 @@ interface Props {
 
 export const TechnologyContentItem: React.FC<Props> = ({ technology, cityId, isTechnologyInProgress, onSelectTechnology }) => {
   const { list, research } = useTechnology()
-  const { remainingTime } = useTimer({ doneAt: technology.research_at, onDone: () => list()})
+  const { remainingTime } = useTimer({ doneAt: technology.research_at, onDone: () => list({ cityId })})
+  const { name } = TechnologyTranslations[technology.code]
 
-  return <article>
-    <h4 onClick={() => onSelectTechnology(technology)}>{technology.code} {technology.level}</h4>
-    {displayRemainingTime(remainingTime)}
-    {
+  return <UIItem
+    title={`${name} ${technology.level}`}
+    onTitleClick={() => onSelectTechnology(technology)}
+    time={ remainingTime || technology.research_cost.duration}
+    action={
       !isTechnologyInProgress &&
-      <button onClick={() => {research({ technologyCode: technology.code, cityId })}}>
-        Rechercher
-      </button>
+       <button onClick={async () => research({ cityId, technologyCode: technology.code })}>
+         Rechercher
+       </button>
     }
-  </article>
+  />
 }

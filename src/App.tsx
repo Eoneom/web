@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import 'react-toastify/dist/ReactToastify.css'
 
 import { useSync } from './shared/hooks/sync'
-import { SyncDataResponse } from '@kroust/swarm-client/dist/endpoints/player/sync'
+import { SyncDataResponse } from '@kroust/swarm-client'
 import { ToastContainer, toast } from 'react-toastify'
 import { AuthLoginForm } from './modules/auth/login-form'
 import { CityNavbar } from './modules/city/navbar'
@@ -24,7 +24,7 @@ type SelectedItem = { type: 'building', data: Building } |
 const App: React.FC = () => {
   const { logout } = useAuth()
   const [city, setCity] = useState<SyncDataResponse['cities'][number] | null>(null)
-  const [selectedPage, setSelectedPage] = useState('technologies')
+  const [selectedPage, setSelectedPage] = useState('buildings')
   const [selectedItem, setSelectedItem] = useState<SelectedItem>(null)
 
   const onSync = (data: SyncDataResponse) => {
@@ -63,29 +63,51 @@ const App: React.FC = () => {
               onGoToTechnologies={() => selectPage('technologies')}
               onGoToBuildings={() => selectPage('buildings')}/>
           }
+          <div id="main-content" className={selectedItem ? 'details-enabled': ''}>
+            <aside id="side-nav">
+              <ul>
+                <li>Carte</li>
+                <li>Déplacements</li>
+                <li>Alliance</li>
+                <li>Empire</li>
+              </ul>
+            </aside>
+            <section id="content">
+              {
+                city &&
+                selectedPage === 'buildings' &&
+                <BuildingContentList
+                  cityId={city.id}
+                  onSelectBuilding={(building) => setSelectedItem({ type: 'building', data: building })}
+                />
+              }
+              {
+                city &&
+                selectedPage === 'technologies' &&
+                <TechnologyContentList
+                  cityId={city.id}
+                  onSelectTechnology={(technology) => setSelectedItem({ type: 'technology', data: technology })}
+                />
+              }
+            </section>
+            <aside id="place-nav">
+              <ul>
+                <li>{city?.name}</li>
+              </ul>
+            </aside>
+          </div>
           {
-            city &&
-            selectedPage === 'buildings' &&
-            <BuildingContentList
-              cityId={city.id}
-              onSelectBuilding={(building) => setSelectedItem({ type: 'building', data: building })}
-            />
-          }
-          {
-            city &&
-            selectedPage === 'technologies' &&
-            <TechnologyContentList
-              cityId={city.id}
-              onSelectTechnology={(technology) => setSelectedItem({ type: 'technology', data: technology })}
-            />
-          }
-          {
-            selectedItem?.type === 'building' &&
-            <BuildingDetails building={selectedItem.data} />
-          }
-          {
-            selectedItem?.type === 'technology' &&
-            <TechnologyDetails technology={selectedItem.data}/>
+            selectedItem &&
+            <section id="details">
+              {
+                selectedItem?.type === 'building' &&
+                  <BuildingDetails building={selectedItem.data} />
+              }
+              {
+                selectedItem?.type === 'technology' &&
+                  <TechnologyDetails technology={selectedItem.data}/>
+              }
+            </section>
           }
           <ToastContainer
             position='bottom-right'

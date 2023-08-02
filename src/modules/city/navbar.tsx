@@ -1,4 +1,4 @@
-import { SyncDataResponse } from '@kroust/swarm-client/dist/endpoints/player/sync'
+import { SyncDataResponse } from '@kroust/swarm-client'
 import React from 'react'
 import { transformDecimals } from '../../helpers/transform'
 
@@ -9,7 +9,7 @@ interface Props {
 }
 
 export const CityNavbar: React.FC<Props> = ({ city, onGoToBuildings, onGoToTechnologies }) => {
-  return <nav className='city-navbar'>
+  return <nav id='city-navbar'>
     <ul>
       <li><a href="#" onClick={() => onGoToBuildings()}>Construction</a></li>
       <li><a href="#" onClick={() => onGoToTechnologies()}>Recherche</a></li>

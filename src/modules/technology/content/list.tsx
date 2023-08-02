@@ -12,7 +12,7 @@ export const TechnologyContentList: React.FC<Props> = ({ cityId, onSelectTechnol
   const { technologies, list } = useTechnology()
 
   useEffect(() => {
-    list()
+    list({ cityId })
   }, [])
 
   const is_technology_in_progress: boolean = useMemo(() => {
@@ -29,8 +29,10 @@ export const TechnologyContentList: React.FC<Props> = ({ cityId, onSelectTechnol
     />)
   }, [cityId, technologies])
 
-  return <section>
+  return <>
     <h2>Technologies</h2>
-    {technology_items}
-  </section>
+    <div className='list'>
+      {technology_items}
+    </div>
+  </>
 }
