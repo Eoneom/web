@@ -17,8 +17,8 @@ export const CityNavbar: React.FC<Props> = ({ city, onGoToBuildings, onGoToTechn
     </ul>
     <h1>{city.name}</h1>
     <ul>
-      <li>Plastique: {transformDecimals(city.plastic)}</li>
-      <li>Champignon: {transformDecimals(city.mushroom)}</li>
+      <li>Plastique: {transformDecimals(city.plastic)} (~{Math.round(city.earnings_per_second.plastic)}/s)</li>
+      <li>Champignon: {transformDecimals(city.mushroom)} (~{Math.round(city.earnings_per_second.mushroom)}/s)</li>
     </ul>
   </nav>
 }
