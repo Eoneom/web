@@ -2,16 +2,17 @@ import React from 'react'
 import { Technology } from '../../shared/types'
 import { transformDecimals } from '../../helpers/transform'
 import { TechnologyTranslations } from './translations'
+import { Requirement } from '../requirement'
 
 interface Props {
   technology: Technology
+  cityId: string
 }
 
-export const TechnologyDetails: React.FC<Props> = ({ technology }) => {
+export const TechnologyDetails: React.FC<Props> = ({ technology, cityId }) => {
   const { name } = TechnologyTranslations[technology.code]
-
   return <>
-    <aside><h3>Pré-requis</h3></aside>
+    <Requirement requirements={technology.requirements} cityId={cityId}/>
     <article><h2>{name}</h2></article>
     <aside>
       <h3>Coût</h3>

@@ -105,7 +105,8 @@ const App: React.FC = () => {
               }
               {
                 selectedItem?.type === 'technology' &&
-                  <TechnologyDetails technology={selectedItem.data}/>
+                  city &&
+                  <TechnologyDetails technology={selectedItem.data} cityId={city.id}/>
               }
             </section>
           }
