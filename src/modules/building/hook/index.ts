@@ -4,11 +4,13 @@ import { listBuildings } from '../api/list'
 import { BuildingContext } from './context'
 import { upgradeBuilding } from '../api/upgrade'
 import { useAuth } from '../../auth/hook'
+import { cancelBuilding } from '../api/cancel'
 
 interface HookUseBuilding {
   buildings: Building[]
   list: () => Promise<void>
-  upgrade: (props: UpgradeProps) => void
+  upgrade: (props: UpgradeProps) => Promise<void>
+  cancel: () => Promise<void>
 }
 
 interface UpgradeProps {
@@ -22,6 +24,11 @@ interface HookUseBuildingProps {
 export const useBuilding = ({ cityId }: HookUseBuildingProps): HookUseBuilding => {
   const { buildings, setBuildings } = useContext(BuildingContext)
   const { token } = useAuth()
+
+  const cancel = async () => {
+    await cancelBuilding({ token, cityId })
+    await list()
+  }
 
   const upgrade = async ({ buildingCode }: UpgradeProps) => {
     const res = await upgradeBuilding({
@@ -57,6 +64,7 @@ export const useBuilding = ({ cityId }: HookUseBuildingProps): HookUseBuilding =
   return {
     buildings,
     list,
+    cancel,
     upgrade
   }
 }

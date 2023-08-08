@@ -1,8 +1,17 @@
 import { useEffect, useState } from 'react'
 import { getRemaingTime } from '../../helpers/transform'
 
-export const useTimer = ({ doneAt, onDone }: { doneAt?: number, onDone: () => void }): { remainingTime: number } => {
+interface HookTimer {
+  remainingTime: number
+  reset: () => void
+}
+
+export const useTimer = ({ doneAt, onDone }: { doneAt?: number, onDone: () => void }): HookTimer => {
   const [remainingTime, setRemainingTime] = useState(getRemaingTime(doneAt))
+  const reset = () => {
+    setRemainingTime(0)
+  }
+
   useEffect(() => {
     if (!doneAt) {
       return
@@ -24,5 +33,8 @@ export const useTimer = ({ doneAt, onDone }: { doneAt?: number, onDone: () => vo
     return () => clearInterval(interval)
   }, [doneAt])
 
-  return { remainingTime }
+  return {
+    remainingTime,
+    reset
+  }
 }
