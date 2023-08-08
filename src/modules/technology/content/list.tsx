@@ -9,10 +9,10 @@ interface Props {
 }
 
 export const TechnologyContentList: React.FC<Props> = ({ cityId, onSelectTechnology }) => {
-  const { technologies, list } = useTechnology()
+  const { technologies, list } = useTechnology({ cityId })
 
   useEffect(() => {
-    list({ cityId })
+    list()
   }, [])
 
   const is_technology_in_progress: boolean = useMemo(() => {

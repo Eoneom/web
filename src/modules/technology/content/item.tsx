@@ -13,19 +13,28 @@ interface Props {
 }
 
 export const TechnologyContentItem: React.FC<Props> = ({ technology, cityId, isTechnologyInProgress, onSelectTechnology }) => {
-  const { list, research } = useTechnology()
-  const { remainingTime } = useTimer({ doneAt: technology.research_at, onDone: () => list({ cityId })})
+  const { list, research, cancel } = useTechnology({ cityId })
+  const { remainingTime, reset } = useTimer({ doneAt: technology.research_at, onDone: () => list()})
   const { name } = TechnologyTranslations[technology.code]
 
   return <UIItem
     title={`${name} ${technology.level}`}
     onTitleClick={() => onSelectTechnology(technology)}
     time={ remainingTime || technology.research_cost.duration}
-    action={
-      !isTechnologyInProgress &&
-       <button onClick={async () => research({ cityId, technologyCode: technology.code })}>
-         Rechercher
-       </button>
-    }
+    action={<>
+      {
+        !isTechnologyInProgress &&
+        <button onClick={async () => research({ technologyCode: technology.code })}>
+          Rechercher
+        </button>
+      }
+
+      {
+        technology.research_at &&
+        <button onClick={async () => { await cancel(); reset() }}>
+          Annuler
+        </button>
+      }
+    </>}
   />
 }

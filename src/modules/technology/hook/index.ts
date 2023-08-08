@@ -4,27 +4,33 @@ import { TechnologyContext } from './context'
 import { useAuth } from '../../auth/hook'
 import { listTechnologies } from '../api/list'
 import { researchTechnology } from '../api/research'
+import { cancelTechnology } from '../api/cancel'
 
-interface HookUseTechnology {
-  technologies: Technology[]
-  list: (props: ListProps) => Promise<void>
-  research: (props: ResearchProps) => void
+interface HookTechnologyProps {
+  cityId: string
 }
 
-interface ListProps {
-  cityId: string
+interface HookTechnology {
+  technologies: Technology[]
+  list: () => Promise<void>
+  research: (props: ResearchProps) => Promise<void>
+  cancel: () => Promise<void>
 }
 
 interface ResearchProps {
   technologyCode: string
-  cityId: string
 }
 
-export const useTechnology = (): HookUseTechnology => {
+export const useTechnology = ({ cityId }: HookTechnologyProps): HookTechnology => {
   const { technologies, setTechnologies } = useContext(TechnologyContext)
   const { token } = useAuth()
 
-  const research = async ({ technologyCode, cityId }: ResearchProps) => {
+  const cancel = async () => {
+    await cancelTechnology({ token })
+    await list()
+  }
+
+  const research = async ({ technologyCode }: ResearchProps) => {
     const res = await researchTechnology({
       token,
       cityId,
@@ -46,7 +52,7 @@ export const useTechnology = (): HookUseTechnology => {
     setTechnologies(new_technologies)
   }
 
-  const list = async ({ cityId }: ListProps) => {
+  const list = async () => {
     const data = await listTechnologies({ token, cityId })
     if (!data) {
       return
@@ -57,6 +63,7 @@ export const useTechnology = (): HookUseTechnology => {
 
   return {
     technologies,
+    cancel,
     list,
     research
   }
