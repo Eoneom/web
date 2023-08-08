@@ -1,14 +1,11 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { Technology } from '../../../shared/types'
 import { TechnologyContext } from './context'
 import { useAuth } from '../../auth/hook'
 import { listTechnologies } from '../api/list'
 import { researchTechnology } from '../api/research'
 import { cancelTechnology } from '../api/cancel'
-
-interface HookTechnologyProps {
-  cityId: string
-}
+import { useCity } from '../../city/hook'
 
 interface HookTechnology {
   technologies: Technology[]
@@ -21,14 +18,10 @@ interface ResearchProps {
   technologyCode: string
 }
 
-export const useTechnology = ({ cityId }: HookTechnologyProps): HookTechnology => {
+export const useTechnology = (): HookTechnology => {
   const { technologies, setTechnologies } = useContext(TechnologyContext)
   const { token } = useAuth()
-
-  const cancel = async () => {
-    await cancelTechnology({ token })
-    await list()
-  }
+  const { selectedCityId: cityId } = useCity()
 
   const research = async ({ technologyCode }: ResearchProps) => {
     const res = await researchTechnology({
@@ -60,6 +53,15 @@ export const useTechnology = ({ cityId }: HookTechnologyProps): HookTechnology =
 
     setTechnologies(data.technologies)
   }
+
+  const cancel = async () => {
+    await cancelTechnology({ token })
+    await list()
+  }
+
+  useEffect(() => {
+    list()
+  }, [cityId])
 
   return {
     technologies,

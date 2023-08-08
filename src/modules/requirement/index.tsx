@@ -4,20 +4,17 @@ import { RequirementTechnology } from './technology'
 import { Requirement as RequirementValue } from '@kroust/swarm-client'
 
 interface Props {
-  cityId: string
   requirements: RequirementValue
 }
 
-export const Requirement: React.FC<Props> = ({ requirements, cityId }) => {
+export const Requirement: React.FC<Props> = ({ requirements }) => {
   const requirement_elements = [
     ...requirements.buildings.map(requirement => <RequirementBuilding
       key={requirement.code}
-      cityId={cityId}
       requirement={requirement}
     />),
     ...requirements.technologies.map(requirement => <RequirementTechnology
       key={requirement.code}
-      cityId={cityId}
       requirement={requirement}
     />)
   ]

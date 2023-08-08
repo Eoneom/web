@@ -7,13 +7,12 @@ import { BuildingTranslations } from '../translations'
 
 interface Props {
   building: Building
-  cityId: string
   isBuildingInProgress: boolean
   onSelectBuilding: (building: Building) => void
 }
 
-export const BuildingContentItem: React.FC<Props> = ({ building, cityId, isBuildingInProgress, onSelectBuilding }) => {
-  const { upgrade, list, cancel } = useBuilding({ cityId })
+export const BuildingContentItem: React.FC<Props> = ({ building, isBuildingInProgress, onSelectBuilding }) => {
+  const { upgrade, list, cancel } = useBuilding()
   const { remainingTime, reset } = useTimer({ doneAt: building.upgrade_at, onDone: () => list()})
   const { name } = BuildingTranslations[building.code]
 

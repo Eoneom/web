@@ -14,6 +14,7 @@ import { BuildingContextProvider } from './modules/building/hook/context'
 import { useAuth } from './modules/auth/hook'
 import { TechnologyContextProvider } from './modules/technology/hook/context'
 import { TechnologyDetails } from './modules/technology/details'
+import { useCity } from './modules/city/hook'
 
 import './styles.css'
 
@@ -26,6 +27,7 @@ const App: React.FC = () => {
   const [city, setCity] = useState<SyncDataResponse['cities'][number] | null>(null)
   const [selectedPage, setSelectedPage] = useState('buildings')
   const [selectedItem, setSelectedItem] = useState<SelectedItem>(null)
+  const { selectCity } = useCity()
 
   const onSync = (data: SyncDataResponse) => {
     const first_city = data.cities[0]
@@ -34,6 +36,7 @@ const App: React.FC = () => {
     }
 
     setCity(first_city)
+    selectCity(first_city.id)
   }
 
   const onSyncError = async (errorCode: string) => {
@@ -77,7 +80,6 @@ const App: React.FC = () => {
                 city &&
                 selectedPage === 'buildings' &&
                 <BuildingContentList
-                  cityId={city.id}
                   onSelectBuilding={(building) => setSelectedItem({ type: 'building', data: building })}
                 />
               }
@@ -85,7 +87,6 @@ const App: React.FC = () => {
                 city &&
                 selectedPage === 'technologies' &&
                 <TechnologyContentList
-                  cityId={city.id}
                   onSelectTechnology={(technology) => setSelectedItem({ type: 'technology', data: technology })}
                 />
               }
@@ -106,7 +107,7 @@ const App: React.FC = () => {
               {
                 selectedItem?.type === 'technology' &&
                   city &&
-                  <TechnologyDetails technology={selectedItem.data} cityId={city.id}/>
+                  <TechnologyDetails technology={selectedItem.data}/>
               }
             </section>
           }

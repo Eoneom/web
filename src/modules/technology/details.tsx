@@ -6,13 +6,12 @@ import { Requirement } from '../requirement'
 
 interface Props {
   technology: Technology
-  cityId: string
 }
 
-export const TechnologyDetails: React.FC<Props> = ({ technology, cityId }) => {
+export const TechnologyDetails: React.FC<Props> = ({ technology }) => {
   const { name } = TechnologyTranslations[technology.code]
   return <>
-    <Requirement requirements={technology.requirements} cityId={cityId}/>
+    <Requirement requirements={technology.requirements}/>
     <article><h2>{name}</h2></article>
     <aside>
       <h3>Coût</h3>

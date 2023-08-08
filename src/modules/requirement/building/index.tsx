@@ -4,12 +4,11 @@ import { BuildingTranslations } from '../../building/translations'
 import { useBuilding } from '../../building/hook'
 
 interface Props {
-  cityId: string
   requirement: TechnologyListDataResponse['technologies'][number]['requirements']['buildings'][number]
 }
 
-export const RequirementBuilding: React.FC<Props> = ({ requirement, cityId }) => {
-  const { buildings } = useBuilding({ cityId })
+export const RequirementBuilding: React.FC<Props> = ({ requirement }) => {
+  const { buildings } = useBuilding()
   const required_building = buildings.find(building => building.code === requirement.code)
   const is_requirement_met = required_building?.level ?? 0 >= requirement.level
   return <li key={requirement.code}>

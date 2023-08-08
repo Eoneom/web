@@ -4,12 +4,11 @@ import { useTechnology } from '../hook'
 import { Technology } from '../../../shared/types'
 
 interface Props {
-  cityId: string
   onSelectTechnology: (technology: Technology) => void
 }
 
-export const TechnologyContentList: React.FC<Props> = ({ cityId, onSelectTechnology }) => {
-  const { technologies, list } = useTechnology({ cityId })
+export const TechnologyContentList: React.FC<Props> = ({ onSelectTechnology }) => {
+  const { technologies, list } = useTechnology()
 
   useEffect(() => {
     list()
@@ -23,11 +22,10 @@ export const TechnologyContentList: React.FC<Props> = ({ cityId, onSelectTechnol
     return technologies.map(technology => <TechnologyContentItem
       onSelectTechnology={onSelectTechnology}
       key={technology.id}
-      cityId={cityId}
       isTechnologyInProgress={is_technology_in_progress}
       technology={technology}
     />)
-  }, [cityId, technologies])
+  }, [technologies])
 
   return <>
     <h2>Technologies</h2>

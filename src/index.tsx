@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import './index.css'
 import App from './App'
 import { AuthContextProvider } from './modules/auth/hook/context'
+import { CityContextProvider } from './modules/city/hook/context'
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -11,7 +12,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <AuthContextProvider>
-      <App />
+      <CityContextProvider>
+        <App />
+      </CityContextProvider>
     </AuthContextProvider>
   </React.StrictMode>
 )

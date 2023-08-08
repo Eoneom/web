@@ -8,12 +8,11 @@ import { TechnologyTranslations } from '../translations'
 interface Props {
   technology: Technology
   isTechnologyInProgress: boolean
-  cityId: string
   onSelectTechnology: (technology: Technology) => void
 }
 
-export const TechnologyContentItem: React.FC<Props> = ({ technology, cityId, isTechnologyInProgress, onSelectTechnology }) => {
-  const { list, research, cancel } = useTechnology({ cityId })
+export const TechnologyContentItem: React.FC<Props> = ({ technology, isTechnologyInProgress, onSelectTechnology }) => {
+  const { list, research, cancel } = useTechnology()
   const { remainingTime, reset } = useTimer({ doneAt: technology.research_at, onDone: () => list()})
   const { name } = TechnologyTranslations[technology.code]
 

@@ -1,10 +1,11 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { Building } from '../../../shared/types'
 import { listBuildings } from '../api/list'
 import { BuildingContext } from './context'
 import { upgradeBuilding } from '../api/upgrade'
 import { useAuth } from '../../auth/hook'
 import { cancelBuilding } from '../api/cancel'
+import { useCity } from '../../city/hook'
 
 interface HookUseBuilding {
   buildings: Building[]
@@ -17,18 +18,10 @@ interface UpgradeProps {
   buildingCode: string
 }
 
-interface HookUseBuildingProps {
-  cityId: string
-}
-
-export const useBuilding = ({ cityId }: HookUseBuildingProps): HookUseBuilding => {
+export const useBuilding = (): HookUseBuilding => {
   const { buildings, setBuildings } = useContext(BuildingContext)
   const { token } = useAuth()
-
-  const cancel = async () => {
-    await cancelBuilding({ token, cityId })
-    await list()
-  }
+  const { selectedCityId: cityId } = useCity()
 
   const upgrade = async ({ buildingCode }: UpgradeProps) => {
     const res = await upgradeBuilding({
@@ -53,6 +46,10 @@ export const useBuilding = ({ cityId }: HookUseBuildingProps): HookUseBuilding =
   }
 
   const list = async () => {
+    if (!cityId) {
+      return
+    }
+
     const data = await listBuildings({ token, cityId })
     if (!data) {
       return
@@ -60,6 +57,15 @@ export const useBuilding = ({ cityId }: HookUseBuildingProps): HookUseBuilding =
 
     setBuildings(data.buildings)
   }
+
+  const cancel = async () => {
+    await cancelBuilding({ token, cityId })
+    await list()
+  }
+
+  useEffect(() => {
+    list()
+  }, [cityId])
 
   return {
     buildings,
