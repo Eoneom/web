@@ -1,7 +1,8 @@
 import React from 'react'
-import { Building } from '../../shared/types'
-import { transformDecimals } from '../../helpers/transform'
-import { BuildingTranslations } from './translations'
+
+import { Building } from '#shared/types'
+import { transformDecimals } from '#helpers/transform'
+import { BuildingTranslations } from '#building/translations'
 
 interface Props {
   building: Building

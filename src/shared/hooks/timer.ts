@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getRemaingTime } from '../../helpers/transform'
+import { getRemaingTime } from '#helpers/transform'
 
 interface HookTimer {
   remainingTime: number

@@ -1,6 +1,7 @@
 import React, { FormEvent, useState } from 'react'
 import { toast } from 'react-toastify'
-import { useAuth } from './hook'
+
+import { useAuth } from '#auth/hook'
 
 export const AuthLoginForm: React.FC = () => {
   const [playerName, setPlayerName] = useState('')

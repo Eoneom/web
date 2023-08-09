@@ -1,5 +1,5 @@
 import React, { createContext, useState } from 'react'
-import { Building } from '../../../shared/types'
+import { Building } from '#shared/types'
 
 interface BuildingContextState {
   buildings: Building[]

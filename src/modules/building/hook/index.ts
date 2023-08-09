@@ -1,11 +1,11 @@
 import { useContext, useEffect } from 'react'
-import { Building } from '../../../shared/types'
-import { listBuildings } from '../api/list'
-import { BuildingContext } from './context'
-import { upgradeBuilding } from '../api/upgrade'
-import { useAuth } from '../../auth/hook'
-import { cancelBuilding } from '../api/cancel'
-import { useCity } from '../../city/hook'
+import { Building } from '#shared/types'
+import { listBuildings } from '#building/api/list'
+import { BuildingContext } from '#building/hook/context'
+import { upgradeBuilding } from '#building/api/upgrade'
+import { useAuth } from '#auth/hook'
+import { cancelBuilding } from '#building/api/cancel'
+import { useCity } from '#city/hook'
 
 interface HookUseBuilding {
   buildings: Building[]

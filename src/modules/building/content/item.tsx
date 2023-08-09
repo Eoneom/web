@@ -1,9 +1,10 @@
 import React from 'react'
-import { Building } from '../../../shared/types'
-import { useBuilding } from '../hook'
-import { useTimer } from '../../../shared/hooks/timer'
-import { UIItem } from '../../../shared/ui/item'
-import { BuildingTranslations } from '../translations'
+
+import { Building } from '#shared/types'
+import { useBuilding } from '#building/hook'
+import { useTimer } from '#shared/hooks/timer'
+import { UIItem } from '#shared/ui/item'
+import { BuildingTranslations } from '#building/translations'
 
 interface Props {
   building: Building

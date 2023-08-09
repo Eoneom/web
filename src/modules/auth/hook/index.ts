@@ -1,6 +1,7 @@
 import { useContext, useEffect } from 'react'
-import { AuthContext } from './context'
-import { login as doLogin } from '../api/login'
+
+import { AuthContext } from '#auth/hook/context'
+import { login as doLogin } from '#auth/api/login'
 
 interface HookUseAuth {
   token: string

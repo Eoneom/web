@@ -1,5 +1,5 @@
 import React, { createContext, useState } from 'react'
-import { Technology } from '../../../shared/types'
+import { Technology } from '#shared/types'
 
 interface TechnologyContextState {
   technologies: Technology[]

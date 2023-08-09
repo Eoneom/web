@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
-import { BuildingContentItem } from './item'
-import { Building } from '../../../shared/types'
-import { useBuilding } from '../hook'
+import { BuildingContentItem } from '#building/content/item'
+import { Building } from '#shared/types'
+import { useBuilding } from '#building/hook'
 
 interface Props {
   onSelectBuilding: (building: Building) => void

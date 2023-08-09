@@ -1,11 +1,11 @@
 import { useContext, useEffect } from 'react'
-import { Technology } from '../../../shared/types'
-import { TechnologyContext } from './context'
-import { useAuth } from '../../auth/hook'
-import { listTechnologies } from '../api/list'
-import { researchTechnology } from '../api/research'
-import { cancelTechnology } from '../api/cancel'
-import { useCity } from '../../city/hook'
+import { Technology } from '#shared/types'
+import { TechnologyContext } from '#technology/hook/context'
+import { useAuth } from '#auth/hook'
+import { listTechnologies } from '#technology/api/list'
+import { researchTechnology } from '#technology/api/research'
+import { cancelTechnology } from '#technology/api/cancel'
+import { useCity } from '#city/hook'
 
 interface HookTechnology {
   technologies: Technology[]

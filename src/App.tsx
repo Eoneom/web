@@ -1,22 +1,20 @@
 import React, { useState } from 'react'
-import 'react-toastify/dist/ReactToastify.css'
 
-import { useSync } from './shared/hooks/sync'
+import { useSync } from '#shared/hooks/sync'
 import { SyncDataResponse } from '@kroust/swarm-client'
 import { ToastContainer, toast } from 'react-toastify'
-import { AuthLoginForm } from './modules/auth/login-form'
-import { CityNavbar } from './modules/city/navbar'
-import { BuildingContentList } from './modules/building/content/list'
-import { TechnologyContentList } from './modules/technology/content/list'
-import { BuildingDetails } from './modules/building/details'
-import { Building, Technology } from './shared/types'
-import { BuildingContextProvider } from './modules/building/hook/context'
-import { useAuth } from './modules/auth/hook'
-import { TechnologyContextProvider } from './modules/technology/hook/context'
-import { TechnologyDetails } from './modules/technology/details'
-import { useCity } from './modules/city/hook'
+import { AuthLoginForm } from '#auth/login-form'
+import { CityNavbar } from '#city/navbar'
+import { BuildingContentList } from '#building/content/list'
+import { TechnologyContentList } from '#technology/content/list'
+import { BuildingDetails } from '#building/details'
+import { Building, Technology } from '#shared/types'
+import { BuildingContextProvider } from '#building/hook/context'
+import { useAuth } from '#auth/hook'
+import { TechnologyContextProvider } from '#technology/hook/context'
+import { TechnologyDetails } from '#technology/details'
+import { useCity } from '#city/hook'
 
-import './styles.css'
 
 type SelectedItem = { type: 'building', data: Building } |
   { type: 'technology', data: Technology } |
@@ -64,7 +62,8 @@ const App: React.FC = () => {
             <CityNavbar
               city={city}
               onGoToTechnologies={() => selectPage('technologies')}
-              onGoToBuildings={() => selectPage('buildings')}/>
+              onGoToBuildings={() => selectPage('buildings')}
+            />
           }
           <div id="main-content" className={selectedItem ? 'details-enabled': ''}>
             <aside id="side-nav">
@@ -101,13 +100,13 @@ const App: React.FC = () => {
             selectedItem &&
             <section id="details">
               {
-                selectedItem?.type === 'building' &&
-                  <BuildingDetails building={selectedItem.data} />
+                selectedItem.type === 'building' &&
+                <BuildingDetails building={selectedItem.data} />
               }
               {
-                selectedItem?.type === 'technology' &&
-                  city &&
-                  <TechnologyDetails technology={selectedItem.data}/>
+                selectedItem.type === 'technology' &&
+                city &&
+                <TechnologyDetails technology={selectedItem.data}/>
               }
             </section>
           }

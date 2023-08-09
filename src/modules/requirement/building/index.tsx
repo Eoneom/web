@@ -1,7 +1,7 @@
 import { TechnologyListDataResponse } from '@kroust/swarm-client'
 import React from 'react'
-import { BuildingTranslations } from '../../building/translations'
-import { useBuilding } from '../../building/hook'
+import { BuildingTranslations } from '#building/translations'
+import { useBuilding } from '#building/hook'
 
 interface Props {
   requirement: TechnologyListDataResponse['technologies'][number]['requirements']['buildings'][number]

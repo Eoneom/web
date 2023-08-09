@@ -1,9 +1,11 @@
 import { useEffect } from 'react'
-import { client } from '../api'
-import { isError } from '../../helpers/assertion'
-import { SyncDataResponse } from '@kroust/swarm-client'
 import { toast } from 'react-toastify'
-import { useAuth } from '../../modules/auth/hook'
+
+import { SyncDataResponse } from '@kroust/swarm-client'
+
+import { client } from '#shared/api'
+import { isError } from '#helpers/assertion'
+import { useAuth } from '#auth/hook'
 
 interface UseSyncProps {
   onSync: (payload: SyncDataResponse) => void
@@ -40,7 +42,7 @@ export const useSync = ({ onSync, onError }: UseSyncProps) => {
 
     const interval = setInterval (() => {
       sync()
-    }, 1000)
+    }, 5000)
 
     sync()
 

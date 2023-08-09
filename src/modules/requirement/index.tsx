@@ -1,6 +1,6 @@
 import React from 'react'
-import { RequirementBuilding } from './building'
-import { RequirementTechnology } from './technology'
+import { RequirementBuilding } from '#requirement/building'
+import { RequirementTechnology } from '#requirement/technology'
 import { Requirement as RequirementValue } from '@kroust/swarm-client'
 
 interface Props {

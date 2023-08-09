@@ -1,8 +1,8 @@
 import React from 'react'
-import { Technology } from '../../shared/types'
-import { transformDecimals } from '../../helpers/transform'
-import { TechnologyTranslations } from './translations'
-import { Requirement } from '../requirement'
+import { Technology } from '#shared/types'
+import { transformDecimals } from '#helpers/transform'
+import { TechnologyTranslations } from '#technology/translations'
+import { Requirement } from '#requirement/index'
 
 interface Props {
   technology: Technology

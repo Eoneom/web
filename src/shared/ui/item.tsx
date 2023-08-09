@@ -1,5 +1,5 @@
 import React from 'react'
-import { formatTime } from '../../helpers/transform'
+import { formatTime } from '#helpers/transform'
 
 interface Props {
   title: string

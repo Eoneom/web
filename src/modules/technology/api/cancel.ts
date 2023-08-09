@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify'
-import { client } from '../../../shared/api'
-import { isError } from '../../../helpers/assertion'
+import { client } from '#shared/api'
+import { isError } from '#helpers/assertion'
 
 export const cancelTechnology = async ({
   token,

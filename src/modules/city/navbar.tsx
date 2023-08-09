@@ -1,6 +1,6 @@
 import { SyncDataResponse } from '@kroust/swarm-client'
 import React from 'react'
-import { transformDecimals } from '../../helpers/transform'
+import { transformDecimals } from '#helpers/transform'
 
 interface Props {
   city: SyncDataResponse['cities'][number]

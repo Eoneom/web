@@ -1,9 +1,9 @@
 import React from 'react'
-import { useTechnology } from '../hook'
-import { useTimer } from '../../../shared/hooks/timer'
-import { Technology } from '../../../shared/types'
-import { UIItem } from '../../../shared/ui/item'
-import { TechnologyTranslations } from '../translations'
+import { useTechnology } from '#technology/hook'
+import { useTimer } from '#shared/hooks/timer'
+import { Technology } from '#shared/types'
+import { UIItem } from '#shared/ui/item'
+import { TechnologyTranslations } from '#technology/translations'
 
 interface Props {
   technology: Technology

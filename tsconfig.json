@@ -6,7 +6,30 @@
       "dom.iterable",
       "esnext"
     ],
-    "allowJs": true,
+    "paths": {
+      "#auth/*": [
+        "./src/modules/auth/*"
+      ],
+      "#building/*": [
+        "./src/modules/building/*"
+      ],
+      "#city/*": [
+        "./src/modules/city/*"
+      ],
+      "#requirement/*": [
+        "./src/modules/requirement/*"
+      ],
+      "#technology/*": [
+        "./src/modules/technology/*"
+      ],
+      "#helpers/*": [
+        "./src/helpers/*"
+      ],
+      "#shared/*": [
+        "./src/shared/*"
+      ]
+    },
+    "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,

@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react'
-import { TechnologyContentItem } from './item'
-import { useTechnology } from '../hook'
-import { Technology } from '../../../shared/types'
+import { TechnologyContentItem } from '#technology/content/item'
+import { useTechnology } from '#technology/hook'
+import { Technology } from '#shared/types'
 
 interface Props {
   onSelectTechnology: (technology: Technology) => void

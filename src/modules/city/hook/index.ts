@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { CityContext } from './context'
+import { CityContext } from '#city/hook/context'
 
 interface HookCity {
   selectedCityId: string
