@@ -6,15 +6,15 @@ import { isError } from '#helpers/assertion'
 export const researchTechnology = async ({
   token,
   cityId,
-  technologyCode
+  code
 }: {
   token: string
   cityId: string
-  technologyCode: string
+  code: string
 }) => {
   const res = await client.technology.research(token, {
     city_id: cityId,
-    technology_code: technologyCode
+    technology_code: code
   })
   if (isError(res)) {
     toast.error(res.error_code)

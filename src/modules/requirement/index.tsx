@@ -4,11 +4,11 @@ import { RequirementTechnology } from '#requirement/technology'
 import { Requirement as RequirementValue } from '@kroust/swarm-client'
 
 interface Props {
-  requirements: RequirementValue
+  requirements?: RequirementValue
 }
 
 export const Requirement: React.FC<Props> = ({ requirements }) => {
-  const requirement_elements = [
+  const requirement_elements = requirements ? [
     ...requirements.buildings.map(requirement => <RequirementBuilding
       key={requirement.code}
       requirement={requirement}
@@ -17,16 +17,16 @@ export const Requirement: React.FC<Props> = ({ requirements }) => {
       key={requirement.code}
       requirement={requirement}
     />)
-  ]
+  ]: []
+
+  const requirement_display = requirement_elements.length ? <ul>
+    {requirement_elements}
+  </ul> : 'Aucun'
 
   return (
-    <aside>
+    <aside id='details-requirement'>
       <h3>Pré-requis</h3>
-      {Boolean(requirement_elements.length) &&
-        <ul>
-          {requirement_elements}
-        </ul>
-      }
+      {requirement_display}
     </aside>
   )
 }

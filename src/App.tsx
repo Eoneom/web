@@ -4,7 +4,7 @@ import { useSync } from '#shared/hooks/sync'
 import { SyncDataResponse } from '@kroust/swarm-client'
 import { ToastContainer, toast } from 'react-toastify'
 import { AuthLoginForm } from '#auth/login-form'
-import { CityNavbar } from '#city/navbar'
+import { Navbar } from '#shared/ui/navbar'
 import { BuildingContentList } from '#building/content/list'
 import { TechnologyContentList } from '#technology/content/list'
 import { BuildingDetails } from '#building/details'
@@ -14,6 +14,8 @@ import { useAuth } from '#auth/hook'
 import { TechnologyContextProvider } from '#technology/hook/context'
 import { TechnologyDetails } from '#technology/details'
 import { useCity } from '#city/hook'
+import { Sidenav } from '#shared/ui/sidenav'
+import { PlaceNav } from '#shared/ui/placenav'
 
 
 type SelectedItem = { type: 'building', data: Building } |
@@ -59,22 +61,14 @@ const App: React.FC = () => {
           <AuthLoginForm />
           {
             city &&
-            <CityNavbar
-              city={city}
+            <Navbar city={city}/>
+          }
+          <div id="main">
+            <Sidenav
               onGoToTechnologies={() => selectPage('technologies')}
               onGoToBuildings={() => selectPage('buildings')}
             />
-          }
-          <div id="main-content" className={selectedItem ? 'details-enabled': ''}>
-            <aside id="side-nav">
-              <ul>
-                <li>Carte</li>
-                <li>Déplacements</li>
-                <li>Alliance</li>
-                <li>Empire</li>
-              </ul>
-            </aside>
-            <section id="content">
+            <section id="content" className={selectedItem ? 'details-enabled': ''}>
               {
                 city &&
                 selectedPage === 'buildings' &&
@@ -90,26 +84,22 @@ const App: React.FC = () => {
                 />
               }
             </section>
-            <aside id="place-nav">
-              <ul>
-                <li>{city?.name}</li>
-              </ul>
-            </aside>
+            {
+              selectedItem &&
+              <section id="details">
+                {
+                  selectedItem.type === 'building' &&
+                  <BuildingDetails building={selectedItem.data} />
+                }
+                {
+                  selectedItem.type === 'technology' &&
+                  city &&
+                  <TechnologyDetails technology={selectedItem.data}/>
+                }
+              </section>
+            }
+            {city && <PlaceNav city={city}/>}
           </div>
-          {
-            selectedItem &&
-            <section id="details">
-              {
-                selectedItem.type === 'building' &&
-                <BuildingDetails building={selectedItem.data} />
-              }
-              {
-                selectedItem.type === 'technology' &&
-                city &&
-                <TechnologyDetails technology={selectedItem.data}/>
-              }
-            </section>
-          }
           <ToastContainer
             position='bottom-right'
             autoClose={3000}

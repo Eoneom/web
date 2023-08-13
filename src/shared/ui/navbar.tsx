@@ -4,17 +4,11 @@ import { transformDecimals } from '#helpers/transform'
 
 interface Props {
   city: SyncDataResponse['cities'][number]
-  onGoToBuildings: () => void
-  onGoToTechnologies: () => void
 }
 
-export const CityNavbar: React.FC<Props> = ({ city, onGoToBuildings, onGoToTechnologies }) => {
-  return <nav id='city-navbar'>
-    <ul>
-      <li><a href="#" onClick={() => onGoToBuildings()}>Construction</a></li>
-      <li><a href="#" onClick={() => onGoToTechnologies()}>Recherche</a></li>
-      <li>Recrutement</li>
-    </ul>
+export const Navbar: React.FC<Props> = ({ city }) => {
+  return <nav id='navbar'>
+    <h4>Swarm</h4>
     <h1>{city.name}</h1>
     <ul>
       <li>Plastique: {transformDecimals(city.plastic)} (~{Math.round(city.earnings_per_second.plastic)}/s)</li>

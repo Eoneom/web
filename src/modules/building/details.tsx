@@ -1,8 +1,10 @@
 import React from 'react'
 
 import { Building } from '#shared/types'
-import { transformDecimals } from '#helpers/transform'
 import { BuildingTranslations } from '#building/translations'
+import { useBuilding } from '#building/hook'
+import { Details } from '#shared/ui/details'
+import { Button } from '#shared/ui/button'
 
 interface Props {
   building: Building
@@ -10,16 +12,17 @@ interface Props {
 
 export const BuildingDetails: React.FC<Props> = ({ building }) => {
   const { name } = BuildingTranslations[building.code]
-  return <>
-    <aside><h3>Pré-requis</h3></aside>
-    <article><h2>{name}</h2></article>
-    <aside>
-      <h3>Coût</h3>
-      <ul>
-        <li>Plastique: {transformDecimals(building.upgrade_cost.plastic)}</li>
-        <li>Champignon: {transformDecimals(building.upgrade_cost.mushroom)}</li>
-        <li>Durée: {building.upgrade_cost.duration}</li>
-      </ul>
-    </aside>
+  const { upgrade, inProgress } = useBuilding()
+
+  const details = <>
+    <h2>{name}</h2>
+    {!inProgress && <Button onClick={() => upgrade({ code: building.code })}>Construire</Button>}
   </>
+
+  return <Details
+    itemDetails={details}
+    plasticCost={building.upgrade_cost.plastic}
+    mushroomCost={building.upgrade_cost.mushroom}
+    durationCost={building.upgrade_cost.duration}
+  />
 }
