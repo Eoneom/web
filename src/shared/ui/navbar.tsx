@@ -1,18 +1,19 @@
-import { SyncDataResponse } from '@kroust/swarm-client'
 import React from 'react'
 import { transformDecimals } from '#helpers/transform'
+import { useCity } from '#city/hook'
 
-interface Props {
-  city: SyncDataResponse['cities'][number]
-}
+export const Navbar: React.FC = () => {
+  const { selectedCity } = useCity()
+  if (!selectedCity) {
+    return null
+  }
 
-export const Navbar: React.FC<Props> = ({ city }) => {
   return <nav id='navbar'>
     <h4>Swarm</h4>
-    <h1>{city.name}</h1>
+    <h1>{selectedCity.name}</h1>
     <ul>
-      <li>Plastique: {transformDecimals(city.plastic)} (~{Math.round(city.earnings_per_second.plastic)}/s)</li>
-      <li>Champignon: {transformDecimals(city.mushroom)} (~{Math.round(city.earnings_per_second.mushroom)}/s)</li>
+      <li>Plastique: {transformDecimals(selectedCity.plastic)} (~{Math.round(selectedCity.earnings_per_second.plastic)}/s)</li>
+      <li>Champignon: {transformDecimals(selectedCity.mushroom)} (~{Math.round(selectedCity.earnings_per_second.mushroom)}/s)</li>
     </ul>
   </nav>
 }

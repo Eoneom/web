@@ -1,14 +1,11 @@
-import { City } from '#shared/types'
+import { useCity } from '#city/hook'
 import React from 'react'
 
-interface Props {
-  city: City
-}
-
-export const PlaceNav: React.FC<Props> = ({ city }) => {
+export const PlaceNav: React.FC = () => {
+  const { selectedCity } = useCity()
   return <aside id="place-nav">
-    <ul>
-      <li>{city.name}</li>
-    </ul>
+    { selectedCity && <ul>
+      <li>{ selectedCity.name}</li>
+    </ul>}
   </aside>
 }

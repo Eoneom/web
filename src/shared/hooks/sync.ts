@@ -1,14 +1,11 @@
 import { useEffect } from 'react'
-import { toast } from 'react-toastify'
-
-import { SyncDataResponse } from '@kroust/swarm-client'
 
 import { client } from '#shared/api'
 import { isError } from '#helpers/assertion'
 import { useAuth } from '#auth/hook'
 
 interface UseSyncProps {
-  onSync: (payload: SyncDataResponse) => void
+  onSync: () => void
   onError: (errorCode: string) => void
 }
 
@@ -21,18 +18,7 @@ export const useSync = ({ onSync, onError }: UseSyncProps) => {
       return
     }
 
-    if (!res.data) {
-      toast.warn('data not found')
-      return
-    }
-
-    const { data } = res
-    if (!data.cities.length) {
-      toast.error('there is no city here 😬')
-      return
-    }
-
-    onSync(data)
+    onSync()
   }
 
   useEffect(() => {

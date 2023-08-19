@@ -1,20 +1,43 @@
-import { useContext } from 'react'
+import { useContext, useMemo } from 'react'
 import { CityContext } from '#city/hook/context'
+import { City } from '#shared/types'
+import { listCities } from '#city/api/list'
+import { useAuth } from '#auth/hook'
 
 interface HookCity {
   selectedCityId: string
-  selectCity: (cityId: string) => void
+  selectedCity?: City
+  list: () => void
 }
 
 export const useCity = (): HookCity => {
-  const { selectedCityId, setSelectedCityId } = useContext(CityContext)
+  const { token } = useAuth()
+  const {
+    selectedCityId,
+    setSelectedCityId,
+    cities,
+    setCities
+  } = useContext(CityContext)
 
-  const selectCity = (cityId: string) => {
-    setSelectedCityId(cityId)
+  const list = async () => {
+    const response = await listCities({ token })
+    if (!response) {
+      return
+    }
+
+    setCities(response.cities)
+    if (!selectedCityId) {
+      setSelectedCityId(response.cities[0].id)
+    }
   }
+
+  const selectedCity = useMemo(() => {
+    return cities.find(city => city.id === selectedCityId)
+  }, [ cities, selectedCityId])
 
   return {
     selectedCityId,
-    selectCity,
+    selectedCity,
+    list
   }
 }

@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import { useSync } from '#shared/hooks/sync'
-import { SyncDataResponse } from '@kroust/swarm-client'
 import { ToastContainer, toast } from 'react-toastify'
 import { AuthLoginForm } from '#auth/login-form'
 import { Navbar } from '#shared/ui/navbar'
@@ -15,18 +14,7 @@ import { Outlet } from 'react-router-dom'
 
 const App: React.FC = () => {
   const { logout } = useAuth()
-  const [city, setCity] = useState<SyncDataResponse['cities'][number] | null>(null)
-  const { selectCity } = useCity()
-
-  const onSync = (data: SyncDataResponse) => {
-    const first_city = data.cities[0]
-    if (!first_city) {
-      return
-    }
-
-    setCity(first_city)
-    selectCity(first_city.id)
-  }
+  const { list, selectedCity } = useCity()
 
   const onSyncError = async (errorCode: string) => {
     if (errorCode === 'auth:not-found') {
@@ -36,7 +24,7 @@ const App: React.FC = () => {
     }
   }
 
-  useSync({ onSync, onError: onSyncError })
+  useSync({ onSync: () => list(), onError: onSyncError })
 
   return (
     <main>
@@ -44,12 +32,12 @@ const App: React.FC = () => {
         <TechnologyContextProvider>
           <AuthLoginForm />
           {
-            city && <>
-              <Navbar city={city}/>
+            selectedCity && <>
+              <Navbar />
               <div id="main">
-                <Sidenav/>
+                <Sidenav />
                 <Outlet />
-                <PlaceNav city={city}/>
+                <PlaceNav />
               </div>
             </>
           }
