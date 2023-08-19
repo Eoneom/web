@@ -1,17 +1,13 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
-interface Props {
-  onGoToBuildings: () => void
-  onGoToTechnologies: () => void
-}
-
-export const Sidenav: React.FC<Props> = ({ onGoToBuildings, onGoToTechnologies }) => {
+export const Sidenav: React.FC = () => {
   return (
     <aside id="sidenav">
       <h2>Ville</h2>
       <ul>
-        <li><a href="#" onClick={() => onGoToBuildings()}>Construction</a></li>
-        <li><a href="#" onClick={() => onGoToTechnologies()}>Recherche</a></li>
+        <li><Link to={'building'}>Construction</Link></li>
+        <li><Link to={'technology'}>Recherche</Link></li>
         <li>Recrutement</li>
       </ul>
 

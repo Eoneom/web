@@ -1,8 +1,18 @@
 export const formatTime = (seconds: number): string => {
-  if (seconds > 60) {
-    return `${Math.floor(seconds / 60)}:${seconds % 60}s`
+  const hours = Math.floor(seconds / 3600)
+  const secondsWithoutHours = seconds % 3600
+  const minutes = Math.floor(secondsWithoutHours / 60)
+  const remainingSeconds = secondsWithoutHours % 60
+
+  if (hours) {
+    return `${hours}h ${minutes}m ${remainingSeconds}s`
   }
-  return `${seconds}s`
+
+  if (minutes) {
+    return `${minutes}m ${remainingSeconds}s`
+  }
+
+  return `${remainingSeconds}s`
 }
 
 export const getRemaingTime = (date?: number): number => {
