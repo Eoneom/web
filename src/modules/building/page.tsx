@@ -1,22 +1,22 @@
 import { BuildingContentList } from '#building/content/list'
 import { BuildingDetails } from '#building/details'
-import { Building } from '#shared/types'
-import React, { useState } from 'react'
+import { useBuilding } from '#building/hook'
+import React, { useMemo, useState } from 'react'
 
 export const BuildingPage: React.FC = () => {
-  const [selectedBuilding, setSelectedBuilding] = useState<Building | null>(null)
+  const [selectedBuildingId, setSelectedBuildingId] = useState('')
+  const { buildings } = useBuilding()
+  const selectedBuilding = useMemo(() => {
+    return buildings.find(building => building.id === selectedBuildingId)
+  }, [selectedBuildingId, buildings])
 
   return <>
     <section id="content" className={selectedBuilding ? 'details-enabled': ''}>
-      <BuildingContentList
-        onSelectBuilding={(building) => setSelectedBuilding(building)}
-      />
+      <BuildingContentList onSelectBuilding={({id}) => setSelectedBuildingId(id)}/>
     </section>
     {
       selectedBuilding && <section id="details">
-        {
-          <BuildingDetails building={selectedBuilding} />
-        }
+        <BuildingDetails building={selectedBuilding}/>
       </section>
     }
   </>

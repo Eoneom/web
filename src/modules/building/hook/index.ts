@@ -8,6 +8,7 @@ import { cancelBuilding } from '#building/api/cancel'
 import { useCity } from '#city/hook'
 import { useTimer } from '#shared/hooks/timer'
 import { BuildingCode } from '@kroust/swarm-client'
+import { buildingFinishUpgrade } from '#building/api/finish-upgrade'
 
 interface HookUseBuilding {
   buildings: Building[]
@@ -35,10 +36,15 @@ export const useBuilding = (): HookUseBuilding => {
   const { remainingTime, reset } = useTimer({
     doneAt: buildingInProgress?.upgrade_at,
     onDone: async () => {
-      await list()
-      reset()
+      await finishUpgrade()
     }
   })
+
+  const finishUpgrade = async () => {
+    await buildingFinishUpgrade({ token, cityId })
+    await list()
+    reset()
+  }
 
   const upgrade = async ({ code }: UpgradeProps) => {
     const res = await upgradeBuilding({
@@ -51,13 +57,16 @@ export const useBuilding = (): HookUseBuilding => {
     }
 
     const { upgrade_at } = res
-    const new_buildings = [...buildings]
-    const index = buildings.findIndex(building => building.code === code)
-    if (index === -1) {
-      return
-    }
+    const new_buildings = buildings.map((building) => {
+      if (building.code !== code) {
+        return building
+      }
 
-    new_buildings[index].upgrade_at = upgrade_at
+      return {
+        ...building,
+        upgrade_at
+      }
+    })
 
     setBuildings(new_buildings)
   }

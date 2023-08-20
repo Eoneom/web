@@ -8,6 +8,7 @@ import { cancelTechnology } from '#technology/api/cancel'
 import { useCity } from '#city/hook'
 import { useTimer } from '#shared/hooks/timer'
 import { TechnologyCode } from '@kroust/swarm-client'
+import { technologyFinishResearch } from '#technology/api/finish-research'
 
 interface HookTechnology {
   technologies: Technology[]
@@ -35,8 +36,7 @@ export const useTechnology = (): HookTechnology => {
   const { remainingTime, reset } = useTimer({
     doneAt: technologyInProgress?.research_at,
     onDone: async () => {
-      await list()
-      reset()
+      await finishResearch()
     }
   })
 
@@ -51,15 +51,24 @@ export const useTechnology = (): HookTechnology => {
     }
 
     const { research_at } = res
-    const new_technologies = [...technologies]
-    const index = technologies.findIndex(technology => technology.code === code)
-    if (index === -1) {
-      return
-    }
+    const new_technologies = technologies.map(technology => {
+      if (technology.code !== code) {
+        return technology
+      }
 
-    new_technologies[index].research_at = research_at
+      return {
+        ...technology,
+        research_at
+      }
+    })
 
     setTechnologies(new_technologies)
+  }
+
+  const finishResearch = async () => {
+    await technologyFinishResearch({ token })
+    await list()
+    reset()
   }
 
   const list = async () => {
