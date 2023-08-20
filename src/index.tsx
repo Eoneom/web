@@ -10,7 +10,7 @@ import { AuthContextProvider } from '#auth/hook/context'
 import { CityContextProvider } from '#city/hook/context'
 import { BuildingPage } from '#building/page'
 import { TechnologyPage } from '#technology/page'
-import { WorldPage } from '#map/page'
+import { MapPage } from '#map/page'
 
 import 'react-toastify/dist/ReactToastify.css'
 import './index.css'
@@ -30,7 +30,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'map',
-        element: <WorldPage />
+        element: <MapPage />
       }
     ]
   },

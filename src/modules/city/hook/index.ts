@@ -7,7 +7,7 @@ import { cityGather } from '#city/api/gather'
 
 interface HookCity {
   selectedCityId: string
-  selectedCity?: City
+  selectedCity: City | null
   list: () => void
 }
 
@@ -33,7 +33,7 @@ export const useCity = (): HookCity => {
   }
 
   const selectedCity = useMemo(() => {
-    return cities.find(city => city.id === selectedCityId)
+    return cities.find(city => city.id === selectedCityId) ?? null
   }, [ cities, selectedCityId])
 
   const gather = async () => {
