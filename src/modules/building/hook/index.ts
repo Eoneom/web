@@ -16,6 +16,7 @@ interface HookUseBuilding {
     code: BuildingCode
     remainingTime: number
   }
+  levelsTotal: number
   list: () => Promise<void>
   upgrade: (props: UpgradeProps) => Promise<void>
   cancel: () => Promise<void>
@@ -94,8 +95,13 @@ export const useBuilding = (): HookUseBuilding => {
     list()
   }, [cityId])
 
+  const levelsTotal = useMemo(() => {
+    return buildings.reduce((acc, {level}) => acc + level, 0)
+  }, [buildings])
+
   return {
     buildings,
+    levelsTotal,
     list,
     cancel,
     upgrade,
