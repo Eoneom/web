@@ -6,7 +6,7 @@ import { upgradeBuilding } from '#building/api/upgrade'
 import { useAuth } from '#auth/hook'
 import { cancelBuilding } from '#building/api/cancel'
 import { useCity } from '#city/hook'
-import { useTimer } from '#shared/hooks/timer'
+import { useTimer } from '#shared/hook/timer'
 import { BuildingCode } from '@kroust/swarm-client'
 import { buildingFinishUpgrade } from '#building/api/finish-upgrade'
 

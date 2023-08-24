@@ -6,7 +6,7 @@ import { listTechnologies } from '#technology/api/list'
 import { researchTechnology } from '#technology/api/research'
 import { cancelTechnology } from '#technology/api/cancel'
 import { useCity } from '#city/hook'
-import { useTimer } from '#shared/hooks/timer'
+import { useTimer } from '#shared/hook/timer'
 import { TechnologyCode } from '@kroust/swarm-client'
 import { technologyFinishResearch } from '#technology/api/finish-research'
 

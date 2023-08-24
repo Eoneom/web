@@ -1,40 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from 'react-router-dom'
+import { RouterProvider } from 'react-router-dom'
 
-import App from './App'
+import { router } from './router'
 import { AuthContextProvider } from '#auth/hook/context'
 import { CityContextProvider } from '#city/hook/context'
-import { BuildingPage } from '#building/page'
-import { TechnologyPage } from '#technology/page'
-import { MapPage } from '#map/page'
 
 import 'react-toastify/dist/ReactToastify.css'
 import './index.css'
-
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <App />,
-    children: [
-      {
-        path: 'building',
-        element: <BuildingPage />
-      },
-      {
-        path: 'technology',
-        element: <TechnologyPage />
-      },
-      {
-        path: 'map',
-        element: <MapPage />
-      }
-    ]
-  },
-])
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

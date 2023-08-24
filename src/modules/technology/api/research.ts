@@ -2,6 +2,7 @@ import { toast } from 'react-toastify'
 
 import { client } from '#shared/api'
 import { isError } from '#helpers/assertion'
+import { TechnologyCode } from '@kroust/swarm-client'
 
 export const researchTechnology = async ({
   token,
@@ -10,7 +11,7 @@ export const researchTechnology = async ({
 }: {
   token: string
   cityId: string
-  code: string
+  code: TechnologyCode
 }) => {
   const res = await client.technology.research(token, {
     city_id: cityId,
