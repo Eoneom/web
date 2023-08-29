@@ -6,6 +6,7 @@ import { BuildingPage } from '#building/page'
 import { TechnologyPage } from '#technology/page'
 import { MapPage } from '#map/page'
 import { CityPage } from '#city/page'
+import { TroupPage } from '#troup/page'
 
 export const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ export const router = createBrowserRouter([
       {
         path: 'technology',
         element: <TechnologyPage />
+      },
+      {
+        path: 'troup',
+        element: <TroupPage />
       },
       {
         path: 'map',

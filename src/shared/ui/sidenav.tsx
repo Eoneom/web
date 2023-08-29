@@ -8,7 +8,7 @@ export const Sidenav: React.FC = () => {
       <ul>
         <li><Link to={'building'}>Construction</Link></li>
         <li><Link to={'technology'}>Recherche</Link></li>
-        <li>Recrutement</li>
+        <li><Link to={'troup'}>Recrutement</Link></li>
       </ul>
 
       <h2>Monde</h2>

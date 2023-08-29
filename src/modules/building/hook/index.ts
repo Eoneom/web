@@ -29,7 +29,7 @@ interface UpgradeProps {
 export const useBuilding = (): HookUseBuilding => {
   const { buildings, setBuildings } = useContext(BuildingContext)
   const { token } = useAuth()
-  const { selectedCityId: cityId } = useCity()
+  const { selectedCityId: cityId, list: listCities } = useCity()
   const buildingInProgress = useMemo(() => {
     return buildings.find(building => building.upgrade_at)
   }, [buildings])
@@ -44,6 +44,7 @@ export const useBuilding = (): HookUseBuilding => {
   const finishUpgrade = async () => {
     await buildingFinishUpgrade({ token, cityId })
     await list()
+    await listCities()
     reset()
   }
 

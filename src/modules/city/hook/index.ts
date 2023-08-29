@@ -8,7 +8,7 @@ import { cityGather } from '#city/api/gather'
 interface HookCity {
   selectedCityId: string
   selectedCity: City | null
-  list: () => void
+  list: () => Promise<void>
 }
 
 export const useCity = (): HookCity => {
@@ -64,7 +64,7 @@ export const useCity = (): HookCity => {
 
     const interval = setInterval(() => {
       gather()
-    }, 5000)
+    }, 10000)
 
     return () => clearInterval(interval)
   }, [selectedCityId])

@@ -8,6 +8,7 @@ module.exports = {
       '#city': path.resolve(__dirname, 'src/modules/city'),
       '#requirement': path.resolve(__dirname, 'src/modules/requirement'),
       '#technology': path.resolve(__dirname, 'src/modules/technology'),
+      '#troup': path.resolve(__dirname, 'src/modules/troup'),
       '#map': path.resolve(__dirname, 'src/modules/map'),
       '#helpers': path.resolve(__dirname, 'src/helpers'),
       '#shared': path.resolve(__dirname, 'src/shared'),

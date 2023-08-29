@@ -4,12 +4,11 @@ import { ToastContainer } from 'react-toastify'
 
 import { AuthLoginForm } from '#auth/login-form'
 import { Navbar } from '#shared/ui/navbar'
-import { BuildingContextProvider } from '#building/hook/context'
-import { TechnologyContextProvider } from '#technology/hook/context'
 import { useCity } from '#city/hook'
 import { Sidenav } from '#shared/ui/sidenav'
 import { PlaceNav } from '#shared/ui/placenav'
 import { useAuth } from '#auth/hook'
+import { GameProvider } from '#shared/provider'
 
 const App: React.FC = () => {
   const { list, selectedCity } = useCity()
@@ -24,21 +23,19 @@ const App: React.FC = () => {
 
   return (
     <main>
-      <BuildingContextProvider>
-        <TechnologyContextProvider>
-          <AuthLoginForm />
-          {
-            selectedCity && <>
-              <Navbar />
-              <div id="main">
-                <Sidenav />
-                <Outlet />
-                <PlaceNav />
-              </div>
-            </>
-          }
-        </TechnologyContextProvider>
-      </BuildingContextProvider>
+      <GameProvider>
+        <AuthLoginForm />
+        {
+          selectedCity && <>
+            <Navbar />
+            <div id="main">
+              <Sidenav />
+              <Outlet />
+              <PlaceNav />
+            </div>
+          </>
+        }
+      </GameProvider>
 
       <ToastContainer
         position='bottom-right'

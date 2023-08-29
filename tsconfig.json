@@ -22,6 +22,9 @@
       "#technology/*": [
         "./src/modules/technology/*"
       ],
+      "#troup/*": [
+        "./src/modules/troup/*"
+      ],
       "#map/*": [
         "./src/modules/map/*"
       ],

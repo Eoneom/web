@@ -2,13 +2,15 @@ import React from 'react'
 
 interface Props {
   name: string
-  level: number
-  onSelect?: () => void
+  level?: number
+  count?: number
+  onSelect: () => void
 }
 
-export const UIItem: React.FC<Props> = ({ name, level, onSelect }) => {
-  return <article className="item" onClick={() => onSelect && onSelect()}>
+export const UIItem: React.FC<Props> = ({ name, level, count, onSelect }) => {
+  return <article className="item" onClick={() => onSelect()}>
     <h4>{name}</h4>
-    <p>Niveau {level}</p>
+    {level !== undefined && <p>Niveau {level}</p>}
+    {count !== undefined && <p>Nombre {count}</p>}
   </article>
 }
