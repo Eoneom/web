@@ -1,10 +1,10 @@
-import { TechnologyListDataResponse } from '@kroust/swarm-client'
+import { Requirement } from '@kroust/swarm-client'
 import React from 'react'
 import { useTechnology } from '#technology/hook'
 import { TechnologyTranslations } from '#technology/translations'
 
 interface Props {
-  requirement: TechnologyListDataResponse['technologies'][number]['requirements']['technologies'][number]
+  requirement: Requirement['technologies'][number]
 }
 
 export const RequirementTechnology: React.FC<Props> = ({ requirement }) => {

@@ -19,7 +19,7 @@ export const TechnologyDetails: React.FC<Props> = ({ technology }) => {
 
   return <Details
     itemDetails={details}
-    requirements={technology.requirements}
+    requirements={technology.requirement}
     plasticCost={technology.research_cost.plastic}
     mushroomCost={technology.research_cost.mushroom}
     durationCost={technology.research_cost.duration}

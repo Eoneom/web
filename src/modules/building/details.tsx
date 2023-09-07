@@ -28,6 +28,7 @@ export const BuildingDetails: React.FC<Props> = ({ building }) => {
 
   return <Details
     itemDetails={details}
+    requirements={building.requirement}
     plasticCost={building.upgrade_cost.plastic}
     mushroomCost={building.upgrade_cost.mushroom}
     durationCost={building.upgrade_cost.duration}
