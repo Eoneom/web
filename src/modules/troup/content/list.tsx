@@ -4,6 +4,7 @@ import { formatTime } from '#helpers/transform'
 import { useTroup } from '#troup/hook'
 import { TroupContentItem } from '#troup/content/item'
 import { TroupTranslations } from '#troup/translations'
+import { Button } from '#shared/ui/button'
 
 interface Props {
   onSelectTroup: (troup: Troup) => void
@@ -13,7 +14,8 @@ export const TroupContentList: React.FC<Props> = ({ onSelectTroup }) => {
   const {
     troups,
     list,
-    inProgress
+    inProgress,
+    cancel
   } = useTroup()
 
   useEffect(() => {
@@ -34,6 +36,7 @@ export const TroupContentList: React.FC<Props> = ({ onSelectTroup }) => {
       inProgress &&
       <>
         <p>En cours: {TroupTranslations[inProgress.code].name} {formatTime(inProgress.remainingTime)}</p>
+        <Button onClick={() => cancel()}>Annuler</Button>
       </>
     }
     <div className='list'>

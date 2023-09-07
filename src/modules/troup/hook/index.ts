@@ -8,6 +8,7 @@ import { TroupContext } from '#troup/hook/context'
 import { listTroups } from '#troup/api/list'
 import { recruitTroup } from '#troup/api/recruit'
 import { progressRecruitTroup } from '#troup/api/progress-recruit'
+import { cancelTroup } from '#troup/api/cancel'
 
 interface HookTechnology {
   troups: Troup[]
@@ -17,6 +18,7 @@ interface HookTechnology {
   }
   list: () => Promise<void>
   recruit: (props: RecruitProps) => Promise<void>
+  cancel: () => Promise<void>
 }
 
 interface RecruitProps {
@@ -67,6 +69,12 @@ export const useTroup = (): HookTechnology => {
     await list()
   }
 
+  const cancel = async () => {
+    await cancelTroup({ token, cityId })
+    await list()
+    reset()
+  }
+
   const list = async () => {
     const data = await listTroups({ token, cityId })
     if (!data) {
@@ -84,6 +92,7 @@ export const useTroup = (): HookTechnology => {
     troups,
     list,
     recruit,
+    cancel,
     inProgress: troupInProgress
       ? {
         code: troupInProgress.code,
