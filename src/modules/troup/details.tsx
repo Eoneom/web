@@ -18,14 +18,12 @@ export const TroupDetails: React.FC<Props> = ({ troup }) => {
     {!inProgress && <>
       <input type="number" onChange={event => setCount(Number.parseInt(event.target.value))}/>
       <Button onClick={() => recruit({ code: troup.code, count })}>Recruter</Button>
-    </>
-    }
+    </>}
   </>
 
   return <Details
     itemDetails={details}
-    plasticCost={troup.cost.plastic}
-    mushroomCost={troup.cost.mushroom}
-    durationCost={troup.cost.duration}
+    requirements={troup.requirement}
+    cost={troup.cost}
   />
 }

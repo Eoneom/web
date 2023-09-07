@@ -6,12 +6,14 @@ import React from 'react'
 interface Props {
   itemDetails: React.ReactNode
   requirements?: RequirementType
-  plasticCost: number
-  mushroomCost: number
-  durationCost: number
+  cost: {
+    plastic: number
+    mushroom: number
+    duration: number
+  }
 }
 
-export const Details: React.FC<Props> = ({itemDetails, requirements, plasticCost, mushroomCost, durationCost}) => {
+export const Details: React.FC<Props> = ({itemDetails, requirements, cost }) => {
   return (
     <>
       <article id='details-content'>
@@ -21,9 +23,9 @@ export const Details: React.FC<Props> = ({itemDetails, requirements, plasticCost
       <aside id='details-cost'>
         <h3>Coût</h3>
         <ul>
-          <li>Plastique: {transformDecimals(plasticCost)}</li>
-          <li>Champignon: {transformDecimals(mushroomCost)}</li>
-          <li>Durée: {formatTime(durationCost)}</li>
+          <li>Plastique: {transformDecimals(cost.plastic)}</li>
+          <li>Champignon: {transformDecimals(cost.mushroom)}</li>
+          <li>Durée: {formatTime(cost.duration)}</li>
         </ul>
       </aside>
     </>
