@@ -21,7 +21,7 @@ export const Sidenav: React.FC = () => {
 
       <h2>Transmissions</h2>
       <ul>
-        <li>Rapport</li>
+        <li><Link to={'report'}>Rapport</Link></li>
         <li>Messagerie</li>
       </ul>
 

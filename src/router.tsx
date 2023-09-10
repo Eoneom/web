@@ -8,6 +8,7 @@ import { MapPage } from '#map/page'
 import { CityPage } from '#city/page'
 import { TroupPage } from '#troup/page'
 import { MovementPage } from '#troup/movement/page'
+import { ReportPage } from './modules/communication/page'
 
 export const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ export const router = createBrowserRouter([
       {
         path: 'movement',
         element: <MovementPage />
+      },
+      {
+        path: 'report',
+        element: <ReportPage />
       }
     ]
   },
