@@ -1,7 +1,7 @@
 import { City } from '#shared/types'
 import { CellType } from '@kroust/swarm-client'
 
-export const getCellFillStyle = ({ type, city, x, y }: { type: CellType, city: City, x: number, y: number }): string => {
+export const getCellFillStyle = ({ type, city, x, y }: { type?: CellType, city: City, x: number, y: number }): string => {
   if (city.coordinates.x === x && city.coordinates.y === y) {
     return '#FFF'
   }

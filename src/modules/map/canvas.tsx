@@ -4,10 +4,10 @@ import { useWorld } from '#map/hook/world'
 import React, { useEffect, useRef } from 'react'
 
 interface Props {
-  onCellSelected: (params: { x: number, y: number }) => void
+  onCellClicked: (params: { x: number, y: number }) => void
 }
 
-export const MapCanvas: React.FC<Props> = ({ onCellSelected }) => {
+export const MapCanvas: React.FC<Props> = ({ onCellClicked }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const { sector } = useWorld()
   const { selectedCity } = useCity()
@@ -25,9 +25,9 @@ export const MapCanvas: React.FC<Props> = ({ onCellSelected }) => {
     const cell_width = parseInt(computedStyle.getPropertyValue('width'), 10) / 10
     const cell_height = parseInt(computedStyle.getPropertyValue('height'), 10) / 10
 
-    onCellSelected({
+    onCellClicked({
       x: Math.ceil(x/cell_width),
-      y: Math.sqrt(sector.cells.length) - Math.ceil(y/cell_height) + 1
+      y: Math.sqrt(sector.cells.length) - Math.ceil(y/cell_height) + 1,
     })
   }
 
@@ -51,7 +51,7 @@ export const MapCanvas: React.FC<Props> = ({ onCellSelected }) => {
         x: cell.coordinates.x,
         y: cell.coordinates.y,
         city: selectedCity,
-        type: cell.type
+        type: cell.characteristic?.type
       })
 
       const square_x = (cell.coordinates.x - 1)*WIDTH
