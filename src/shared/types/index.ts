@@ -3,6 +3,7 @@ import {
   CityListDataResponse,
   TechnologyListDataResponse,
   TroupListDataResponse,
+  TroupListMovementDataResponse,
   WorldGetSectorDataResponse
 } from '@kroust/swarm-client'
 
@@ -11,3 +12,4 @@ export type Building = BuildingListDataResponse['buildings'][number]
 export type Technology = TechnologyListDataResponse['technologies'][number]
 export type Sector = WorldGetSectorDataResponse & {id: number}
 export type Troup = TroupListDataResponse['troups'][number]
+export type Movement = TroupListMovementDataResponse['movements'][number]

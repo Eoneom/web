@@ -14,7 +14,7 @@ export const Sidenav: React.FC = () => {
       <h2>Monde</h2>
       <ul>
         <li><Link to={'map'}>Carte</Link></li>
-        <li>Déplacement</li>
+        <li><Link to={'movement'}>Déplacement</Link></li>
         <li>Alliance</li>
         <li>Empire</li>
       </ul>

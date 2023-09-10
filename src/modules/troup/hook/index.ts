@@ -11,7 +11,7 @@ import { progressRecruitTroup } from '#troup/api/progress-recruit'
 import { cancelTroup } from '#troup/api/cancel'
 import { troupExplore } from '#troup/api/explore'
 
-interface HookTechnology {
+interface HookTroup {
   troups: Troup[]
   inProgress?: {
     code: TroupCode
@@ -28,7 +28,7 @@ interface RecruitProps {
   count: number
 }
 
-export const useTroup = (): HookTechnology => {
+export const useTroup = (): HookTroup => {
   const { troups, setTroups } = useContext(TroupContext)
   const { token } = useAuth()
   const { selectedCityId: cityId } = useCity()

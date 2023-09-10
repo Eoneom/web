@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import React, { createContext, useState } from 'react'
 import { Troup } from '#shared/types'
 
@@ -8,8 +9,7 @@ interface TroupContextState {
 
 export const TroupContext = createContext<TroupContextState>({
   troups: [],
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  setTroups: () => {}
+  setTroups: () => {},
 })
 
 interface ProviderProps {
@@ -21,7 +21,7 @@ export const TroupContextProvider: React.FC<ProviderProps> = ({ children }) => {
   return (
     <TroupContext.Provider value={{
       troups,
-      setTroups: (troups: Troup[]) => setTroups(troups)
+      setTroups: (troups: Troup[]) => setTroups(troups),
     }}>
       {children}
     </TroupContext.Provider>
