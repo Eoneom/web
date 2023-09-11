@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 export const NavSide: React.FC = () => {
   return (
-    <aside id="sidenav">
+    <aside id="side-nav">
       <h2>Ville</h2>
       <ul>
         <li><Link to={'building'}>Construction</Link></li>

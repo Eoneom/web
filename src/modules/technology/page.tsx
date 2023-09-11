@@ -15,7 +15,7 @@ export const TechnologyPage: React.FC = () => {
     list()
   }, [])
 
-  return <LayoutPage details={<TechnologyDetails technology={selectedTechnology}/>}>
+  return <LayoutPage details={selectedTechnology && <TechnologyDetails technology={selectedTechnology}/>}>
     <TechnologyList onSelectTechnology={({id}) => setSelectedTechnologyId(id)}/>
   </LayoutPage>
 }

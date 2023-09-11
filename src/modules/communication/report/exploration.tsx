@@ -1,7 +1,7 @@
 import { Report } from '#types'
-import { LayoutDetails } from '#ui/layout/details'
 import { TroupTranslations } from '#troup/translations'
 import React from 'react'
+import { LayoutDetailsContent } from '#ui/layout/details/content'
 
 interface Props {
   report?: Report
@@ -12,7 +12,7 @@ export const ReportExploration: React.FC<Props> = ({ report }) => {
     return null
   }
 
-  const details = <>
+  return <LayoutDetailsContent>
     <h1>Exploration</h1>
     <h3>Source: {report.origin.sector};{report.origin.x};{report.origin.y}</h3>
     <h3>Destination: {report.destination.sector};{report.destination.x};{report.destination.y}</h3>
@@ -26,7 +26,5 @@ export const ReportExploration: React.FC<Props> = ({ report }) => {
         }
       </ul>
     </p>
-  </>
-
-  return <LayoutDetails itemDetails={details}/>
+  </LayoutDetailsContent>
 }

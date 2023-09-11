@@ -24,7 +24,7 @@ export const Requirement: React.FC<Props> = ({ requirements }) => {
   </ul> : 'Aucun'
 
   return (
-    <aside id='details-requirement'>
+    <aside id='requirement'>
       <h3>Pré-requis</h3>
       {requirement_display}
     </aside>

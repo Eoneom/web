@@ -22,6 +22,9 @@
       "#city/*": [
         "./src/modules/city/*"
       ],
+      "#cost/*": [
+        "./src/modules/cost/*"
+      ],
       "#communication/*": [
         "./src/modules/communication/*"
       ],

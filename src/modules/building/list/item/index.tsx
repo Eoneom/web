@@ -1,8 +1,8 @@
 import React from 'react'
 
 import { Building } from '#types'
-import { Item } from '#ui/item'
 import { BuildingTranslations } from '#building/translations'
+import { ListItemLevel } from '#ui/list/item/level'
 
 interface Props {
   building: Building
@@ -12,7 +12,7 @@ interface Props {
 export const BuildingListItem: React.FC<Props> = ({ building, onSelectBuilding }) => {
   const { name } = BuildingTranslations[building.code]
 
-  return <Item
+  return <ListItemLevel
     name={name}
     level={building.level}
     onSelect={() => onSelectBuilding(building)}

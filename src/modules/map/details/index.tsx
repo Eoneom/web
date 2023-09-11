@@ -4,13 +4,13 @@ import { useCity } from '#city/hook'
 import { useWorld } from '#map/hook/world'
 import { useTroup } from '#troup/hook'
 import { Button } from '#ui/button'
-import { LayoutDetails } from '#ui/layout/details'
+import { LayoutDetailsContent } from '#ui/layout/details/content'
 
 interface Props {
   coordinates: {
     x: number
     y: number
-  } | null
+  }
 }
 
 export const MapDetails: React.FC<Props> = ({ coordinates }) => {
@@ -36,21 +36,16 @@ export const MapDetails: React.FC<Props> = ({ coordinates }) => {
     explore({ coordinates: { sector: sector.id, x: coordinates.x, y: coordinates.y}})
   }
 
-  if (!coordinates) {
-    return null
-  }
 
-  const details = <>
+  return <LayoutDetailsContent>
     <h2>Cellule sélectionnée: ({coordinates.x};{coordinates.y})</h2>
     {
       selectedCity?.coordinates.x === coordinates.x &&
       coordinates.y === selectedCity?.coordinates.y &&
-      <>{selectedCity.name}</>
+    <>{selectedCity.name}</>
     }
     {
       selectedCell && !selectedCell.characteristic && <Button onClick={handleExplore}>Explorer</Button>
     }
-  </>
-
-  return <LayoutDetails itemDetails={details} />
+  </LayoutDetailsContent>
 }

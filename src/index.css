@@ -54,7 +54,7 @@ ul {
   max-height: 93vh;
 }
 
-#sidenav,
+#side-nav,
 #nav-bar,
 #nav-location,
 #content,
@@ -94,8 +94,8 @@ ul {
   width: 50%;
 }
 
-#details-requirement,
-#details-cost {
+#requirement,
+#cost {
   width: 25%;
 }
 
@@ -132,18 +132,18 @@ ul {
   padding: 48px;
 }
 
-#sidenav {
+#side-nav {
   height: 93vh;
   max-width: 14vw;
   padding: 24px 12px;
   border-right: var(--light-background-color) 4px solid;
 }
 
-#sidenav ul {
+#side-nav ul {
   margin-bottom: 24px;
 }
 
-#sidenav li {
+#side-nav li {
   margin: 12px 0;
 }
 

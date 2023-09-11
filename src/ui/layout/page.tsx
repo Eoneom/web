@@ -10,6 +10,10 @@ export const LayoutPage: React.FC<Props> = ({ details, children }) => {
     <section id="content" className={details ? 'details-enabled': ''}>
       {children}
     </section>
-    {details}
+    {
+      Boolean(details) && <section id="details">
+        {details}
+      </section>
+    }
   </>
 }

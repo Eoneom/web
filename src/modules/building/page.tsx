@@ -16,7 +16,7 @@ export const BuildingPage: React.FC = () => {
     return buildings.find(building => building.id === selectedBuildingId)
   }, [selectedBuildingId, buildings])
 
-  return <LayoutPage details={<BuildingDetails building={selectedBuilding}/>}>
+  return <LayoutPage details={selectedBuilding && <BuildingDetails building={selectedBuilding}/>}>
     <BuildingList onSelectBuilding={({id}) => setSelectedBuildingId(id)}/>
   </LayoutPage>
 }

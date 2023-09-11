@@ -2,28 +2,25 @@ import React from 'react'
 import { Technology } from '#types'
 import { TechnologyTranslations } from '#technology/translations'
 import { useTechnology } from '#technology/hook'
-import { LayoutDetails } from '#ui/layout/details'
 import { Button } from '#ui/button'
+import { Requirement } from '#requirement/index'
+import { LayoutDetailsContent } from '#ui/layout/details/content'
+import { Cost } from '#cost/index'
 
 interface Props {
-  technology?: Technology
+  technology: Technology
 }
 
 export const TechnologyDetails: React.FC<Props> = ({ technology }) => {
   const { research, inProgress } = useTechnology()
-  if (!technology) {
-    return null
-  }
-
   const { name } = TechnologyTranslations[technology.code]
-  const details = <>
-    <h2>{name}</h2>
-    {!inProgress && <Button onClick={() => research({ code: technology.code })}>Rechercher</Button>}
-  </>
 
-  return <LayoutDetails
-    itemDetails={details}
-    requirements={technology.requirement}
-    cost={technology.research_cost}
-  />
+  return <>
+    <LayoutDetailsContent>
+      <h2>{name}</h2>
+      {!inProgress && <Button onClick={() => research({ code: technology.code })}>Rechercher</Button>}
+    </LayoutDetailsContent>
+    <Requirement requirements={technology.requirement} />
+    <Cost {...technology.research_cost}/>
+  </>
 }
