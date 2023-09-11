@@ -1,9 +1,9 @@
 import { useCity } from '#city/hook'
 import React from 'react'
 
-export const PlaceNav: React.FC = () => {
+export const NavLocation: React.FC = () => {
   const { selectedCity } = useCity()
-  return <aside id="place-nav">
+  return <aside id="nav-location">
     { selectedCity && <ul>
       <li>{ selectedCity.name}</li>
     </ul>}

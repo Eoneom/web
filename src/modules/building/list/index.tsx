@@ -1,22 +1,22 @@
 import React, { useMemo } from 'react'
-import { BuildingContentItem } from '#building/content/item'
-import { Building } from '#shared/types'
+import { BuildingListItem } from '#building/list/item'
+import { Building } from '#types'
 import { useBuilding } from '#building/hook'
 import { BuildingTranslations } from '#building/translations'
 import { formatTime } from '#helpers/transform'
-import { Button } from '#shared/ui/button'
+import { Button } from '#ui/button'
 import { useCity } from '#city/hook'
 
 interface Props {
   onSelectBuilding: (building: Building) => void
 }
 
-export const BuildingContentList: React.FC<Props> = ({ onSelectBuilding }) => {
+export const BuildingList: React.FC<Props> = ({ onSelectBuilding }) => {
   const { buildings, inProgress, levelsTotal, cancel } = useBuilding()
   const { selectedCity } = useCity()
 
   const building_items = useMemo(() => {
-    return buildings.map(building => <BuildingContentItem
+    return buildings.map(building => <BuildingListItem
       onSelectBuilding={onSelectBuilding}
       key={building.id}
       building={building}/>)

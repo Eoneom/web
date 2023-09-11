@@ -1,8 +1,8 @@
 import { useContext, useEffect } from 'react'
-import { Report } from '#shared/types'
+import { Report } from '#types'
 import { useAuth } from '#auth/hook'
-import { listReports } from '../api/list'
-import { ReportContext } from './context'
+import { listReports } from '#communication/report/api/list'
+import { ReportContext } from '#communication/report/hook/context'
 
 interface HookUseReport {
   reports: Report[]

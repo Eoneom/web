@@ -1,14 +1,15 @@
-import { useContext, useEffect, useMemo } from 'react'
-import { Building } from '#shared/types'
+import { useContext, useMemo } from 'react'
+import { Building } from '#types'
 import { listBuildings } from '#building/api/list'
 import { BuildingContext } from '#building/hook/context'
 import { upgradeBuilding } from '#building/api/upgrade'
 import { useAuth } from '#auth/hook'
 import { cancelBuilding } from '#building/api/cancel'
 import { useCity } from '#city/hook'
-import { useTimer } from '#shared/hook/timer'
+import { useTimer } from '#hook/timer'
 import { BuildingCode } from '@kroust/swarm-client'
 import { buildingFinishUpgrade } from '#building/api/finish-upgrade'
+import { toast } from 'react-toastify'
 
 interface HookUseBuilding {
   buildings: Building[]
@@ -75,6 +76,7 @@ export const useBuilding = (): HookUseBuilding => {
 
   const list = async () => {
     if (!cityId) {
+      toast.error('cityId is undefined')
       return
     }
 
@@ -91,10 +93,6 @@ export const useBuilding = (): HookUseBuilding => {
     await list()
     reset()
   }
-
-  useEffect(() => {
-    list()
-  }, [cityId])
 
   const levelsTotal = useMemo(() => {
     return buildings.reduce((acc, {level}) => acc + level, 0)

@@ -55,19 +55,19 @@ ul {
 }
 
 #sidenav,
-#navbar,
-#place-nav,
+#nav-bar,
+#nav-location,
 #content,
 #details {
   box-sizing: border-box;
 }
 
-#place-nav {
+#nav-location {
   padding: 8px;
   border-left: var(--light-background-color) 4px solid;
 }
 
-#place-nav li {
+#nav-location li {
   background-color: var(--light-background-color);
   color: var(--light-primary-color);
   padding: 8px;
@@ -99,7 +99,7 @@ ul {
   width: 25%;
 }
 
-#navbar {
+#nav-bar {
   height: 7vh;
   display: flex;
   justify-content: center;
@@ -107,21 +107,21 @@ ul {
   color: var(--light-primary-color)
 }
 
-#navbar h1 {
+#nav-bar h1 {
   display: flex;
   width: 20%;
   justify-content: center;
   align-items: center;
 }
 
-#navbar h4 {
+#nav-bar h4 {
   width: 40%;
   display: flex;
   align-items: center;
   padding-left: 2%;
 }
 
-#navbar ul {
+#nav-bar ul {
   display: flex;
   justify-content: space-evenly;
   align-items: center;

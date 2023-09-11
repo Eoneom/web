@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-export const Sidenav: React.FC = () => {
+export const NavSide: React.FC = () => {
   return (
     <aside id="sidenav">
       <h2>Ville</h2>

@@ -1,7 +1,7 @@
 import { useAuth } from '#auth/hook'
 import { useCity } from '#city/hook'
-import { Sector } from '#shared/types'
-import { getSector } from '../api/sector'
+import { Sector } from '#types'
+import { getSector } from '#map/api/sector'
 import { useEffect, useState } from 'react'
 
 

@@ -1,4 +1,5 @@
-import { City } from '#shared/types'
+/* eslint-disable @typescript-eslint/no-empty-function */
+import { City } from '#types'
 import React, { createContext, useState } from 'react'
 
 interface CityContextState {
@@ -10,10 +11,8 @@ interface CityContextState {
 
 export const CityContext = createContext<CityContextState>({
   selectedCityId: '',
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   setSelectedCityId: () => {},
   cities: [],
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   setCities: () => {}
 })
 

@@ -1,9 +1,9 @@
 import React, { useMemo, useState } from 'react'
 import { MapCanvas } from '#map/canvas'
 import { useCity } from '#city/hook'
-import { PageLayout } from '#shared/layout/page'
+import { LayoutPage } from '#ui/layout/page'
 import { useWorld } from '#map/hook/world'
-import { Button } from '#shared/ui/button'
+import { Button } from '#ui/button'
 import { useTroup } from '#troup/hook'
 
 export const MapPage: React.FC = () => {
@@ -42,7 +42,7 @@ export const MapPage: React.FC = () => {
     }
   </article>
 
-  return <PageLayout
+  return <LayoutPage
     content={<MapCanvas onCellClicked={setSelectedCoordinates}/>}
     details={details}
     displayDetails={Boolean(selectedCoordinates)}

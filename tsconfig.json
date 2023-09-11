@@ -7,6 +7,12 @@
       "esnext"
     ],
     "paths": {
+      "#helpers/*": [
+        "./src/helpers/*"
+      ],
+      "#hook/*": [
+        "./src/hook/*"
+      ],
       "#auth/*": [
         "./src/modules/auth/*"
       ],
@@ -15,6 +21,15 @@
       ],
       "#city/*": [
         "./src/modules/city/*"
+      ],
+      "#communication/*": [
+        "./src/modules/communication/*"
+      ],
+      "#map/*": [
+        "./src/modules/map/*"
+      ],
+      "#movement/*": [
+        "./src/modules/movement/*"
       ],
       "#requirement/*": [
         "./src/modules/requirement/*"
@@ -25,15 +40,15 @@
       "#troup/*": [
         "./src/modules/troup/*"
       ],
-      "#map/*": [
-        "./src/modules/map/*"
+      "#types": [
+        "./src/types/index.ts"
       ],
-      "#helpers/*": [
-        "./src/helpers/*"
+      "#types/*": [
+        "./src/types/*"
       ],
-      "#shared/*": [
-        "./src/shared/*"
-      ]
+      "#ui/*": [
+        "./src/ui/*"
+      ],
     },
     "allowJs": false,
     "skipLibCheck": true,

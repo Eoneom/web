@@ -1,4 +1,4 @@
-import { City } from '#shared/types'
+import { City } from '#types'
 import { CellType } from '@kroust/swarm-client'
 
 export const getCellFillStyle = ({ type, city, x, y }: { type?: CellType, city: City, x: number, y: number }): string => {

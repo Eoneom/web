@@ -1,24 +1,20 @@
-import React, { useEffect, useMemo } from 'react'
-import { TechnologyContentItem } from '#technology/content/item'
+import React, { useMemo } from 'react'
+import { TechnologyListItem } from '#technology/list/item'
 import { useTechnology } from '#technology/hook'
-import { Technology } from '#shared/types'
+import { Technology } from '#types'
 import { TechnologyTranslations } from '#technology/translations'
 import { formatTime } from '#helpers/transform'
-import { Button } from '#shared/ui/button'
+import { Button } from '#ui/button'
 
 interface Props {
   onSelectTechnology: (technology: Technology) => void
 }
 
-export const TechnologyContentList: React.FC<Props> = ({ onSelectTechnology }) => {
-  const { technologies, cancel, list, inProgress } = useTechnology()
-
-  useEffect(() => {
-    list()
-  }, [])
+export const TechnologyList: React.FC<Props> = ({ onSelectTechnology }) => {
+  const { technologies, cancel, inProgress } = useTechnology()
 
   const technology_items = useMemo(() => {
-    return technologies.map(technology => <TechnologyContentItem
+    return technologies.map(technology => <TechnologyListItem
       onSelectTechnology={onSelectTechnology}
       key={technology.id}
       technology={technology}

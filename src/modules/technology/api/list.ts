@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify'
 import { TechnologyListDataResponse } from '@kroust/swarm-client'
 
-import { client } from '#shared/api'
+import { client } from '#helpers/api'
 import { isError } from '#helpers/assertion'
 
 export const listTechnologies = async ({ token, cityId }: { token: string, cityId: string }): Promise<TechnologyListDataResponse | null> => {

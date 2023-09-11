@@ -1,9 +1,9 @@
 import React from 'react'
-import { Technology } from '#shared/types'
+import { Technology } from '#types'
 import { TechnologyTranslations } from '#technology/translations'
 import { useTechnology } from '#technology/hook'
-import { Details } from '#shared/ui/details'
-import { Button } from '#shared/ui/button'
+import { Details } from '#ui/details'
+import { Button } from '#ui/button'
 
 interface Props {
   technology: Technology

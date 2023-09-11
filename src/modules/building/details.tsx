@@ -1,10 +1,10 @@
 import React from 'react'
 
-import { Building } from '#shared/types'
+import { Building } from '#types'
 import { BuildingTranslations } from '#building/translations'
 import { useBuilding } from '#building/hook'
-import { Details } from '#shared/ui/details'
-import { Button } from '#shared/ui/button'
+import { Details } from '#ui/details'
+import { Button } from '#ui/button'
 import { useCity } from '#city/hook'
 
 interface Props {

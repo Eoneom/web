@@ -1,4 +1,4 @@
-import { client } from '#shared/api'
+import { client } from '#helpers/api'
 import { isError } from '#helpers/assertion'
 
 export const login = async ({ playerName }: {  playerName: string}): Promise<string> => {

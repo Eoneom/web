@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { Troup } from '#shared/types'
-import { Details } from '#shared/ui/details'
+import { Troup } from '#types'
+import { Details } from '#ui/details'
 import { TroupTranslations } from '#troup/translations'
 import { useTroup } from '#troup/hook'
-import { Button } from '#shared/ui/button'
+import { Button } from '#ui/button'
 
 interface Props {
   troup: Troup

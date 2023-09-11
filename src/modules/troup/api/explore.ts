@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify'
-import { client } from '#shared/api'
+import { client } from '#helpers/api'
 import { isError } from '#helpers/assertion'
 
 export const troupExplore = async ({

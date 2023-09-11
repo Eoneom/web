@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React, { createContext, useState } from 'react'
-import { Movement } from '#shared/types'
+import { Movement } from '#types'
 
 interface MovementContextState {
   movements: Movement[]

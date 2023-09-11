@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import React, { createContext, useState } from 'react'
 
 interface AuthContextState {
@@ -7,7 +8,6 @@ interface AuthContextState {
 
 export const AuthContext = createContext<AuthContextState>({
   token: '',
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   setToken: () => {}
 })
 

@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify'
 
-import { client } from '#shared/api'
+import { client } from '#helpers/api'
 import { isError } from '#helpers/assertion'
 import { BuildingCode } from '@kroust/swarm-client'
 

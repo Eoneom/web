@@ -1,9 +1,9 @@
 import React from 'react'
-import { PageLayout } from '#shared/layout/page'
-import { MovementList } from '#troup/movement/list'
+import { LayoutPage } from '#ui/layout/page'
+import { MovementList } from '#movement/list'
 
 export const MovementPage: React.FC = () => {
-  return <PageLayout
+  return <LayoutPage
     content={<MovementList />}
     details={<></>}
     displayDetails={false}

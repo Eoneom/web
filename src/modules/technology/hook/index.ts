@@ -1,12 +1,12 @@
-import { useContext, useEffect, useMemo } from 'react'
-import { Technology } from '#shared/types'
+import { useContext, useMemo } from 'react'
+import { Technology } from '#types'
 import { TechnologyContext } from '#technology/hook/context'
 import { useAuth } from '#auth/hook'
 import { listTechnologies } from '#technology/api/list'
 import { researchTechnology } from '#technology/api/research'
 import { cancelTechnology } from '#technology/api/cancel'
 import { useCity } from '#city/hook'
-import { useTimer } from '#shared/hook/timer'
+import { useTimer } from '#hook/timer'
 import { TechnologyCode } from '@kroust/swarm-client'
 import { technologyFinishResearch } from '#technology/api/finish-research'
 
@@ -84,10 +84,6 @@ export const useTechnology = (): HookTechnology => {
     await cancelTechnology({ token })
     await list()
   }
-
-  useEffect(() => {
-    list()
-  }, [cityId])
 
   return {
     technologies,

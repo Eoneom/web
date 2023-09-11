@@ -1,5 +1,5 @@
 import { formatDate } from '#helpers/transform'
-import { Report } from '#shared/types'
+import { Report } from '#types'
 import React from 'react'
 
 interface Props {

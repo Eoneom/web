@@ -1,5 +1,5 @@
-import { Report } from '#shared/types'
-import { Details } from '#shared/ui/details'
+import { Report } from '#types'
+import { Details } from '#ui/details'
 import { TroupTranslations } from '#troup/translations'
 import React from 'react'
 

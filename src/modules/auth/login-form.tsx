@@ -7,7 +7,7 @@ export const AuthLoginForm: React.FC = () => {
   const [playerName, setPlayerName] = useState('')
   const { login, token } = useAuth()
 
-  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.stopPropagation()
     event.preventDefault()
 
@@ -16,7 +16,7 @@ export const AuthLoginForm: React.FC = () => {
       return
     }
 
-    await login({ playerName })
+    login({ playerName })
   }
 
   if (token) {

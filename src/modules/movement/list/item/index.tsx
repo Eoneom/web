@@ -1,14 +1,14 @@
 import React from 'react'
 import { formatTime } from '#helpers/transform'
-import { useTimer } from '#shared/hook/timer'
-import { Movement } from '#shared/types'
-import { useMovement } from '#troup/movement/hook'
+import { useTimer } from '#hook/timer'
+import { Movement } from '#types'
+import { useMovement } from '#movement/hook'
 
 interface Props {
   movement: Movement
 }
 
-export const MovementItem: React.FC<Props> = ({ movement }) => {
+export const MovementListItem: React.FC<Props> = ({ movement }) => {
   const { finish } = useMovement()
   const { remainingTime } = useTimer({ onDone: () => finish({ movementId: movement.id }), doneAt: movement.arrive_at })
   return <li>

@@ -6,7 +6,7 @@ interface Props {
   details: React.ReactNode
 }
 
-export const PageLayout: React.FC<Props> = ({ displayDetails, details, content }) => {
+export const LayoutPage: React.FC<Props> = ({ displayDetails, details, content }) => {
   return <>
     <section id="content" className={displayDetails ? 'details-enabled': ''}>
       {content}

@@ -2,7 +2,7 @@ import { toast } from 'react-toastify'
 
 import { TroupCode } from '@kroust/swarm-client'
 
-import { client } from '#shared/api'
+import { client } from '#helpers/api'
 import { isError } from '#helpers/assertion'
 
 export const recruitTroup = async ({

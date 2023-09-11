@@ -1,8 +1,8 @@
-import { useContext, useEffect, useMemo } from 'react'
-import {  Troup } from '#shared/types'
+import { useContext, useMemo } from 'react'
+import {  Troup } from '#types'
 import { useAuth } from '#auth/hook'
 import { useCity } from '#city/hook'
-import { useTimer } from '#shared/hook/timer'
+import { useTimer } from '#hook/timer'
 import { TroupCode } from '@kroust/swarm-client'
 import { TroupContext } from '#troup/hook/context'
 import { listTroups } from '#troup/api/list'
@@ -32,6 +32,7 @@ export const useTroup = (): HookTroup => {
   const { troups, setTroups } = useContext(TroupContext)
   const { token } = useAuth()
   const { selectedCityId: cityId } = useCity()
+
   const troupInProgress = useMemo(() => {
     return troups.find(troup => troup.ongoing_recruitment)
   }, [troups])
@@ -89,10 +90,6 @@ export const useTroup = (): HookTroup => {
 
     setTroups(data.troups)
   }
-
-  useEffect(() => {
-    list()
-  }, [cityId])
 
   return {
     troups,

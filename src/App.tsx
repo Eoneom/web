@@ -3,16 +3,21 @@ import { Outlet } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 
 import { AuthLoginForm } from '#auth/login-form'
-import { Navbar } from '#shared/ui/navbar'
-import { useCity } from '#city/hook'
-import { Sidenav } from '#shared/ui/sidenav'
-import { PlaceNav } from '#shared/ui/placenav'
 import { useAuth } from '#auth/hook'
-import { GameProvider } from '#shared/provider'
+import { NavBar } from '#ui/nav/bar'
+import { useCity } from '#city/hook'
+import { NavSide } from '#ui/nav/side'
+import { NavLocation } from '#ui/nav/location'
+import { GameProvider } from '#helpers/provider'
 
 const App: React.FC = () => {
-  const { list, selectedCity } = useCity()
-  const { token } = useAuth()
+  const { list, gather, selectedCity, selectedCityId } = useCity()
+  const { token, retrieveStoredToken } = useAuth()
+
+  useEffect(() => {
+    retrieveStoredToken()
+  }, [])
+
   useEffect(() => {
     if (!token) {
       return
@@ -21,17 +26,25 @@ const App: React.FC = () => {
     list()
   }, [token])
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      gather()
+    }, 10000)
+
+    return () => clearInterval(interval)
+  }, [selectedCityId])
+
   return (
     <main>
       <GameProvider>
         <AuthLoginForm />
         {
           selectedCity && <>
-            <Navbar />
+            <NavBar />
             <div id="main">
-              <Sidenav />
+              <NavSide />
               <Outlet />
-              <PlaceNav />
+              <NavLocation />
             </div>
           </>
         }

@@ -1,9 +1,9 @@
 import { useContext, useEffect } from 'react'
 import { useAuth } from '#auth/hook'
 import { useCity } from '#city/hook'
-import { MovementContext } from '#troup/movement/hook/context'
+import { MovementContext } from '#movement/hook/context'
 import { listMovements } from '#troup/api/list-movement'
-import { Movement } from '#shared/types'
+import { Movement } from '#types'
 import { finishMovement } from '#troup/api/finish-movement'
 
 interface HookMovement {

@@ -1,6 +1,6 @@
-import { useContext, useEffect, useMemo } from 'react'
+import { useContext, useMemo } from 'react'
 import { CityContext } from '#city/hook/context'
-import { City } from '#shared/types'
+import { City } from '#types'
 import { listCities } from '#city/api/list'
 import { useAuth } from '#auth/hook'
 import { cityGather } from '#city/api/gather'
@@ -9,6 +9,7 @@ interface HookCity {
   selectedCityId: string
   selectedCity: City | null
   list: () => Promise<void>
+  gather: () => Promise<void>
 }
 
 export const useCity = (): HookCity => {
@@ -34,9 +35,13 @@ export const useCity = (): HookCity => {
 
   const selectedCity = useMemo(() => {
     return cities.find(city => city.id === selectedCityId) ?? null
-  }, [ cities, selectedCityId])
+  }, [ cities, selectedCityId ])
 
   const gather = async () => {
+    if (!selectedCityId) {
+      return
+    }
+
     const res = await cityGather({ token, cityId: selectedCityId})
     if (!res) {
       return
@@ -57,21 +62,11 @@ export const useCity = (): HookCity => {
     setCities(new_cities)
   }
 
-  useEffect(() => {
-    if (!selectedCityId) {
-      return
-    }
-
-    const interval = setInterval(() => {
-      gather()
-    }, 10000)
-
-    return () => clearInterval(interval)
-  }, [selectedCityId])
 
   return {
     selectedCityId,
     selectedCity,
-    list
+    list,
+    gather
   }
 }

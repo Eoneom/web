@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import React, { createContext, useState } from 'react'
-import { Building } from '#shared/types'
+import { Building } from '#types'
 
 interface BuildingContextState {
   buildings: Building[]
@@ -8,7 +9,6 @@ interface BuildingContextState {
 
 export const BuildingContext = createContext<BuildingContextState>({
   buildings: [],
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   setBuildings: () => {}
 })
 

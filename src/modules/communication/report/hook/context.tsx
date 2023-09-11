@@ -1,5 +1,5 @@
 import React, { createContext, useState } from 'react'
-import { Report } from '#shared/types'
+import { Report } from '#types'
 
 interface ReportContextState {
   reports: Report[]

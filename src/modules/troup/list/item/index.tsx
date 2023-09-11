@@ -1,6 +1,6 @@
 import React from 'react'
-import {  Troup } from '#shared/types'
-import { UIItem } from '#shared/ui/item'
+import {  Troup } from '#types'
+import { Item } from '#ui/item'
 import { TroupTranslations } from '#troup/translations'
 
 interface Props {
@@ -8,8 +8,8 @@ interface Props {
   onSelectTroup: (troup: Troup) => void
 }
 
-export const TroupContentItem: React.FC<Props> = ({ troup, onSelectTroup }) => {
-  return <UIItem
+export const TroupListItem: React.FC<Props> = ({ troup, onSelectTroup }) => {
+  return <Item
     name={TroupTranslations[troup.code].name}
     count={troup.count}
     onSelect={() => onSelectTroup(troup)}

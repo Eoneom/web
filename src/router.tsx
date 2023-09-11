@@ -7,8 +7,8 @@ import { TechnologyPage } from '#technology/page'
 import { MapPage } from '#map/page'
 import { CityPage } from '#city/page'
 import { TroupPage } from '#troup/page'
-import { MovementPage } from '#troup/movement/page'
-import { ReportPage } from './modules/communication/page'
+import { MovementPage } from '#movement/page'
+import { ReportPage } from '#communication/page'
 
 export const router = createBrowserRouter([
   {

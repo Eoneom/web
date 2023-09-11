@@ -3,13 +3,13 @@ import { transformDecimals } from '#helpers/transform'
 import { useCity } from '#city/hook'
 import { Link } from 'react-router-dom'
 
-export const Navbar: React.FC = () => {
+export const NavBar: React.FC = () => {
   const { selectedCity } = useCity()
   if (!selectedCity) {
     return null
   }
 
-  return <nav id='navbar'>
+  return <nav id='nav-bar'>
     <h4>Swarm</h4>
     <h1><Link to={'/'}>{selectedCity.name}</Link></h1>
     <ul>

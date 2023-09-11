@@ -1,29 +1,24 @@
-import React, { useEffect, useMemo } from 'react'
-import { Troup } from '#shared/types'
+import React, { useMemo } from 'react'
+import { Troup } from '#types'
 import { formatTime } from '#helpers/transform'
 import { useTroup } from '#troup/hook'
-import { TroupContentItem } from '#troup/content/item'
+import { TroupListItem } from '#troup/list/item'
 import { TroupTranslations } from '#troup/translations'
-import { Button } from '#shared/ui/button'
+import { Button } from '#ui/button'
 
 interface Props {
   onSelectTroup: (troup: Troup) => void
 }
 
-export const TroupContentList: React.FC<Props> = ({ onSelectTroup }) => {
+export const TroupList: React.FC<Props> = ({ onSelectTroup }) => {
   const {
     troups,
-    list,
     inProgress,
     cancel
   } = useTroup()
 
-  useEffect(() => {
-    list()
-  }, [])
-
   const troup_items = useMemo(() => {
-    return troups.map(troup => <TroupContentItem
+    return troups.map(troup => <TroupListItem
       onSelectTroup={onSelectTroup}
       key={troup.id}
       troup={troup}

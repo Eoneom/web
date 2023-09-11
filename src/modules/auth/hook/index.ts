@@ -1,10 +1,11 @@
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 
 import { AuthContext } from '#auth/hook/context'
 import { login as doLogin } from '#auth/api/login'
 
 interface HookUseAuth {
   token: string
+  retrieveStoredToken: () => void
   login: (props: LoginProps) => Promise<void>
   logout: () => Promise<void>
 }
@@ -16,12 +17,12 @@ interface LoginProps {
 export const useAuth = (): HookUseAuth => {
   const { token, setToken } = useContext(AuthContext)
 
-  useEffect(() => {
+  const retrieveStoredToken = () => {
     const stored_token = window.localStorage.getItem('token')
     if (stored_token) {
       setToken(stored_token)
     }
-  }, [])
+  }
 
   const login = async ({ playerName }: LoginProps) => {
     const token = await doLogin({ playerName })
@@ -37,6 +38,7 @@ export const useAuth = (): HookUseAuth => {
   return {
     token,
     login,
-    logout
+    logout,
+    retrieveStoredToken
   }
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { Building } from '#shared/types'
-import { UIItem } from '#shared/ui/item'
+import { Building } from '#types'
+import { Item } from '#ui/item'
 import { BuildingTranslations } from '#building/translations'
 
 interface Props {
@@ -9,10 +9,10 @@ interface Props {
   onSelectBuilding: (building: Building) => void
 }
 
-export const BuildingContentItem: React.FC<Props> = ({ building, onSelectBuilding }) => {
+export const BuildingListItem: React.FC<Props> = ({ building, onSelectBuilding }) => {
   const { name } = BuildingTranslations[building.code]
 
-  return <UIItem
+  return <Item
     name={name}
     level={building.level}
     onSelect={() => onSelectBuilding(building)}

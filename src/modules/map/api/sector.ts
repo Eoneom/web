@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify'
 import { WorldGetSectorDataResponse } from '@kroust/swarm-client'
 
-import { client } from '#shared/api'
+import { client } from '#helpers/api'
 import { isError } from '#helpers/assertion'
 
 export const getSector = async ({ token, sector }: { token: string, sector: number }): Promise<WorldGetSectorDataResponse | null> => {

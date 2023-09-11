@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React, { createContext, useState } from 'react'
-import { Troup } from '#shared/types'
+import { Troup } from '#types'
 
 interface TroupContextState {
   troups: Troup[]
