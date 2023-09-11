@@ -12,9 +12,7 @@ export const ReportPage: React.FC = () => {
     return reports.find(report => report.id === selectedReportId)
   }, [reports, selectedReportId])
 
-  return <LayoutPage
-    content={<ReportList reports={reports} onSelectReport={({id}) => setSelectedReportId(id)}/>}
-    details={selectedReport && <ReportExploration report={selectedReport}/>}
-    displayDetails={Boolean(selectedReport)}
-  />
+  return <LayoutPage details={<ReportExploration report={selectedReport}/>}>
+    <ReportList reports={reports} onSelectReport={({id}) => setSelectedReportId(id)}/>
+  </LayoutPage>
 }

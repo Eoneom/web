@@ -2,16 +2,18 @@ import React from 'react'
 import {  Troup } from '#types'
 import { Item } from '#ui/item'
 import { TroupTranslations } from '#troup/translations'
+import { useTroup } from '#troup/hook'
 
 interface Props {
   troup: Troup
-  onSelectTroup: (troup: Troup) => void
 }
 
-export const TroupListItem: React.FC<Props> = ({ troup, onSelectTroup }) => {
+export const TroupListItem: React.FC<Props> = ({ troup }) => {
+  const { selectTroup } = useTroup()
+
   return <Item
     name={TroupTranslations[troup.code].name}
     count={troup.count}
-    onSelect={() => onSelectTroup(troup)}
+    onSelect={() => selectTroup(troup.id)}
   />
 }

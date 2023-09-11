@@ -6,7 +6,7 @@ interface Props {
 }
 
 export const Button: React.FC<Props> = ({ onClick, children }) => {
-  return <button onClick={() => onClick ? onClick() : null}>
+  return <button onClick={() => onClick && onClick()}>
     {children}
   </button>
 }

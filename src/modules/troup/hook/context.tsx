@@ -5,11 +5,15 @@ import { Troup } from '#types'
 interface TroupContextState {
   troups: Troup[]
   setTroups: (troups: Troup[]) => void
+  selectedTroupId: string
+  setSelectedTroupId: (troupId: string) => void
 }
 
 export const TroupContext = createContext<TroupContextState>({
   troups: [],
   setTroups: () => {},
+  selectedTroupId: '',
+  setSelectedTroupId: () => {}
 })
 
 interface ProviderProps {
@@ -18,10 +22,14 @@ interface ProviderProps {
 
 export const TroupContextProvider: React.FC<ProviderProps> = ({ children }) => {
   const [ troups, setTroups ] = useState<Troup[]>([])
+  const [selectedTroupId, setSelectedTroupId] = useState('')
+
   return (
     <TroupContext.Provider value={{
       troups,
       setTroups: (troups: Troup[]) => setTroups(troups),
+      selectedTroupId,
+      setSelectedTroupId
     }}>
       {children}
     </TroupContext.Provider>

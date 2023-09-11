@@ -3,20 +3,23 @@ import React from 'react'
 import { Building } from '#types'
 import { BuildingTranslations } from '#building/translations'
 import { useBuilding } from '#building/hook'
-import { Details } from '#ui/details'
+import { LayoutDetails } from '#ui/layout/details'
 import { Button } from '#ui/button'
 import { useCity } from '#city/hook'
 
 interface Props {
-  building: Building
+  building?: Building
 }
 
 export const BuildingDetails: React.FC<Props> = ({ building }) => {
-  const { name } = BuildingTranslations[building.code]
   const { upgrade, inProgress, levelsTotal } = useBuilding()
   const { selectedCity } = useCity()
-  const canBuild = !inProgress && levelsTotal < (selectedCity?.maximum_building_levels ?? 0)
+  if (!building) {
+    return null
+  }
 
+  const { name } = BuildingTranslations[building.code]
+  const canBuild = !inProgress && levelsTotal < (selectedCity?.maximum_building_levels ?? 0)
   const details = <>
     <h2>{name}</h2>
     {
@@ -26,7 +29,7 @@ export const BuildingDetails: React.FC<Props> = ({ building }) => {
     }
   </>
 
-  return <Details
+  return <LayoutDetails
     itemDetails={details}
     requirements={building.requirement}
     cost={building.upgrade_cost}

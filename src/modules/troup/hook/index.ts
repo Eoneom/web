@@ -17,6 +17,8 @@ interface HookTroup {
     code: TroupCode
     remainingTime: number
   }
+  selectedTroup: Troup | null
+  selectTroup: (id: string) => void
   list: () => Promise<void>
   recruit: (props: RecruitProps) => Promise<void>
   cancel: () => Promise<void>
@@ -29,7 +31,12 @@ interface RecruitProps {
 }
 
 export const useTroup = (): HookTroup => {
-  const { troups, setTroups } = useContext(TroupContext)
+  const {
+    troups,
+    setTroups,
+    selectedTroupId,
+    setSelectedTroupId
+  } = useContext(TroupContext)
   const { token } = useAuth()
   const { selectedCityId: cityId } = useCity()
 
@@ -48,6 +55,10 @@ export const useTroup = (): HookTroup => {
     },
     tickDuration: troupInProgress?.cost.duration
   })
+
+  const selectTroup = (id: string) => {
+    setSelectedTroupId(id)
+  }
 
   const recruit = async ({ code, count }: RecruitProps) => {
     const res = await recruitTroup({
@@ -91,17 +102,23 @@ export const useTroup = (): HookTroup => {
     setTroups(data.troups)
   }
 
+  const selectedTroup = useMemo(() => {
+    return troups.find(troup => troup.id === selectedTroupId) ?? null
+  }, [ troups, selectedTroupId])
+
   return {
     troups,
-    list,
-    recruit,
-    cancel,
-    explore,
+    selectedTroup,
     inProgress: troupInProgress
       ? {
         code: troupInProgress.code,
         remainingTime
       }
-      : undefined
+      : undefined,
+    list,
+    recruit,
+    cancel,
+    explore,
+    selectTroup,
   }
 }

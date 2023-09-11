@@ -13,9 +13,9 @@ interface Props {
   }
 }
 
-export const Details: React.FC<Props> = ({ itemDetails, requirements, cost }) => {
+export const LayoutDetails: React.FC<Props> = ({ itemDetails, requirements, cost }) => {
   return (
-    <>
+    <section id="details">
       <article id='details-content'>
         {itemDetails}
       </article>
@@ -30,6 +30,6 @@ export const Details: React.FC<Props> = ({ itemDetails, requirements, cost }) =>
           </ul>
         </aside>
       }
-    </>
+    </section>
   )
 }

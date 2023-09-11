@@ -1,16 +1,15 @@
 import React from 'react'
 
 interface Props {
-  displayDetails: boolean
-  content: React.ReactNode
-  details: React.ReactNode
+  children: React.ReactNode
+  details?: React.ReactNode
 }
 
-export const LayoutPage: React.FC<Props> = ({ displayDetails, details, content }) => {
+export const LayoutPage: React.FC<Props> = ({ details, children }) => {
   return <>
-    <section id="content" className={displayDetails ? 'details-enabled': ''}>
-      {content}
+    <section id="content" className={details ? 'details-enabled': ''}>
+      {children}
     </section>
-    {displayDetails && <section id="details">{details}</section>}
+    {details}
   </>
 }
