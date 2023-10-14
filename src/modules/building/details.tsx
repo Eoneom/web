@@ -15,20 +15,21 @@ interface Props {
 
 export const BuildingDetails: React.FC<Props> = ({ building }) => {
   const { upgrade, inProgress, levelsTotal } = useBuilding()
-  const { selectedCity } = useCity()
+  const { city } = useCity()
   const { name } = BuildingTranslations[building.code]
-  const canBuild = !inProgress && levelsTotal < (selectedCity?.maximum_building_levels ?? 0)
+
+  const canBuild = !inProgress &&
+    levelsTotal < (city?.maximum_building_levels ?? 0) &&
+    building.upgrade_cost.plastic < (city?.plastic ?? 0) &&
+    building.upgrade_cost.mushroom < (city?.mushroom ?? 0)
+
+  const upgradeButton = <Button disabled={!canBuild} onClick={() => upgrade({ code: building.code })}>Construire</Button>
 
   return <>
     <LayoutDetailsContent>
       <h2>{name}</h2>
-      {
-        canBuild ?
-          <Button onClick={() => upgrade({ code: building.code })}>Construire</Button> :
-          <>Un bâtiment est déjà en cours ou le maximum de niveau est atteint</>
-      }
     </LayoutDetailsContent>
     <Requirement requirements={building.requirement}/>
-    <Cost {...building.upgrade_cost} />
+    <Cost action={upgradeButton} {...building.upgrade_cost} />
   </>
 }

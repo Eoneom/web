@@ -2,16 +2,16 @@ import { useCity } from '#city/hook'
 import React from 'react'
 
 export const CityPage: React.FC = () => {
-  const { selectedCity } = useCity()
-  if (!selectedCity) {
+  const { city } = useCity()
+  if (!city) {
     return null
   }
 
   return <>
     <section id="content">
-      <h2>{selectedCity.name}</h2>
+      <h2>{city.name}</h2>
       <h3>
-        Coordonnées: {selectedCity.coordinates.sector};{selectedCity.coordinates.x};{selectedCity.coordinates.y}
+        Coordonnées: {city.coordinates.sector};{city.coordinates.x};{city.coordinates.y}
       </h3>
     </section>
   </>

@@ -14,11 +14,11 @@ const root = ReactDOM.createRoot(
 )
 
 root.render(
-  // <React.StrictMode>
-  <AuthContextProvider>
-    <CityContextProvider>
-      <RouterProvider router={router} />
-    </CityContextProvider>
-  </AuthContextProvider>
-  // </React.StrictMode>
+  <React.StrictMode>
+    <AuthContextProvider>
+      <CityContextProvider>
+        <RouterProvider router={router} />
+      </CityContextProvider>
+    </AuthContextProvider>
+  </React.StrictMode>
 )

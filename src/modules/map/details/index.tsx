@@ -14,7 +14,7 @@ interface Props {
 }
 
 export const MapDetails: React.FC<Props> = ({ coordinates }) => {
-  const { selectedCity } = useCity()
+  const { city } = useCity()
   const { sector } = useWorld()
   const { explore } = useTroup()
 
@@ -40,9 +40,9 @@ export const MapDetails: React.FC<Props> = ({ coordinates }) => {
   return <LayoutDetailsContent>
     <h2>Cellule sélectionnée: ({coordinates.x};{coordinates.y})</h2>
     {
-      selectedCity?.coordinates.x === coordinates.x &&
-      coordinates.y === selectedCity?.coordinates.y &&
-    <>{selectedCity.name}</>
+      city?.coordinates.x === coordinates.x &&
+      city?.coordinates.y === coordinates.y &&
+    <>{city.name}</>
     }
     {
       selectedCell && !selectedCell.characteristic && <Button onClick={handleExplore}>Explorer</Button>

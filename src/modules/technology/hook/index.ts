@@ -28,7 +28,7 @@ interface ResearchProps {
 export const useTechnology = (): HookTechnology => {
   const { technologies, setTechnologies } = useContext(TechnologyContext)
   const { token } = useAuth()
-  const { selectedCityId: cityId } = useCity()
+  const { city } = useCity()
   const technologyInProgress = useMemo(() => {
     return technologies.find(technology => technology.research_at)
   }, [technologies])
@@ -41,9 +41,13 @@ export const useTechnology = (): HookTechnology => {
   })
 
   const research = async ({ code }: ResearchProps) => {
+    if (!city) {
+      return
+    }
+
     const res = await researchTechnology({
       token,
-      cityId,
+      cityId: city.id,
       code
     })
     if (!res) {
@@ -72,7 +76,11 @@ export const useTechnology = (): HookTechnology => {
   }
 
   const list = async () => {
-    const data = await listTechnologies({ token, cityId })
+    if (!city) {
+      return
+    }
+
+    const data = await listTechnologies({ token, cityId: city.id })
     if (!data) {
       return
     }

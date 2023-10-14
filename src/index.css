@@ -165,16 +165,11 @@ ul {
 
 .item {
   margin-top: 5%;
-  width: 25%;
+  width: 20%;
   padding: 8px;
   background-color: var(--light-background-color);
   cursor: pointer;
   color: var(--light-primary-color);
-}
-
-.item footer {
-  display: flex;
-  justify-content: space-between;
 }
 
 button {
@@ -186,6 +181,11 @@ button {
   padding: 10px;
   border-radius: 15px;
   font-family: 'Montserrat';
+}
+
+button:disabled {
+  cursor: no-drop;
+  background-color: grey;
 }
 
 #map {

@@ -10,7 +10,7 @@ interface Props {
 export const MapCanvas: React.FC<Props> = ({ onCellClicked }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const { sector } = useWorld()
-  const { selectedCity } = useCity()
+  const { city } = useCity()
 
   const handleCanvasClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
     if (!canvasRef.current || !sector) {
@@ -32,7 +32,7 @@ export const MapCanvas: React.FC<Props> = ({ onCellClicked }) => {
   }
 
   useEffect(() => {
-    if (!canvasRef.current || !sector || !selectedCity) {
+    if (!canvasRef.current || !sector || !city) {
       return
     }
 
@@ -50,7 +50,7 @@ export const MapCanvas: React.FC<Props> = ({ onCellClicked }) => {
       ctx.fillStyle = getCellFillStyle({
         x: cell.coordinates.x,
         y: cell.coordinates.y,
-        city: selectedCity,
+        city,
         type: cell.characteristic?.type
       })
 
@@ -63,7 +63,7 @@ export const MapCanvas: React.FC<Props> = ({ onCellClicked }) => {
 
       ctx.strokeRect(square_x, square_y, WIDTH, HEIGHT)
     })
-  }, [sector, selectedCity?.coordinates])
+  }, [sector, city?.coordinates])
 
   return sector && <>
     <h2>

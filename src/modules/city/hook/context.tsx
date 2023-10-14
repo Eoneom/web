@@ -3,15 +3,20 @@ import { City } from '#types'
 import React, { createContext, useState } from 'react'
 
 interface CityContextState {
-  selectedCityId: string
-  setSelectedCityId: (cityId: string) => void
-  cities: City[]
-  setCities: (cities: City[]) => void
+  city: City | null
+  setCity: (city: City) => void
+
+  cities: {
+    id: string
+    name: string
+  }[]
+  setCities: (cities: { id: string, name: string }[]) => void
 }
 
 export const CityContext = createContext<CityContextState>({
-  selectedCityId: '',
-  setSelectedCityId: () => {},
+  city: null,
+  setCity: () => {},
+
   cities: [],
   setCities: () => {}
 })
@@ -21,12 +26,14 @@ interface ProviderProps {
 }
 
 export const CityContextProvider: React.FC<ProviderProps> = ({ children }) => {
-  const [ selectedCityId, setSelectedCityId ] = useState('')
-  const [ cities, setCities ] = useState<City[]>([])
+  const [ city, setCity ] = useState<City | null>(null)
+  const [ cities, setCities ] = useState<{ id: string, name: string }[]>([])
+
   return (
     <CityContext.Provider value={{
-      selectedCityId,
-      setSelectedCityId: (cityId: string) => setSelectedCityId(cityId),
+      city,
+      setCity: (city: City) => setCity(city),
+
       cities,
       setCities
     }}>

@@ -40,7 +40,7 @@ export const transformDecimals = (value?: number): string => {
   ]
 
   for(const step of steps) {
-    if (value > step.threshold) {
+    if (value >= step.threshold) {
       return `${floorValue(value / step.threshold)}${step.unit}`
     }
   }

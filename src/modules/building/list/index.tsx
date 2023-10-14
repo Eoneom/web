@@ -14,10 +14,10 @@ interface Props {
 }
 
 export const BuildingList: React.FC<Props> = ({ onSelectBuilding }) => {
-  const { selectedCity } = useCity()
+  const { city } = useCity()
   const { buildings, inProgress, levelsTotal, cancel } = useBuilding()
 
-  const title = `Constructions (${levelsTotal}/${selectedCity?.maximum_building_levels ?? 0})`
+  const title = `Constructions (${levelsTotal}/${city?.maximum_building_levels ?? 0})`
   const subtitle = inProgress && <>
     <p>En cours: {BuildingTranslations[inProgress.code].name} {formatTime(inProgress.remainingTime)}</p>
     <Button onClick={() => cancel()}>Annuler</Button>

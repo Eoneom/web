@@ -11,7 +11,7 @@ import { NavLocation } from '#ui/nav/location'
 import { GameProvider } from '#helpers/provider'
 
 const App: React.FC = () => {
-  const { list, gather, selectedCity, selectedCityId } = useCity()
+  const { list, gather, city } = useCity()
   const { token, retrieveStoredToken } = useAuth()
 
   useEffect(() => {
@@ -32,14 +32,14 @@ const App: React.FC = () => {
     }, 10000)
 
     return () => clearInterval(interval)
-  }, [selectedCityId])
+  }, [city?.id])
 
   return (
     <main>
       <GameProvider>
         <AuthLoginForm />
         {
-          selectedCity && <>
+          city && <>
             <NavBar />
             <div id="main">
               <NavSide />

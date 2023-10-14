@@ -4,12 +4,10 @@ import { Sector } from '#types'
 import { getSector } from '#map/api/sector'
 import { useEffect, useState } from 'react'
 
-
-
 export const useWorld = () => {
   const [sector, setSector] = useState<Sector | null>(null)
   const { token } = useAuth()
-  const { selectedCity } = useCity()
+  const { city } = useCity()
 
   const fetch = async ({ token, sector }: { token: string, sector: number }) => {
     const fetched_sector = await getSector({ token, sector })
@@ -25,12 +23,12 @@ export const useWorld = () => {
   }
 
   useEffect(() => {
-    if (!token || !selectedCity) {
+    if (!token || !city) {
       return
     }
 
-    fetch({ token, sector: selectedCity.coordinates.sector })
-  }, [token, selectedCity])
+    fetch({ token, sector: city.coordinates.sector })
+  }, [token, city])
 
   return {
     sector,

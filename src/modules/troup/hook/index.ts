@@ -38,7 +38,7 @@ export const useTroup = (): HookTroup => {
     setSelectedTroupId
   } = useContext(TroupContext)
   const { token } = useAuth()
-  const { selectedCityId: cityId } = useCity()
+  const { city } = useCity()
 
   const troupInProgress = useMemo(() => {
     return troups.find(troup => troup.ongoing_recruitment)
@@ -61,9 +61,12 @@ export const useTroup = (): HookTroup => {
   }
 
   const recruit = async ({ code, count }: RecruitProps) => {
+    if (!city) {
+      return
+    }
     const res = await recruitTroup({
       token,
-      cityId,
+      cityId: city.id,
       code,
       count
     })
@@ -75,7 +78,11 @@ export const useTroup = (): HookTroup => {
   }
 
   const progressRecruit = async () => {
-    const res = await progressRecruitTroup({ token, cityId })
+    if (!city) {
+      return
+    }
+
+    const res = await progressRecruitTroup({ token, cityId: city.id })
     if (!res) {
       return
     }
@@ -84,17 +91,29 @@ export const useTroup = (): HookTroup => {
   }
 
   const explore = async ({coordinates}: {coordinates: { x: number, y: number, sector: number}}) => {
-    await troupExplore({ token, cityId, coordinates })
+    if (!city) {
+      return
+    }
+
+    await troupExplore({ token, cityId: city.id, coordinates })
   }
 
   const cancel = async () => {
-    await cancelTroup({ token, cityId })
+    if (!city) {
+      return
+    }
+
+    await cancelTroup({ token, cityId: city.id })
     await list()
     reset()
   }
 
   const list = async () => {
-    const data = await listTroups({ token, cityId })
+    if (!city) {
+      return
+    }
+
+    const data = await listTroups({ token, cityId: city.id })
     if (!data) {
       return
     }

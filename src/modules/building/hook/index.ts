@@ -30,7 +30,7 @@ interface UpgradeProps {
 export const useBuilding = (): HookUseBuilding => {
   const { buildings, setBuildings } = useContext(BuildingContext)
   const { token } = useAuth()
-  const { selectedCityId: cityId, list: listCities } = useCity()
+  const { city, refresh } = useCity()
   const buildingInProgress = useMemo(() => {
     return buildings.find(building => building.upgrade_at)
   }, [buildings])
@@ -43,16 +43,24 @@ export const useBuilding = (): HookUseBuilding => {
   })
 
   const finishUpgrade = async () => {
-    await buildingFinishUpgrade({ token, cityId })
+    if (!city) {
+      return
+    }
+
+    await buildingFinishUpgrade({ token, cityId: city.id })
     await list()
-    await listCities()
+    await refresh()
     reset()
   }
 
   const upgrade = async ({ code }: UpgradeProps) => {
+    if (!city) {
+      return
+    }
+
     const res = await upgradeBuilding({
       token,
-      cityId,
+      cityId: city.id,
       code
     })
     if (!res) {
@@ -72,15 +80,16 @@ export const useBuilding = (): HookUseBuilding => {
     })
 
     setBuildings(new_buildings)
+    await refresh()
   }
 
   const list = async () => {
-    if (!cityId) {
+    if (!city?.id) {
       toast.error('cityId is undefined')
       return
     }
 
-    const data = await listBuildings({ token, cityId })
+    const data = await listBuildings({ token, cityId: city.id })
     if (!data) {
       return
     }
@@ -89,7 +98,11 @@ export const useBuilding = (): HookUseBuilding => {
   }
 
   const cancel = async () => {
-    await cancelBuilding({ token, cityId })
+    if (!city) {
+      return
+    }
+
+    await cancelBuilding({ token, cityId: city.id })
     await list()
     reset()
   }

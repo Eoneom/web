@@ -15,10 +15,14 @@ interface HookMovement {
 export const useMovement = (): HookMovement => {
   const { movements, setMovements } = useContext(MovementContext)
   const { token } = useAuth()
-  const { selectedCityId: cityId } = useCity()
+  const { city } = useCity()
 
   const list = async () => {
-    const data = await listMovements({ token, cityId })
+    if (!city) {
+      return
+    }
+
+    const data = await listMovements({ token, cityId: city.id })
     if (!data) {
       return
     }
@@ -33,7 +37,7 @@ export const useMovement = (): HookMovement => {
 
   useEffect(() => {
     list()
-  }, [cityId])
+  }, [city?.id])
 
   return {
     movements,
