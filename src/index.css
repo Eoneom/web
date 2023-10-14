@@ -7,6 +7,8 @@
   --light-primary-color: #EBB2FF;
   --secondary-color: #5878EB;
   --light-secondary-color: #6A8BFF;
+  --success-color: #00FF00;
+  --danger-color: #FF0000;
 }
 
 body {
@@ -45,6 +47,14 @@ h4 {
 
 ul {
   list-style-type: none;
+}
+
+.success {
+  color: var(--success-color);
+}
+
+.danger {
+  color: var(--danger-color);
 }
 
 #main {
@@ -148,12 +158,13 @@ ul {
 }
 
 .list {
-  margin-top: 5%;
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .item {
+  margin-top: 5%;
   width: 25%;
   padding: 8px;
   background-color: var(--light-background-color);
