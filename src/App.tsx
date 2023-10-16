@@ -31,6 +31,10 @@ const App: React.FC = () => {
       gather()
     }, 10000)
 
+    if (city?.id) {
+      gather()
+    }
+
     return () => clearInterval(interval)
   }, [city?.id])
 

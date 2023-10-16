@@ -17,7 +17,9 @@ export const BuildingList: React.FC<Props> = ({ onSelectBuilding }) => {
   const { city } = useCity()
   const { buildings, inProgress, levelsTotal, cancel } = useBuilding()
 
-  const title = `Constructions (${levelsTotal}/${city?.maximum_building_levels ?? 0})`
+  const levelsClassName = levelsTotal< (city?.maximum_building_levels??0) ? 'success': 'danger'
+  const levels = <span className={levelsClassName}>({levelsTotal}/{city?.maximum_building_levels ?? 0})</span>
+  const title = <>Constructions {levels}</>
   const subtitle = inProgress && <>
     <p>En cours: {BuildingTranslations[inProgress.code].name} {formatTime(inProgress.remainingTime)}</p>
     <Button onClick={() => cancel()}>Annuler</Button>

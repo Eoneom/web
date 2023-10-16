@@ -28,7 +28,7 @@ interface ResearchProps {
 export const useTechnology = (): HookTechnology => {
   const { technologies, setTechnologies } = useContext(TechnologyContext)
   const { token } = useAuth()
-  const { city } = useCity()
+  const { city, refresh } = useCity()
   const technologyInProgress = useMemo(() => {
     return technologies.find(technology => technology.research_at)
   }, [technologies])
@@ -67,6 +67,7 @@ export const useTechnology = (): HookTechnology => {
     })
 
     setTechnologies(new_technologies)
+    await refresh()
   }
 
   const finishResearch = async () => {
