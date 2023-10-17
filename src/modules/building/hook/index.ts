@@ -1,26 +1,31 @@
 import { useContext, useMemo } from 'react'
-import { Building } from '#types'
+import { Building, BuildingItem } from '#types'
 import { listBuildings } from '#building/api/list'
 import { BuildingContext } from '#building/hook/context'
 import { upgradeBuilding } from '#building/api/upgrade'
 import { useAuth } from '#auth/hook'
 import { cancelBuilding } from '#building/api/cancel'
 import { useCity } from '#city/hook'
-import { useTimer } from '#hook/timer'
 import { BuildingCode } from '@kroust/swarm-client'
 import { buildingFinishUpgrade } from '#building/api/finish-upgrade'
 import { toast } from 'react-toastify'
+import { getBuilding } from '#building/api/get'
 
 interface HookUseBuilding {
-  buildings: Building[]
-  inProgress?: {
-    code: BuildingCode
-    remainingTime: number
-  }
+  building: Building | null
+  buildings: BuildingItem[]
+  inProgress?: BuildingItem
   levelsTotal: number
+
+  cancel: () => Promise<void>
   list: () => Promise<void>
   upgrade: (props: UpgradeProps) => Promise<void>
-  cancel: () => Promise<void>
+  select: (props: SelectProps) => Promise<void>
+  finishUpgrade: () => Promise<void>
+}
+
+interface SelectProps {
+  code: BuildingCode
 }
 
 interface UpgradeProps {
@@ -28,19 +33,33 @@ interface UpgradeProps {
 }
 
 export const useBuilding = (): HookUseBuilding => {
-  const { buildings, setBuildings } = useContext(BuildingContext)
+  const {
+    building,
+    setBuilding,
+
+    buildings,
+    setBuildings
+  } = useContext(BuildingContext)
+
   const { token } = useAuth()
-  const { city, refresh } = useCity()
-  const buildingInProgress = useMemo(() => {
+  const { city, refresh: refreshCity } = useCity()
+
+  const inProgress = useMemo(() => {
     return buildings.find(building => building.upgrade_at)
   }, [buildings])
 
-  const { remainingTime, reset } = useTimer({
-    doneAt: buildingInProgress?.upgrade_at,
-    onDone: async () => {
-      await finishUpgrade()
+  const select = async ({ code }: SelectProps) => {
+    if (!city) {
+      return
     }
-  })
+
+    const fetchedBuilding = await getBuilding({ token, cityId: city.id, buildingCode: code })
+    if (!fetchedBuilding) {
+      return
+    }
+
+    setBuilding(fetchedBuilding)
+  }
 
   const finishUpgrade = async () => {
     if (!city) {
@@ -48,9 +67,11 @@ export const useBuilding = (): HookUseBuilding => {
     }
 
     await buildingFinishUpgrade({ token, cityId: city.id })
+    if (building) {
+      await select({ code: building.code })
+    }
     await list()
-    await refresh()
-    reset()
+    await refreshCity()
   }
 
   const upgrade = async ({ code }: UpgradeProps) => {
@@ -80,7 +101,7 @@ export const useBuilding = (): HookUseBuilding => {
     })
 
     setBuildings(new_buildings)
-    await refresh()
+    await refreshCity()
   }
 
   const list = async () => {
@@ -104,7 +125,7 @@ export const useBuilding = (): HookUseBuilding => {
 
     await cancelBuilding({ token, cityId: city.id })
     await list()
-    reset()
+    await refreshCity()
   }
 
   const levelsTotal = useMemo(() => {
@@ -112,16 +133,14 @@ export const useBuilding = (): HookUseBuilding => {
   }, [buildings])
 
   return {
+    building,
     buildings,
     levelsTotal,
+    inProgress,
     list,
     cancel,
     upgrade,
-    inProgress: buildingInProgress
-      ? {
-        code:buildingInProgress.code,
-        remainingTime
-      }
-      : undefined
+    select,
+    finishUpgrade
   }
 }

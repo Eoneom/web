@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getRemaingTime } from '#helpers/transform'
+import { getRemainingSeconds } from '#helpers/transform'
 
 interface HookTimerProps {
   doneAt?: number
@@ -14,8 +14,8 @@ interface HookTimer {
 }
 
 export const useTimer = ({ doneAt, onDone, onTick, tickDuration }: HookTimerProps): HookTimer => {
-  const [remainingTime, setRemainingTime] = useState(getRemaingTime(doneAt))
-  const [lastTick, setLastTick] = useState(getRemaingTime(doneAt))
+  const [remainingTime, setRemainingTime] = useState(0)
+  const [lastTick, setLastTick] = useState(0)
   const reset = () => {
     setRemainingTime(0)
     setLastTick(0)
@@ -26,26 +26,27 @@ export const useTimer = ({ doneAt, onDone, onTick, tickDuration }: HookTimerProp
       return
     }
 
-    setRemainingTime(getRemaingTime(doneAt))
-    setLastTick(getRemaingTime(doneAt))
+    const remainingSeconds = getRemainingSeconds(doneAt)
+
+    setRemainingTime(remainingSeconds)
+    setLastTick(remainingSeconds)
 
     const interval = setInterval(() => {
-      const time = getRemaingTime(doneAt)
-      if (time <= 0) {
-        setRemainingTime(0)
-        setLastTick(0)
+      const seconds = getRemainingSeconds(doneAt)
+      if (seconds <= 0) {
+        reset()
         clearInterval(interval)
         onDone()
         return
       }
 
-      const isTickElapsed = Math.abs(lastTick - time) > (tickDuration ?? 1)
+      const isTickElapsed = Math.abs(lastTick - seconds) > (tickDuration ?? 1)
       if (onTick && isTickElapsed) {
-        setLastTick(time)
+        setLastTick(seconds)
         onTick()
       }
 
-      setRemainingTime(time)
+      setRemainingTime(seconds)
     }, 1000)
 
     return () => clearInterval(interval)

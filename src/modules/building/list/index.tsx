@@ -1,36 +1,45 @@
 import React, { useMemo } from 'react'
 
 import { BuildingListItem } from '#building/list/item'
-import { Building } from '#types'
 import { useBuilding } from '#building/hook'
 import { BuildingTranslations } from '#building/translations'
 import { formatTime } from '#helpers/transform'
 import { Button } from '#ui/button'
 import { useCity } from '#city/hook'
 import { List } from '#ui/list'
+import { useTimer } from '#hook/timer'
 
-interface Props {
-  onSelectBuilding: (building: Building) => void
-}
-
-export const BuildingList: React.FC<Props> = ({ onSelectBuilding }) => {
+export const BuildingList: React.FC = () => {
   const { city } = useCity()
-  const { buildings, inProgress, levelsTotal, cancel } = useBuilding()
+  const { buildings, inProgress, levelsTotal, cancel, finishUpgrade } = useBuilding()
+  const { remainingTime, reset } = useTimer({
+    onDone: () => finishUpgrade(),
+    doneAt: inProgress?.upgrade_at
+  })
+
+  const handleCancel = () => {
+    cancel()
+    reset()
+  }
 
   const levelsClassName = levelsTotal< (city?.maximum_building_levels??0) ? 'success': 'danger'
   const levels = <span className={levelsClassName}>({levelsTotal}/{city?.maximum_building_levels ?? 0})</span>
   const title = <>Constructions {levels}</>
   const subtitle = inProgress && <>
-    <p>En cours: {BuildingTranslations[inProgress.code].name} {formatTime(inProgress.remainingTime)}</p>
-    <Button onClick={() => cancel()}>Annuler</Button>
+    <p>En cours: {BuildingTranslations[inProgress.code].name} {formatTime(remainingTime)}</p>
+    <Button onClick={handleCancel}>Annuler</Button>
   </>
-  const items = useMemo(() => buildings.map(building =>
+
+  const items = useMemo(() => buildings.map(buildingItem =>
     <BuildingListItem
-      onSelectBuilding={onSelectBuilding}
-      key={building.id}
-      building={building}
+      key={buildingItem.id}
+      buildingItem={buildingItem}
     />
   ), [buildings])
 
-  return <List title={title} subtitle={subtitle} items={items}/>
+  return <List
+    title={title}
+    subtitle={subtitle}
+    items={items}
+  />
 }

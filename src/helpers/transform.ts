@@ -19,7 +19,7 @@ export const formatDate = (seconds: number): string => {
   return new Date(seconds).toUTCString()
 }
 
-export const getRemaingTime = (date?: number): number => {
+export const getRemainingSeconds = (date?: number): number => {
   if (!date) {
     return 0
   }

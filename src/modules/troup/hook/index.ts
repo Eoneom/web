@@ -2,7 +2,6 @@ import { useContext, useMemo } from 'react'
 import {  Troup } from '#types'
 import { useAuth } from '#auth/hook'
 import { useCity } from '#city/hook'
-import { useTimer } from '#hook/timer'
 import { TroupCode } from '@kroust/swarm-client'
 import { TroupContext } from '#troup/hook/context'
 import { listTroups } from '#troup/api/list'
@@ -13,16 +12,14 @@ import { troupExplore } from '#troup/api/explore'
 
 interface HookTroup {
   troups: Troup[]
-  inProgress?: {
-    code: TroupCode
-    remainingTime: number
-  }
+  inProgress?: Troup
   selectedTroup: Troup | null
   selectTroup: (id: string) => void
   list: () => Promise<void>
   recruit: (props: RecruitProps) => Promise<void>
   cancel: () => Promise<void>
   explore: (params: { coordinates: { x: number, y: number, sector: number } }) => Promise<void>
+  progressRecruit: () => Promise<void>
 }
 
 interface RecruitProps {
@@ -40,21 +37,9 @@ export const useTroup = (): HookTroup => {
   const { token } = useAuth()
   const { city } = useCity()
 
-  const troupInProgress = useMemo(() => {
+  const inProgress = useMemo(() => {
     return troups.find(troup => troup.ongoing_recruitment)
   }, [troups])
-
-  const { remainingTime, reset } = useTimer({
-    doneAt: troupInProgress?.ongoing_recruitment?.finish_at,
-    onDone: async () => {
-      await progressRecruit()
-      reset()
-    },
-    onTick: async () => {
-      await progressRecruit()
-    },
-    tickDuration: troupInProgress?.cost.duration
-  })
 
   const selectTroup = (id: string) => {
     setSelectedTroupId(id)
@@ -105,7 +90,6 @@ export const useTroup = (): HookTroup => {
 
     await cancelTroup({ token, cityId: city.id })
     await list()
-    reset()
   }
 
   const list = async () => {
@@ -128,16 +112,12 @@ export const useTroup = (): HookTroup => {
   return {
     troups,
     selectedTroup,
-    inProgress: troupInProgress
-      ? {
-        code: troupInProgress.code,
-        remainingTime
-      }
-      : undefined,
+    inProgress,
     list,
     recruit,
     cancel,
     explore,
     selectTroup,
+    progressRecruit
   }
 }
