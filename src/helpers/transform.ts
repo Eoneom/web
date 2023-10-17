@@ -28,6 +28,10 @@ export const getRemainingSeconds = (date?: number): number => {
   return Math.ceil(remainingTime/1000)
 }
 
+export const transformEarnings = (value: number): string => {
+  return `~${transformDecimals(Math.round(value*3600))}/h`
+}
+
 export const transformDecimals = (value?: number): string => {
   if (!value) {
     return ''

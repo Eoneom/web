@@ -1,5 +1,5 @@
 import React from 'react'
-import { transformDecimals } from '#helpers/transform'
+import { transformDecimals, transformEarnings } from '#helpers/transform'
 import { useCity } from '#city/hook'
 import { Link } from 'react-router-dom'
 
@@ -16,8 +16,8 @@ export const NavBar: React.FC = () => {
     <h4>Swarm</h4>
     <h1><Link to={'/'}>{city.name}</Link></h1>
     <ul>
-      <li className={plasticClassName}>Plastique: {transformDecimals(city.plastic)} (~{transformDecimals(Math.round(city.earnings_per_second.plastic*3600))}/h)</li>
-      <li className={mushroomClassName}>Champignon: {transformDecimals(city.mushroom)} (~{transformDecimals(Math.round(city.earnings_per_second.mushroom*3600))}/h)</li>
+      <li className={plasticClassName}>Plastique: {transformDecimals(city.plastic)} ({transformEarnings(city.earnings_per_second.plastic)})</li>
+      <li className={mushroomClassName}>Champignon: {transformDecimals(city.mushroom)} ({transformEarnings(city.earnings_per_second.mushroom)})</li>
     </ul>
   </nav>
 }
