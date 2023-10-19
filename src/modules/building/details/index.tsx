@@ -13,13 +13,15 @@ interface Props {
 }
 
 export const BuildingDetails: React.FC<Props> = ({ building }) => {
-  const { name, description } = BuildingTranslations[building.code]
+  const { name, description, effect } = BuildingTranslations[building.code]
 
   return <>
     <LayoutDetailsContent>
       <h2>{name}</h2>
-      <BuildingDetailsMetadata building={building} />
+      <p><strong>{effect}</strong></p>
       <p>{description}</p>
+      <BuildingDetailsMetadata building={building} />
+
     </LayoutDetailsContent>
 
     <Requirement requirements={building.requirement}/>

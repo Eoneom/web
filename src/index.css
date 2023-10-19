@@ -84,7 +84,7 @@ ul {
 }
 
 .details-enabled {
-  height: 63vh;
+  height: 57vh;
 }
 
 #details {
@@ -92,7 +92,7 @@ ul {
   bottom: 0;
   margin-left: 14%;
   width: 71%;
-  height: 30vh;
+  height: 36vh;
   padding: 24px;
   display: flex;
   justify-content: space-between;
