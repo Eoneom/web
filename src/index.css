@@ -170,6 +170,9 @@ ul {
   background-color: var(--light-background-color);
   cursor: pointer;
   color: var(--light-primary-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 button {
