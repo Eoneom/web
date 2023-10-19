@@ -3,6 +3,7 @@ import { useBuilding } from '#building/hook'
 import { useCity } from '#city/hook'
 import { Building } from '#types'
 import { Button } from '#ui/button'
+import { hasEnoughResources } from '#helpers/validation'
 
 interface Props {
   building: Building
@@ -13,8 +14,7 @@ export const BuildingDetailsUpgrade: React.FC<Props> = ({ building }) => {
   const { city } = useCity()
   const canBuild = !inProgress &&
     levelsTotal < (city?.maximum_building_levels ?? 0) &&
-    building.upgrade_cost.plastic < (city?.plastic ?? 0) &&
-    building.upgrade_cost.mushroom < (city?.mushroom ?? 0)
+    hasEnoughResources({ city, cost: building.upgrade_cost })
 
   return <Button
     disabled={!canBuild}
