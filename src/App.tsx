@@ -27,13 +27,15 @@ const App: React.FC = () => {
   }, [token])
 
   useEffect(() => {
+    if (!city?.id) {
+      return
+    }
+
+    gather()
+
     const interval = setInterval(() => {
       gather()
     }, 10000)
-
-    if (city?.id) {
-      gather()
-    }
 
     return () => clearInterval(interval)
   }, [city?.id])

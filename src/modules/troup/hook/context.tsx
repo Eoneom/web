@@ -16,11 +16,11 @@ export const TroupContext = createContext<TroupContextState>({
   setSelectedTroupId: () => {}
 })
 
-interface ProviderProps {
+interface Props {
   children: React.ReactNode
 }
 
-export const TroupContextProvider: React.FC<ProviderProps> = ({ children }) => {
+export const TroupContextProvider: React.FC<Props> = ({ children }) => {
   const [ troups, setTroups ] = useState<Troup[]>([])
   const [selectedTroupId, setSelectedTroupId] = useState('')
 

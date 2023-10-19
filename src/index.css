@@ -64,7 +64,7 @@ ul {
   max-height: 93vh;
 }
 
-#side-nav,
+#nav-side,
 #nav-bar,
 #nav-location,
 #content,
@@ -142,18 +142,18 @@ ul {
   padding: 48px;
 }
 
-#side-nav {
+#nav-side {
   height: 93vh;
   max-width: 14vw;
   padding: 24px 12px;
   border-right: var(--light-background-color) 4px solid;
 }
 
-#side-nav ul {
+#nav-side ul {
   margin-bottom: 24px;
 }
 
-#side-nav li {
+#nav-side li {
   margin: 12px 0;
 }
 

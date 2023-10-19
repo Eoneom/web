@@ -15,6 +15,4 @@ export const cancelBuilding = async ({
     toast.error(res.error_code)
     return
   }
-
-  toast.success('Construction annulée')
 }

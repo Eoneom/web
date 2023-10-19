@@ -18,11 +18,11 @@ export const BuildingContext = createContext<BuildingContextState>({
   setBuildings: () => {}
 })
 
-interface ProviderProps {
+interface Props {
   children: React.ReactNode
 }
 
-export const BuildingContextProvider: React.FC<ProviderProps> = ({ children }) => {
+export const BuildingContextProvider: React.FC<Props> = ({ children }) => {
   const [ building, setBuilding ] = useState<Building |null>(null)
   const [ buildings, setBuildings ] = useState<BuildingItem[]>([])
 

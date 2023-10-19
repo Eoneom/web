@@ -7,12 +7,10 @@ export const technologyFinishResearch = async ({
   token,
 }: {
   token: string
-}): Promise<{ finished: boolean }> => {
+}): Promise<void> => {
   const res = await client.technology.finishResearch(token)
   if (isError(res)) {
     toast.error(res.error_code)
-    return { finished: false }
+    return
   }
-
-  return { finished: true }
 }

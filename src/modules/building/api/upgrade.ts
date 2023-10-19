@@ -12,23 +12,13 @@ export const upgradeBuilding = async ({
   token: string
   cityId: string
   code: BuildingCode
-}): Promise<{ upgrade_at: number } | null> => {
+}): Promise<void> => {
   const res = await client.building.upgrade(token, {
     city_id: cityId,
     building_code: code
   })
   if (isError(res)) {
     toast.error(res.error_code)
-    return null
-  }
-
-  if (!res.data) {
-    toast.error('Pas de data dans la réponse 🤷')
-    return null
-  }
-
-  toast.success('Construction lancée')
-  return {
-    upgrade_at: res.data.upgrade_at
+    return
   }
 }

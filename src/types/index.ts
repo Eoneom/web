@@ -1,13 +1,13 @@
 import {
+  BuildingGetDataResponse,
+  BuildingListDataResponse,
+  CityGetDataResponse,
+  CommunicationListReportDataResponse,
   TechnologyListDataResponse,
   TroupListDataResponse,
   TroupListMovementDataResponse,
   WorldGetSectorDataResponse,
-  CommunicationListReportDataResponse,
-  CityGetDataResponse,
-  BuildingListDataResponse
 } from '@kroust/swarm-client'
-import { BuildingGetDataResponse } from '@kroust/swarm-client/dist/client/src/endpoints/building/get'
 
 export type City = CityGetDataResponse
 export type Building = BuildingGetDataResponse

@@ -79,29 +79,17 @@ export const useBuilding = (): HookUseBuilding => {
       return
     }
 
-    const res = await upgradeBuilding({
+    await upgradeBuilding({
       token,
       cityId: city.id,
       code
     })
-    if (!res) {
-      return
-    }
-
-    const { upgrade_at } = res
-    const new_buildings = buildings.map((building) => {
-      if (building.code !== code) {
-        return building
-      }
-
-      return {
-        ...building,
-        upgrade_at
-      }
-    })
-
-    setBuildings(new_buildings)
+    await list()
     await refreshCity()
+
+    if (code === building?.code) {
+      await select({ code })
+    }
   }
 
   const list = async () => {

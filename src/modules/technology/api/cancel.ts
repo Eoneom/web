@@ -12,7 +12,4 @@ export const cancelTechnology = async ({
     toast.error(res.error_code)
     return
   }
-
-  toast.success('Recherche annulée')
-  return
 }

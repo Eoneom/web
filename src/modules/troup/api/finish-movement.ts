@@ -7,5 +7,6 @@ export const finishMovement = async ({ token, movementId }: { token: string, mov
   const res = await client.troup.finishMovement(token, { movement_id: movementId })
   if (isError(res)) {
     toast.error(res.error_code)
+    return
   }
 }

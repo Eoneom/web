@@ -8,16 +8,16 @@ interface Props {
 }
 
 export const Requirement: React.FC<Props> = ({ requirements }) => {
-  const requirement_elements = requirements ? [
-    ...requirements.buildings.map(requirement => <RequirementBuilding
+  const requirement_elements = [
+    ...(requirements?.buildings ?? []).map(requirement => <RequirementBuilding
       key={requirement.code}
       requirement={requirement}
     />),
-    ...requirements.technologies.map(requirement => <RequirementTechnology
+    ...(requirements?.technologies ?? []).map(requirement => <RequirementTechnology
       key={requirement.code}
       requirement={requirement}
     />)
-  ]: []
+  ]
 
   const requirement_display = requirement_elements.length ? <ul>
     {requirement_elements}

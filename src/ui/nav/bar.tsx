@@ -9,15 +9,19 @@ export const NavBar: React.FC = () => {
     return null
   }
 
-  const plasticClassName = city.plastic === city.warehouses_capacity.plastic ? 'danger' : 'success'
-  const mushroomClassName = city.mushroom === city.warehouses_capacity.mushroom ? 'danger' : 'success'
+  const plasticClassName = city.plastic >= city.warehouses_capacity.plastic ? 'danger' : 'success'
+  const mushroomClassName = city.mushroom >= city.warehouses_capacity.mushroom ? 'danger' : 'success'
 
   return <nav id='nav-bar'>
     <h4>Swarm</h4>
     <h1><Link to={'/'}>{city.name}</Link></h1>
     <ul>
-      <li className={plasticClassName}>Plastique: {transformDecimals(city.plastic)} ({transformEarnings(city.earnings_per_second.plastic)})</li>
-      <li className={mushroomClassName}>Champignon: {transformDecimals(city.mushroom)} ({transformEarnings(city.earnings_per_second.mushroom)})</li>
+      <li className={plasticClassName}>
+        Plastique: {transformDecimals(city.plastic)} ({transformEarnings(city.earnings_per_second.plastic)})
+      </li>
+      <li className={mushroomClassName}>
+        Champignon: {transformDecimals(city.mushroom)} ({transformEarnings(city.earnings_per_second.mushroom)})
+      </li>
     </ul>
   </nav>
 }

@@ -31,7 +31,6 @@ export const recruitTroup = async ({
     return null
   }
 
-  toast.success('Recrutement lancé')
   return {
     recruit_at: res.data.recruit_at
   }

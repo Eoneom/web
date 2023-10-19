@@ -9,9 +9,10 @@ interface Props {
 
 export const RequirementTechnology: React.FC<Props> = ({ requirement }) => {
   const { technologies } = useTechnology()
-  const required_technology = technologies.find(technology => technology.code === requirement.code)
-  const is_requirement_met = required_technology?.level ?? 0 >= requirement.level
-  return <li key={requirement.code}>
-    {TechnologyTranslations[requirement.code].name} {requirement.level} {is_requirement_met ? 'bien': 'pas bien'}
+  const requiredTechnologyLevel = technologies.find(technology => technology.code === requirement.code)?.level ?? 0
+  const isMetClassName = requiredTechnologyLevel >= requirement.level ? 'success' : 'danger'
+
+  return <li key={requirement.code} className={isMetClassName}>
+    {TechnologyTranslations[requirement.code].name} {requirement.level}
   </li>
 }

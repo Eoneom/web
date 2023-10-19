@@ -63,16 +63,8 @@ export const useCity = (): HookCity => {
       return
     }
 
-    const res = await cityGather({ token, cityId: city.id })
-    if (!res) {
-      return
-    }
-
-    setCity({
-      ...city,
-      plastic: res.plastic,
-      mushroom: res.mushroom
-    })
+    await cityGather({ token, cityId: city.id })
+    await refresh()
   }
 
   return {

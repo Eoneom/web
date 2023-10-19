@@ -12,11 +12,11 @@ export const MovementContext = createContext<MovementContextState>({
   setMovements: () => {},
 })
 
-interface ProviderProps {
+interface Props {
   children: React.ReactNode
 }
 
-export const MovementContextProvider: React.FC<ProviderProps> = ({ children }) => {
+export const MovementContextProvider: React.FC<Props> = ({ children }) => {
   const [ movements, setMovements ] = useState<Movement[]>([])
   return (
     <MovementContext.Provider value={{

@@ -45,28 +45,12 @@ export const useTechnology = (): HookTechnology => {
       return
     }
 
-    const res = await researchTechnology({
+    await researchTechnology({
       token,
       cityId: city.id,
       code
     })
-    if (!res) {
-      return
-    }
-
-    const { research_at } = res
-    const new_technologies = technologies.map(technology => {
-      if (technology.code !== code) {
-        return technology
-      }
-
-      return {
-        ...technology,
-        research_at
-      }
-    })
-
-    setTechnologies(new_technologies)
+    await list()
     await refresh()
   }
 

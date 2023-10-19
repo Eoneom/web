@@ -9,12 +9,10 @@ export const buildingFinishUpgrade = async ({
 }: {
   token: string
   cityId: string
-}): Promise<{ finished: boolean }> => {
+}): Promise<void> => {
   const res = await client.building.finishUpgrade(token, { city_id: cityId })
   if (isError(res)) {
     toast.error(res.error_code)
-    return { finished: false }
+    return
   }
-
-  return { finished: true }
 }

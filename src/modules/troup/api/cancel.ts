@@ -15,6 +15,4 @@ export const cancelTroup = async ({
     toast.error(res.error_code)
     return
   }
-
-  toast.success('Recrutement annulé')
 }

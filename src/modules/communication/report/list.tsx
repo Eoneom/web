@@ -10,7 +10,9 @@ interface Props {
 export const ReportList: React.FC<Props> = ({ reports, onSelectReport }) => {
   return <ul>
     {reports.map(report =>
-      <li onClick={() => onSelectReport(report)} key={report.id}>{report.type} {formatDate(report.recorded_at)}</li>
+      <li onClick={() => onSelectReport(report)} key={report.id}>
+        {report.type} {formatDate(report.recorded_at)}
+      </li>
     )}
   </ul>
 }

@@ -21,11 +21,11 @@ export const CityContext = createContext<CityContextState>({
   setCities: () => {}
 })
 
-interface ProviderProps {
+interface Props {
   children: React.ReactNode
 }
 
-export const CityContextProvider: React.FC<ProviderProps> = ({ children }) => {
+export const CityContextProvider: React.FC<Props> = ({ children }) => {
   const [ city, setCity ] = useState<City | null>(null)
   const [ cities, setCities ] = useState<{ id: string, name: string }[]>([])
 

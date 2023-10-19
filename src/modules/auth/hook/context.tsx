@@ -11,11 +11,11 @@ export const AuthContext = createContext<AuthContextState>({
   setToken: () => {}
 })
 
-interface ProviderProps {
+interface Props {
   children: React.ReactNode
 }
 
-export const AuthContextProvider: React.FC<ProviderProps> = ({ children }) => {
+export const AuthContextProvider: React.FC<Props> = ({ children }) => {
   const [ token, setToken ] = useState('')
   return (
     <AuthContext.Provider value={{

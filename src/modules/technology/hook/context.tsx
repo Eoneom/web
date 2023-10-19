@@ -12,11 +12,11 @@ export const TechnologyContext = createContext<TechnologyContextState>({
   setTechnologies: () => {}
 })
 
-interface ProviderProps {
+interface Props {
   children: React.ReactNode
 }
 
-export const TechnologyContextProvider: React.FC<ProviderProps> = ({ children }) => {
+export const TechnologyContextProvider: React.FC<Props> = ({ children }) => {
   const [ technologies, setTechnologies ] = useState<Technology[]>([])
   return (
     <TechnologyContext.Provider value={{

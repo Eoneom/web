@@ -12,11 +12,11 @@ export const ReportContext = createContext<ReportContextState>({
   setReports: () => {}
 })
 
-interface ProviderProps {
+interface Props {
   children: React.ReactNode
 }
 
-export const ReportContextProvider: React.FC<ProviderProps> = ({ children }) => {
+export const ReportContextProvider: React.FC<Props> = ({ children }) => {
   const [ reports, setReports ] = useState<Report[]>([])
   return (
     <ReportContext.Provider value={{

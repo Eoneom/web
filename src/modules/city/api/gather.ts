@@ -2,7 +2,6 @@ import { toast } from 'react-toastify'
 
 import { client } from '#helpers/api'
 import { isError } from '#helpers/assertion'
-import { CityGatherDataResponse } from '@kroust/swarm-client'
 
 export const cityGather = async ({
   token,
@@ -10,18 +9,10 @@ export const cityGather = async ({
 }: {
   token: string
   cityId: string
-}): Promise<CityGatherDataResponse | null> => {
+}): Promise<void> => {
   const res = await client.city.gather(token, { city_id: cityId })
   if (isError(res)) {
     toast.error(res.error_code)
-    return null
+    return
   }
-
-  if (!res.data) {
-    toast.warn('data not found')
-    return null
-  }
-
-  const { data } = res
-  return data ?? null
 }
