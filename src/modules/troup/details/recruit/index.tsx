@@ -5,9 +5,10 @@ import React from 'react'
 interface Props {
   count: number
   onChange: (count: number) => void
+  canRecruit: boolean
 }
 
-export const TroupDetailsRecruit: React.FC<Props> = ({ onChange, count }) => {
+export const TroupDetailsRecruit: React.FC<Props> = ({ onChange, count, canRecruit }) => {
   const { inProgress, recruit, selectedTroup } = useTroup()
   if (inProgress || !selectedTroup) {
     return null
@@ -27,7 +28,13 @@ export const TroupDetailsRecruit: React.FC<Props> = ({ onChange, count }) => {
         }}
         min={1}
       />
-      <Button onClick={() => recruit({ code: selectedTroup.code, count })}>Recruter</Button>
+
+      <Button
+        disabled={!canRecruit}
+        onClick={() => recruit({ code: selectedTroup.code, count })}
+      >
+          Recruter
+      </Button>
     </>
   )
 }
