@@ -1,15 +1,21 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
+
 import { TroupTranslations } from '#troup/translations'
 import { useTroup } from '#troup/hook'
 import { TroupDetailsRecruit } from '#troup/details/recruit'
 import { Requirement } from '#requirement/index'
 import { LayoutDetailsContent } from '#ui/layout/details/content'
 import { Cost } from '#cost/index'
-import { hasEnoughResources } from '#helpers/validation'
+import { hasEnoughResources } from '#city/helper'
 import { useCity } from '#city/hook'
+import { useBuilding } from '#building/hook'
+import { useTechnology } from '#technology/hook'
+import { areRequirementsMet } from '#requirement/helper'
 
 export const TroupDetails: React.FC = () => {
   const { selectedTroup, inProgress } = useTroup()
+  const { buildings } = useBuilding()
+  const { technologies } = useTechnology()
   const { city } = useCity()
   const [count, setCount] = useState(1)
 
@@ -22,13 +28,23 @@ export const TroupDetails: React.FC = () => {
   const plasticCost = numberCount*selectedTroup.cost.plastic
   const mushroomCost = numberCount*selectedTroup.cost.mushroom
 
-  const canRecruit = !inProgress && hasEnoughResources({
-    city,
-    cost: {
-      plastic: plasticCost,
-      mushroom: mushroomCost
-    }
-  })
+  const requirementsMet = useMemo(() => {
+    return areRequirementsMet({
+      requirement: selectedTroup.requirement,
+      buildings,
+      technologies
+    })
+  }, [selectedTroup.requirement, buildings, technologies])
+
+  const canRecruit = !inProgress &&
+    hasEnoughResources({
+      city,
+      cost: {
+        plastic: plasticCost,
+        mushroom: mushroomCost
+      }
+    }) &&
+    requirementsMet
 
   return <>
     <LayoutDetailsContent>
