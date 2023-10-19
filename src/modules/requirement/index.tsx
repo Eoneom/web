@@ -19,9 +19,9 @@ export const Requirement: React.FC<Props> = ({ requirements }) => {
     />)
   ]
 
-  const requirement_display = requirement_elements.length ? <ul>
-    {requirement_elements}
-  </ul> : 'Aucun'
+  const requirement_display = requirement_elements.length ?
+    <ul>{requirement_elements}</ul> :
+    <span className='success'>Aucun</span>
 
   return (
     <aside id='requirement'>

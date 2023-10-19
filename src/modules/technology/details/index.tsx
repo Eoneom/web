@@ -11,11 +11,13 @@ interface Props {
 }
 
 export const TechnologyDetails: React.FC<Props> = ({ technology }) => {
-  const { name } = TechnologyTranslations[technology.code]
+  const { name, description, effect } = TechnologyTranslations[technology.code]
 
   return <>
     <LayoutDetailsContent>
       <h2>{name}</h2>
+      <p><strong>{effect}</strong></p>
+      <p>{description}</p>
     </LayoutDetailsContent>
     <Requirement requirements={technology.requirement} />
     <Cost

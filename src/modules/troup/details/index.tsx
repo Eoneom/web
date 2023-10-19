@@ -23,7 +23,7 @@ export const TroupDetails: React.FC = () => {
     return null
   }
 
-  const { name } = TroupTranslations[selectedTroup.code]
+  const { name, description, effect } = TroupTranslations[selectedTroup.code]
   const numberCount = Number.isNaN(count) ? 1 : count
   const plasticCost = numberCount*selectedTroup.cost.plastic
   const mushroomCost = numberCount*selectedTroup.cost.mushroom
@@ -49,6 +49,8 @@ export const TroupDetails: React.FC = () => {
   return <>
     <LayoutDetailsContent>
       <h2>{name}</h2>
+      <p><strong>{effect}</strong></p>
+      <p>{description}</p>
     </LayoutDetailsContent>
     <Requirement requirements={selectedTroup.requirement} />
     <Cost

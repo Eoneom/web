@@ -140,6 +140,7 @@ ul {
 
 #content {
   padding: 48px;
+  overflow: scroll;
 }
 
 #nav-side {
