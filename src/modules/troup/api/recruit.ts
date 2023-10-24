@@ -25,13 +25,4 @@ export const recruitTroup = async ({
     toast.error(res.error_code)
     return
   }
-
-  if (!res.data) {
-    toast.error('Pas de data dans la réponse 🤷')
-    return null
-  }
-
-  return {
-    recruit_at: res.data.recruit_at
-  }
 }

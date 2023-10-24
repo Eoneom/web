@@ -49,16 +49,12 @@ export const useTroup = (): HookTroup => {
     if (!city) {
       return
     }
-    const res = await recruitTroup({
+    await recruitTroup({
       token,
       cityId: city.id,
       code,
       count
     })
-    if (!res) {
-      return
-    }
-
     await list()
   }
 
