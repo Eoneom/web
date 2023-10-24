@@ -3,6 +3,7 @@ import React from 'react'
 import { ListItem } from '#ui/list/item'
 
 interface Props {
+  active: boolean
   name: string
   count: number
   onSelect: () => void

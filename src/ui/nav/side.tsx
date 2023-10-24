@@ -1,27 +1,28 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 export const NavSide: React.FC = () => {
+  const getClassName = ({ isActive }: { isActive: boolean }) => isActive ? 'active' : ''
   return (
     <aside id="nav-side">
       <h2>Ville</h2>
       <ul>
-        <li><Link to={'building'}>Construction</Link></li>
-        <li><Link to={'technology'}>Recherche</Link></li>
-        <li><Link to={'troup'}>Recrutement</Link></li>
+        <li><NavLink className={getClassName} to={'building'}>Construction</NavLink></li>
+        <li><NavLink className={getClassName} to={'technology'}>Recherche</NavLink></li>
+        <li><NavLink className={getClassName} to={'troup'}>Recrutement</NavLink></li>
       </ul>
 
       <h2>Monde</h2>
       <ul>
-        <li><Link to={'map'}>Carte</Link></li>
-        <li><Link to={'movement'}>Déplacement</Link></li>
+        <li><NavLink className={getClassName} to={'map'}>Carte</NavLink></li>
+        <li><NavLink className={getClassName} to={'movement'}>Déplacement</NavLink></li>
         <li>Alliance</li>
         <li>Empire</li>
       </ul>
 
-      <h2>Transmissions</h2>
+      <h2>Messages</h2>
       <ul>
-        <li><Link to={'report'}>Rapport</Link></li>
+        <li><NavLink className={getClassName} to={'report'}>Rapport</NavLink></li>
         <li>Messagerie</li>
       </ul>
 

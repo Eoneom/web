@@ -1,46 +1,82 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@font-face {
+  font-family: 'Munson';
+  font-style: normal;
+  font-weight: normal;
+  src: url('./font/munson/munson_roman.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Munson';
+  font-style: normal;
+  font-weight: bold;
+  src: url('./font/munson/munson_bold.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Munson';
+  font-style: italic;
+  font-weight: normal;
+  src: url('./font/munson/munson_italic.otf') format('opentype');
+}
 
 :root {
-  --background-color: #120317;
-  --light-background-color: #23052E;
-  --primary-color: #BA6BD6;
-  --light-primary-color: #EBB2FF;
-  --secondary-color: #5878EB;
-  --light-secondary-color: #6A8BFF;
-  --success-color: #00FF00;
-  --danger-color: #FF0000;
+  --dark-primary: #1C1917;
+  --primary: #C46427;
+  --light-primary: #FCF9F8;
+  --light-primary-2: #F8E8DD;
+  --light-primary-3: #EEC4AA;
+  --success-color: #01550A;
+  --danger-color: #A60101;
 }
 
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+
+  background-color: var(--light-primary);
+
+  font-family: 'Munson', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 16px;
+  font-weight: normal;
+}
 
-  background-color: var(--background-color);
-  color: var(--primary-color);
+a {
+  color: var(--dark-primary);
 }
 
 main {
   max-height: 100vh;
 }
 
+#main {
+  display: grid;
+  grid-template-columns: 15% 70% 15%;
+  gap: 0;
+  max-height: 93vh;
+}
+
 h1 {
-  font-size: 32px;
+  font-size: 2em;
 }
 
 h2 {
-  font-size: 24px;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+h3 {
+  font-size: 1em;
+  font-weight: bold;
 }
 
 ul,
 h1,
 h2,
-h3,
-h4 {
+h3 {
   margin: 0;
   padding: 0;
 }
@@ -57,11 +93,9 @@ ul {
   color: var(--danger-color);
 }
 
-#main {
-  display: grid;
-  grid-template-columns: 15% 70% 15%;
-  gap: 0;
-  max-height: 93vh;
+.description {
+  font-style: italic;
+  line-height: 1.5em;
 }
 
 #nav-side,
@@ -73,18 +107,28 @@ ul {
 }
 
 #nav-location {
-  padding: 8px;
-  border-left: var(--light-background-color) 4px solid;
+  padding: 0.5em;
+
+  border-left: var(--light-primary-2) 1px solid;
 }
 
 #nav-location li {
-  background-color: var(--light-background-color);
-  color: var(--light-primary-color);
-  padding: 8px;
+  padding: 0.5em;
+
+  background-color: var(--light-primary-2);
+  color: var(--dark-primary);
+
+  text-align: center;
+  font-weight: bold;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 25%);
+}
+
+#nav-location li.active {
+  background-color: var(--light-primary-3);
 }
 
 .details-enabled {
-  height: 57vh;
+  height: 53vh;
 }
 
 #details {
@@ -92,62 +136,96 @@ ul {
   bottom: 0;
   margin-left: 14%;
   width: 71%;
-  height: 36vh;
-  padding: 24px;
+  height: 40vh;
   display: flex;
   justify-content: space-between;
-  background-color: var(--light-background-color);
-  color: var(--light-primary-color)
+  background-color: var(--light-primary-2);
+  color: var(--dark-primary);
+  overflow: scroll;
 }
 
 #details-content {
-  width: 50%;
+  width: 75%;
+  padding: 16px;
 }
 
-#requirement,
-#cost {
-  width: 25%;
+#requirement {
+  width: 20%;
+  background-color: var(--light-primary-3);
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+#requirement div,
+#requirement h3 {
+  margin-bottom: 0.5em;
+  line-height: 1.5em;
 }
 
 #nav-bar {
   height: 7vh;
   display: flex;
-  justify-content: center;
-  background-color: var(--light-background-color);
-  color: var(--light-primary-color)
+  justify-content: space-evenly;
+  color: var(--dark-primary)
+}
+
+#nav-bar a {
+  text-decoration: none;
 }
 
 #nav-bar h1 {
   display: flex;
-  width: 20%;
+  margin: 0 2%;
   justify-content: center;
   align-items: center;
+  background-color: var(--light-primary);
 }
 
-#nav-bar h4 {
-  width: 40%;
+#nav-bar h3 {
+  width: 100%;
   display: flex;
   align-items: center;
   padding-left: 2%;
+  border-radius: 0 0 10em 0;
+  background-color: var(--light-primary-2);
 }
 
 #nav-bar ul {
   display: flex;
   justify-content: space-evenly;
+  width: 100%;
+  border-radius: 0 0 0 10em;
+  background-color: var(--light-primary-2);
+}
+
+#nav-bar li {
+  font-weight: bold;
+}
+
+#nav-bar svg,
+#requirement svg {
+  width: 1em;
+  height: 1em;
+}
+
+.resource-item {
+  display: flex;
   align-items: center;
-  width: 40%;
+  gap: 0.25em;
 }
 
 #content {
-  padding: 48px;
+  padding: 1em;
   overflow: scroll;
 }
 
 #nav-side {
   height: 93vh;
   max-width: 14vw;
-  padding: 24px 12px;
-  border-right: var(--light-background-color) 4px solid;
+  padding: 1.5em 1em;
+  border-right: var(--light-primary-2) 1px solid;
 }
 
 #nav-side ul {
@@ -155,7 +233,7 @@ ul {
 }
 
 #nav-side li {
-  margin: 12px 0;
+  margin: 0.75em 0;
 }
 
 .list {
@@ -165,22 +243,41 @@ ul {
 }
 
 .item {
-  margin-top: 5%;
   width: 20%;
-  padding: 8px;
-  background-color: var(--light-background-color);
-  cursor: pointer;
-  color: var(--light-primary-color);
+  margin-top: 1.5em;
+  padding: 0.5em;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  background-color: var(--light-primary-2);
+  cursor: pointer;
+  color: var(--dark-primary);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 25%);
+}
+
+.item p {
+  margin: 0;
+  margin-top: 0.5em;
+}
+
+.item.active {
+  background-color: var(--light-primary-3);
+}
+
+a.active {
+  color: var(--primary);
+  font-weight: bold;
+}
+
+#nav-side a:hover {
+  color: var(--primary);
 }
 
 button {
   border: none;
   cursor: pointer;
   outline: none;
-  background-color: var(--primary-color);
+  background-color: var(--primary);
   color: white;
   padding: 10px;
   border-radius: 15px;

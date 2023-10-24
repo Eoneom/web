@@ -8,8 +8,9 @@ interface Props {
 
 export const BuildingDetailsMetadataWarehouse: React.FC<Props> = ({ currentCapacity, nextCapacity }) => {
   return <>
-    <h3>Capacité</h3>
-    <p>Actuelle: <strong>{transformDecimals(currentCapacity)}</strong></p>
-    <p>Suivante: <strong>{transformDecimals(nextCapacity)}</strong></p>
+    <p>
+      Capacité actuelle: <strong>{transformDecimals(currentCapacity)}</strong><br />
+      Capacité suivante : <strong>{transformDecimals(nextCapacity)}</strong>
+    </p>
   </>
 }

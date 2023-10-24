@@ -5,11 +5,11 @@ export const formatTime = (seconds: number): string => {
   const remainingSeconds = secondsWithoutHours % 60
 
   if (hours) {
-    return `${hours}h ${minutes}m ${remainingSeconds}s`
+    return `${hours}h ${minutes}min ${remainingSeconds}s`
   }
 
   if (minutes) {
-    return `${minutes}m ${remainingSeconds}s`
+    return `${minutes}min ${remainingSeconds}s`
   }
 
   return `${remainingSeconds}s`

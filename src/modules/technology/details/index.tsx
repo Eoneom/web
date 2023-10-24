@@ -16,13 +16,14 @@ export const TechnologyDetails: React.FC<Props> = ({ technology }) => {
   return <>
     <LayoutDetailsContent>
       <h2>{name}</h2>
-      <p><strong>{effect}</strong></p>
-      <p>{description}</p>
+      <p>{effect}</p>
+      <TechnologyDetailsResearch technology={technology}/>
+      <p className='description'>{description}</p>
     </LayoutDetailsContent>
-    <Requirement requirements={technology.requirement} />
-    <Cost
-      action={<TechnologyDetailsResearch technology={technology}/>}
-      {...technology.research_cost}
-    />
+
+    <article id="requirement">
+      <Requirement requirements={technology.requirement} />
+      <Cost {...technology.research_cost}/>
+    </article>
   </>
 }

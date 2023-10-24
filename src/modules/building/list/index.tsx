@@ -11,7 +11,7 @@ import { useTimer } from '#hook/timer'
 
 export const BuildingList: React.FC = () => {
   const { city } = useCity()
-  const { buildings, inProgress, levelsTotal, cancel, finishUpgrade } = useBuilding()
+  const { building, buildings, inProgress, levelsTotal, cancel, finishUpgrade } = useBuilding()
   const { remainingTime, reset } = useTimer({
     onDone: () => finishUpgrade(),
     doneAt: inProgress?.upgrade_at
@@ -26,16 +26,17 @@ export const BuildingList: React.FC = () => {
   const levels = <span className={levelsClassName}>({levelsTotal}/{city?.maximum_building_levels ?? 0})</span>
   const title = <>Constructions {levels}</>
   const subtitle = inProgress && <>
-    <p>En cours: {BuildingTranslations[inProgress.code].name} {formatTime(remainingTime)}</p>
+    <p>En cours: {BuildingTranslations[inProgress.code].name} <strong>{formatTime(remainingTime)}</strong></p>
     <Button onClick={handleCancel}>Annuler</Button>
   </>
 
   const items = useMemo(() => buildings.map(buildingItem =>
     <BuildingListItem
+      active={building?.code === buildingItem.code}
       key={buildingItem.id}
       buildingItem={buildingItem}
     />
-  ), [buildings])
+  ), [building?.code, buildings])
 
   return <List
     title={title}

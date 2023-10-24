@@ -1,7 +1,10 @@
 import React from 'react'
-import { transformDecimals, transformEarnings } from '#helpers/transform'
+import { transformDecimals } from '#helpers/transform'
 import { useCity } from '#city/hook'
 import { Link } from 'react-router-dom'
+import { IconPlastic } from '#ui/icon/plastic'
+import { IconMushroom } from '#ui/icon/mushroom'
+import { ResourceItem } from '#ui/resource-item'
 
 export const NavBar: React.FC = () => {
   const { city } = useCity()
@@ -9,19 +12,24 @@ export const NavBar: React.FC = () => {
     return null
   }
 
-  const plasticClassName = city.plastic >= city.warehouses_capacity.plastic ? 'danger' : 'success'
-  const mushroomClassName = city.mushroom >= city.warehouses_capacity.mushroom ? 'danger' : 'success'
+  const plasticClassName = city.plastic >= city.warehouses_capacity.plastic ? 'danger' : ''
+  const mushroomClassName = city.mushroom >= city.warehouses_capacity.mushroom ? 'danger' : ''
 
   return <nav id='nav-bar'>
-    <h4>Swarm</h4>
+    <h3>Swarm</h3>
     <h1><Link to={'/'}>{city.name}</Link></h1>
     <ul>
-      <li className={plasticClassName}>
-        Plastique: {transformDecimals(city.plastic)} ({transformEarnings(city.earnings_per_second.plastic)})
-      </li>
-      <li className={mushroomClassName}>
-        Champignon: {transformDecimals(city.mushroom)} ({transformEarnings(city.earnings_per_second.mushroom)})
-      </li>
+      <ResourceItem
+        className={plasticClassName}
+        icon={<IconPlastic />}
+        value={transformDecimals(city.plastic)}
+      />
+
+      <ResourceItem
+        className={mushroomClassName}
+        icon={<IconMushroom />}
+        value={transformDecimals(city.mushroom)}
+      />
     </ul>
   </nav>
 }

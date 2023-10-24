@@ -7,14 +7,16 @@ import { useBuilding } from '#building/hook'
 
 interface Props {
   buildingItem: BuildingItem
+  active: boolean
 }
 
-export const BuildingListItem: React.FC<Props> = ({ buildingItem }) => {
+export const BuildingListItem: React.FC<Props> = ({ buildingItem, active }) => {
   const { select } = useBuilding()
   const { name } = BuildingTranslations[buildingItem.code]
 
   return <ListItemLevel
     name={name}
+    active={active}
     level={buildingItem.level}
     onSelect={() => select({ code: buildingItem.code })}
   />

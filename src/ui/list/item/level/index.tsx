@@ -5,6 +5,7 @@ import { ListItem } from '#ui/list/item'
 interface Props {
   name: string
   level: number
+  active: boolean
   onSelect: () => void
 }
 

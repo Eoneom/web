@@ -49,21 +49,23 @@ export const TroupDetails: React.FC = () => {
   return <>
     <LayoutDetailsContent>
       <h2>{name}</h2>
-      <p><strong>{effect}</strong></p>
-      <p>{description}</p>
+      <p>{effect}</p>
+
+      <TroupDetailsRecruit
+        canRecruit={canRecruit}
+        count={count}
+        onChange={value => setCount(value)}
+      />
+      <p className='description'>{description}</p>
     </LayoutDetailsContent>
-    <Requirement requirements={selectedTroup.requirement} />
-    <Cost
-      plastic={plasticCost}
-      mushroom={mushroomCost}
-      duration={numberCount*selectedTroup.cost.duration}
-      action={
-        <TroupDetailsRecruit
-          canRecruit={canRecruit}
-          count={count}
-          onChange={value => setCount(value)}
-        />
-      }
-    />
+
+    <aside id="requirement">
+      <Requirement requirements={selectedTroup.requirement} />
+      <Cost
+        plastic={plasticCost}
+        mushroom={mushroomCost}
+        duration={numberCount*selectedTroup.cost.duration}
+      />
+    </aside>
   </>
 }

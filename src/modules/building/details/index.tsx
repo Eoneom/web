@@ -18,17 +18,15 @@ export const BuildingDetails: React.FC<Props> = ({ building }) => {
   return <>
     <LayoutDetailsContent>
       <h2>{name}</h2>
-      <p><strong>{effect}</strong></p>
-      <p>{description}</p>
+      <p>{effect}</p>
+      <BuildingDetailsUpgrade building={building} />
       <BuildingDetailsMetadata building={building} />
-
+      <p className='description'>{description}</p>
     </LayoutDetailsContent>
 
-    <Requirement requirements={building.requirement}/>
-
-    <Cost
-      action={<BuildingDetailsUpgrade building={building} />}
-      {...building.upgrade_cost}
-    />
+    <aside id="requirement">
+      <Requirement requirements={building.requirement}/>
+      <Cost  {...building.upgrade_cost} />
+    </aside>
   </>
 }

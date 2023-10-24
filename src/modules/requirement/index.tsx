@@ -23,10 +23,8 @@ export const Requirement: React.FC<Props> = ({ requirements }) => {
     <ul>{requirement_elements}</ul> :
     <span className='success'>Aucun</span>
 
-  return (
-    <aside id='requirement'>
-      <h3>Pré-requis</h3>
-      {requirement_display}
-    </aside>
-  )
+  return <div>
+    <h3>Pré-requis</h3>
+    {requirement_display}
+  </div>
 }

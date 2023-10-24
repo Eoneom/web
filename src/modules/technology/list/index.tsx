@@ -9,24 +9,26 @@ import { Button } from '#ui/button'
 import { List } from '#ui/list'
 
 interface Props {
+  selectedTechnologyCode?: string
   onSelectTechnology: (technology: Technology) => void
 }
 
-export const TechnologyList: React.FC<Props> = ({ onSelectTechnology }) => {
+export const TechnologyList: React.FC<Props> = ({ selectedTechnologyCode, onSelectTechnology }) => {
   const { technologies, cancel, inProgress } = useTechnology()
 
   const title = 'Technologies'
   const subtitle = inProgress && <>
-    <p>En cours: {TechnologyTranslations[inProgress.code].name} {formatTime(inProgress.remainingTime)}</p>
+    <p>En cours: {TechnologyTranslations[inProgress.code].name} <strong>{formatTime(inProgress.remainingTime)}</strong></p>
     <Button onClick={() => cancel()}>Annuler</Button>
   </>
   const items = useMemo(() => {
     return technologies.map(technology => <TechnologyListItem
+      active={technology.code === selectedTechnologyCode}
       onSelectTechnology={onSelectTechnology}
       key={technology.id}
       technology={technology}
     />)
-  }, [technologies])
+  }, [selectedTechnologyCode, technologies])
 
   return <List
     title={title}
