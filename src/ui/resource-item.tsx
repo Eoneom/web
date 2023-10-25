@@ -8,12 +8,8 @@ interface Props {
 }
 
 export const ResourceItem: React.FC<Props> = ({ className, icon, value }) => {
-  return <li className={classNames(className, 'resource-item')}>
-    <div>
-      {icon}
-    </div>
-    <div>
-      {value}
-    </div>
-  </li>
+  return <div className={classNames(className, 'resource-item')}>
+    {icon}
+    {value}
+  </div>
 }

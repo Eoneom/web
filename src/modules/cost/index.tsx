@@ -22,20 +22,25 @@ export const Cost: React.FC<Props> = ({ plastic, mushroom, duration, action }) =
   return <div>
     <h3>Coût</h3>
     <ul>
-      <ResourceItem
-        className={plasticClassName}
-        icon={<IconPlastic /> }
-        value={transformDecimals(plastic)}
-      />
-      <ResourceItem className={mushroomClassName}
-        icon={<IconMushroom />}
-        value={transformDecimals(mushroom)}
-      />
-
-      <ResourceItem
-        icon={<IconDuration />}
-        value={formatTime(duration)}
-      />
+      <li>
+        <ResourceItem
+          className={plasticClassName}
+          icon={<IconPlastic /> }
+          value={transformDecimals(plastic)}
+        />
+      </li>
+      <li>
+        <ResourceItem className={mushroomClassName}
+          icon={<IconMushroom />}
+          value={transformDecimals(mushroom)}
+        />
+      </li>
+      <li>
+        <ResourceItem
+          icon={<IconDuration />}
+          value={formatTime(duration)}
+        />
+      </li>
     </ul>
     {action}
   </div>

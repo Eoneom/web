@@ -159,7 +159,7 @@ ul {
   justify-content: flex-start;
 }
 
-#requirement div,
+#requirement .resource-item div,
 #requirement h3 {
   margin-bottom: 0.5em;
   line-height: 1.5em;
@@ -203,17 +203,18 @@ ul {
 
 #nav-bar li {
   font-weight: bold;
+  display: flex;
+  align-items: center;
 }
 
-#nav-bar svg,
-#requirement svg {
+.resource-item svg {
   width: 1em;
   height: 1em;
 }
 
 .resource-item {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.25em;
 }
 
@@ -294,4 +295,37 @@ button:disabled {
   width: 100%;
   height: 80%;
   cursor: pointer;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltip-text {
+  visibility: hidden;
+  width: 10em;
+  background-color: var(--light-primary-3);
+  color: var(--dark-primary);
+  padding: 0.25em;
+  border-radius: 1em;
+
+  font-weight: normal;
+
+  text-align: center;
+  position: absolute;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.tooltip:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+.tooltip-text.bottom {
+  top: 100%;
+  left: 50%;
+  margin-left: -5em;
 }
