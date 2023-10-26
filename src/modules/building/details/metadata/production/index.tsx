@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { transformEarnings } from '#helpers/transform'
+import { transformHourlyEarnings } from '#helpers/transform'
 
 interface Props {
   currentProduction: number
@@ -10,8 +10,8 @@ interface Props {
 export const BuildingDetailsMetadataProduction: React.FC<Props> = ({ currentProduction, nextProduction }) => {
   return <>
     <p>
-      Production actuelle: <strong>{transformEarnings(currentProduction)}</strong><br />
-      Production suivante: <strong>{transformEarnings(nextProduction)}</strong>
+      Production actuelle: <strong>{transformHourlyEarnings(currentProduction)}</strong><br />
+      Production suivante: <strong>{transformHourlyEarnings(nextProduction)}</strong>
     </p>
   </>
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { transformDecimals, transformEarnings } from '#helpers/transform'
+import { transformDailyEarnings, transformDecimals, transformHourlyEarnings } from '#helpers/transform'
 import { useCity } from '#city/hook'
 import { Link } from 'react-router-dom'
 import { IconPlastic } from '#ui/icon/plastic'
@@ -14,18 +14,23 @@ export const NavBar: React.FC = () => {
   }
 
   const plasticClassName = city.plastic >= city.warehouses_capacity.plastic ? 'danger' : ''
+  const plasticEarningsPerHour = transformHourlyEarnings(city.earnings_per_second.plastic)
+  const plasticEarningsPerDay = transformDailyEarnings(city.earnings_per_second.plastic)
+
   const mushroomClassName = city.mushroom >= city.warehouses_capacity.mushroom ? 'danger' : ''
-  const plasticEarningsPerHour = transformEarnings(city.earnings_per_second.plastic)
-  const mushroomEarningsPerHour = transformEarnings(city.earnings_per_second.mushroom)
+  const mushroomEarningsPerHour = transformHourlyEarnings(city.earnings_per_second.mushroom)
+  const mushroomEarningsPerDay = transformDailyEarnings(city.earnings_per_second.mushroom)
 
   const plasticTooltipContent = <>
-    Prod = <strong>{plasticEarningsPerHour}</strong><br />
-    Max = <strong>{transformDecimals(city.warehouses_capacity.plastic)}</strong>
+    {plasticEarningsPerHour}<br />
+    {plasticEarningsPerDay}<br />
+    Max = {transformDecimals(city.warehouses_capacity.plastic)}
   </>
 
   const mushroomTooltipContent = <>
-    Prod = <strong>{mushroomEarningsPerHour}</strong><br />
-    Max = <strong>{transformDecimals(city.warehouses_capacity.mushroom)}</strong>
+    {mushroomEarningsPerHour}<br />
+    {mushroomEarningsPerDay}<br />
+    Max = {transformDecimals(city.warehouses_capacity.mushroom)}
   </>
 
   return <nav id='nav-bar'>

@@ -16,8 +16,7 @@ interface Props {
 export const TechnologyList: React.FC<Props> = ({ selectedTechnologyCode, onSelectTechnology }) => {
   const { technologies, cancel, inProgress } = useTechnology()
 
-  const title = 'Technologies'
-  const subtitle = inProgress && <>
+  const inProgressComponent = inProgress && <>
     <p>En cours: {TechnologyTranslations[inProgress.code].name} <strong>{formatTime(inProgress.remainingTime)}</strong></p>
     <Button onClick={() => cancel()}>Annuler</Button>
   </>
@@ -31,8 +30,7 @@ export const TechnologyList: React.FC<Props> = ({ selectedTechnologyCode, onSele
   }, [selectedTechnologyCode, technologies])
 
   return <List
-    title={title}
-    subtitle={subtitle}
+    inProgress={inProgressComponent}
     items={items}
   />
 }

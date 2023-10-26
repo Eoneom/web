@@ -6,8 +6,6 @@ import { List } from '#ui/list'
 
 export const TroupList: React.FC = () => {
   const { selectedTroup, troups } = useTroup()
-  const title = 'Troupes'
-  const subtitle = <TroupListInProgress />
   const items = useMemo(() => {
     return troups.map(troup => <TroupListItem
       active={selectedTroup?.code === troup.code}
@@ -16,8 +14,7 @@ export const TroupList: React.FC = () => {
   }, [selectedTroup?.code, troups])
 
   return <List
-    title={title}
-    subtitle={subtitle}
+    inProgress={<TroupListInProgress />}
     items={items}
   />
 }

@@ -5,13 +5,11 @@ import { useBuilding } from '#building/hook'
 import { BuildingTranslations } from '#building/translations'
 import { formatTime } from '#helpers/transform'
 import { Button } from '#ui/button'
-import { useCity } from '#city/hook'
 import { List } from '#ui/list'
 import { useTimer } from '#hook/timer'
 
 export const BuildingList: React.FC = () => {
-  const { city } = useCity()
-  const { building, buildings, inProgress, levelsTotal, cancel, finishUpgrade } = useBuilding()
+  const { building, buildings, inProgress, cancel, finishUpgrade } = useBuilding()
   const { remainingTime, reset } = useTimer({
     onDone: () => finishUpgrade(),
     doneAt: inProgress?.upgrade_at
@@ -22,10 +20,7 @@ export const BuildingList: React.FC = () => {
     reset()
   }
 
-  const levelsClassName = levelsTotal< (city?.maximum_building_levels??0) ? 'success': 'danger'
-  const levels = <span className={levelsClassName}>({levelsTotal}/{city?.maximum_building_levels ?? 0})</span>
-  const title = <>Constructions {levels}</>
-  const subtitle = inProgress && <>
+  const inProgressComponent = inProgress && <>
     <p>En cours: {BuildingTranslations[inProgress.code].name} <strong>{formatTime(remainingTime)}</strong></p>
     <Button onClick={handleCancel}>Annuler</Button>
   </>
@@ -39,8 +34,7 @@ export const BuildingList: React.FC = () => {
   ), [building?.code, buildings])
 
   return <List
-    title={title}
-    subtitle={subtitle}
+    inProgress={inProgressComponent}
     items={items}
   />
 }
