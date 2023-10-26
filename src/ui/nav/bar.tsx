@@ -13,13 +13,19 @@ export const NavBar: React.FC = () => {
     return null
   }
 
+  const warnCapacity = 70/100
+
   const plasticClassName = city.plastic >= city.warehouses_capacity.plastic ? 'danger' : ''
   const plasticEarningsPerHour = transformHourlyEarnings(city.earnings_per_second.plastic)
   const plasticEarningsPerDay = transformDailyEarnings(city.earnings_per_second.plastic)
+  const plasticStorageLevel = Math.round(city.plastic / city.warehouses_capacity.plastic*100 * 100)/100
+  const plasticProgressClassName = city.plastic >= city.warehouses_capacity.plastic * warnCapacity ? 'warn' : ''
 
   const mushroomClassName = city.mushroom >= city.warehouses_capacity.mushroom ? 'danger' : ''
   const mushroomEarningsPerHour = transformHourlyEarnings(city.earnings_per_second.mushroom)
   const mushroomEarningsPerDay = transformDailyEarnings(city.earnings_per_second.mushroom)
+  const mushroomStorageLevel = Math.round(city.mushroom / city.warehouses_capacity.mushroom*100 * 100)/100
+  const mushroomProgressClassName = city.mushroom >= city.warehouses_capacity.mushroom * warnCapacity ? 'warn' : ''
 
   const plasticTooltipContent = <>
     {plasticEarningsPerHour}<br />
@@ -45,6 +51,13 @@ export const NavBar: React.FC = () => {
             value={transformDecimals(city.plastic)}
           />
         </Tooltip>
+        <Tooltip content={`${plasticStorageLevel}%`} position='bottom'>
+          <progress
+            className={plasticProgressClassName}
+            value={city.plastic}
+            max={city.warehouses_capacity.plastic}
+          />
+        </Tooltip>
       </li>
       <li>
         <Tooltip content={mushroomTooltipContent} position='bottom'>
@@ -52,6 +65,13 @@ export const NavBar: React.FC = () => {
             className={mushroomClassName}
             icon={<IconMushroom />}
             value={transformDecimals(city.mushroom)}
+          />
+        </Tooltip>
+        <Tooltip content={`${mushroomStorageLevel}%`} position='bottom'>
+          <progress
+            className={mushroomProgressClassName}
+            value={city.mushroom}
+            max={city.warehouses_capacity.mushroom}
           />
         </Tooltip>
       </li>

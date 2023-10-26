@@ -205,6 +205,16 @@ ul {
   font-weight: bold;
   display: flex;
   align-items: center;
+  gap: 0.5em;
+}
+
+#nav-bar li progress {
+  width: 5em;
+  accent-color: var(--success-color);
+}
+
+#nav-bar li progress.warn {
+  accent-color: var(--danger-color);
 }
 
 .resource-item svg {
@@ -304,7 +314,7 @@ button:disabled {
 
 .tooltip .tooltip-text {
   visibility: hidden;
-  width: 10em;
+  width: 8em;
   background-color: var(--light-primary-3);
   color: var(--dark-primary);
   padding: 0.25em;
@@ -322,10 +332,11 @@ button:disabled {
 .tooltip:hover .tooltip-text {
   visibility: visible;
   opacity: 1;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 25%);
 }
 
 .tooltip-text.bottom {
   top: 100%;
   left: 50%;
-  margin-left: -5em;
+  margin-left: -4em;
 }
