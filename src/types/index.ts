@@ -3,6 +3,7 @@ import {
   BuildingListDataResponse,
   CityGetDataResponse,
   CommunicationListReportDataResponse,
+  TechnologyGetDataResponse,
   TechnologyListDataResponse,
   TroupListDataResponse,
   TroupListMovementDataResponse,
@@ -12,7 +13,8 @@ import {
 export type City = CityGetDataResponse
 export type Building = BuildingGetDataResponse
 export type BuildingItem = BuildingListDataResponse['buildings'][number]
-export type Technology = TechnologyListDataResponse['technologies'][number]
+export type TechnologyItem = TechnologyListDataResponse['technologies'][number]
+export type Technology = TechnologyGetDataResponse
 export type Sector = WorldGetSectorDataResponse & {id: number}
 export type Troup = TroupListDataResponse['troups'][number]
 export type Movement = TroupListMovementDataResponse['movements'][number]

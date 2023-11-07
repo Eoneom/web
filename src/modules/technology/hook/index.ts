@@ -1,5 +1,5 @@
 import { useContext, useMemo } from 'react'
-import { Technology } from '#types'
+import { Technology, TechnologyItem } from '#types'
 import { TechnologyContext } from '#technology/hook/context'
 import { useAuth } from '#auth/hook'
 import { listTechnologies } from '#technology/api/list'
@@ -9,9 +9,11 @@ import { useCity } from '#city/hook'
 import { useTimer } from '#hook/timer'
 import { TechnologyCode } from '@kroust/swarm-client'
 import { technologyFinishResearch } from '#technology/api/finish-research'
+import { getTechnology } from '#technology/api/get'
 
 interface HookTechnology {
-  technologies: Technology[]
+  technologies: TechnologyItem[]
+  technology: Technology | null
   inProgress?: {
     code: TechnologyCode
     remainingTime: number
@@ -19,6 +21,11 @@ interface HookTechnology {
   list: () => Promise<void>
   research: (props: ResearchProps) => Promise<void>
   cancel: () => Promise<void>
+  select: (props: SelectProps) => Promise<void>
+}
+
+interface SelectProps {
+  code: TechnologyCode
 }
 
 interface ResearchProps {
@@ -26,7 +33,7 @@ interface ResearchProps {
 }
 
 export const useTechnology = (): HookTechnology => {
-  const { technologies, setTechnologies } = useContext(TechnologyContext)
+  const { technologies, setTechnologies, technology, setTechnology } = useContext(TechnologyContext)
   const { token } = useAuth()
   const { city, refresh } = useCity()
   const technologyInProgress = useMemo(() => {
@@ -39,6 +46,19 @@ export const useTechnology = (): HookTechnology => {
       await finishResearch()
     }
   })
+
+  const select = async ({ code }: SelectProps) => {
+    if (!city) {
+      return
+    }
+
+    const fetchedBuilding = await getTechnology({ token, cityId: city.id, technologyCode: code })
+    if (!fetchedBuilding) {
+      return
+    }
+
+    setTechnology(fetchedBuilding)
+  }
 
   const research = async ({ code }: ResearchProps) => {
     if (!city) {
@@ -65,7 +85,7 @@ export const useTechnology = (): HookTechnology => {
       return
     }
 
-    const data = await listTechnologies({ token, cityId: city.id })
+    const data = await listTechnologies({ token })
     if (!data) {
       return
     }
@@ -78,16 +98,22 @@ export const useTechnology = (): HookTechnology => {
     await list()
   }
 
-  return {
-    technologies,
-    cancel,
-    list,
-    research,
-    inProgress: technologyInProgress
+  const inProgress = useMemo(() => {
+    return technologyInProgress
       ? {
         code: technologyInProgress.code,
         remainingTime
       }
       : undefined
+  }, [technologyInProgress])
+
+  return {
+    technology,
+    technologies,
+    inProgress,
+    select,
+    cancel,
+    list,
+    research,
   }
 }

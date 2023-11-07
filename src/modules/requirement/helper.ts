@@ -1,4 +1,4 @@
-import { BuildingItem, Technology } from '#types'
+import { BuildingItem, TechnologyItem } from '#types'
 import { Requirement } from '@kroust/swarm-client'
 
 export const areRequirementsMet = ({
@@ -8,7 +8,7 @@ export const areRequirementsMet = ({
 }: {
   requirement: Requirement
   buildings: BuildingItem[]
-  technologies: Technology[]
+  technologies: TechnologyItem[]
 }): boolean => {
 
   const buildingRequirementMet = requirement.buildings.every(

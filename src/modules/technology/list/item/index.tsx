@@ -1,21 +1,22 @@
 import React from 'react'
-import { Technology } from '#types'
+import { TechnologyItem } from '#types'
 import { TechnologyTranslations } from '#technology/translations'
 import { ListItemLevel } from '#ui/list/item/level'
+import { useTechnology } from '#technology/hook'
 
 interface Props {
   active: boolean
-  technology: Technology
-  onSelectTechnology: (technology: Technology) => void
+  technologyItem: TechnologyItem
 }
 
-export const TechnologyListItem: React.FC<Props> = ({ active, technology, onSelectTechnology }) => {
-  const { name } = TechnologyTranslations[technology.code]
+export const TechnologyListItem: React.FC<Props> = ({ active, technologyItem }) => {
+  const { select } = useTechnology()
+  const { name } = TechnologyTranslations[technologyItem.code]
 
   return <ListItemLevel
     active={active}
     name={name}
-    level={technology.level}
-    onSelect={() => onSelectTechnology(technology)}
+    level={technologyItem.level}
+    onSelect={() => select({ code: technologyItem.code })}
   />
 }
