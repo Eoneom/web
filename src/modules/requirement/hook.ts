@@ -1,7 +1,21 @@
+import { useBuilding } from '#building/hook'
+import { useTechnology } from '#technology/hook'
 import { BuildingItem, TechnologyItem } from '#types'
 import { Requirement } from '@kroust/swarm-client'
+import { useMemo } from 'react'
 
-export const areRequirementsMet = ({
+export const useRequirement = ({ requirement }: { requirement: Requirement }) => {
+  const { buildings } = useBuilding()
+  const { technologies } = useTechnology()
+
+  const isRequirementMet = useMemo(() => {
+    return areRequirementsMet({ requirement, technologies, buildings })
+  }, [requirement, technologies, buildings])
+
+  return { isRequirementMet }
+}
+
+const areRequirementsMet = ({
   requirement,
   buildings,
   technologies

@@ -8,14 +8,10 @@ import { LayoutDetailsContent } from '#ui/layout/details/content'
 import { Cost } from '#cost/index'
 import { hasEnoughResources } from '#city/helper'
 import { useCity } from '#city/hook'
-import { useBuilding } from '#building/hook'
-import { useTechnology } from '#technology/hook'
-import { areRequirementsMet } from '#requirement/helper'
+import { useRequirement } from '#requirement/hook'
 
 export const TroupDetails: React.FC = () => {
   const { selectedTroup, inProgress } = useTroup()
-  const { buildings } = useBuilding()
-  const { technologies } = useTechnology()
   const { city } = useCity()
   const [count, setCount] = useState(1)
 
@@ -28,13 +24,7 @@ export const TroupDetails: React.FC = () => {
   const plasticCost = numberCount*selectedTroup.cost.plastic
   const mushroomCost = numberCount*selectedTroup.cost.mushroom
 
-  const requirementsMet = useMemo(() => {
-    return areRequirementsMet({
-      requirement: selectedTroup.requirement,
-      buildings,
-      technologies
-    })
-  }, [selectedTroup.requirement, buildings, technologies])
+  const { isRequirementMet } = useRequirement({ requirement: selectedTroup.requirement })
 
   const canRecruit = !inProgress &&
     hasEnoughResources({
@@ -44,7 +34,7 @@ export const TroupDetails: React.FC = () => {
         mushroom: mushroomCost
       }
     }) &&
-    requirementsMet
+    isRequirementMet
 
   return <>
     <LayoutDetailsContent>
