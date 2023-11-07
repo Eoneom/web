@@ -31,7 +31,10 @@ export const TroupDetailsRecruit: React.FC<Props> = ({ onChange, count, canRecru
 
       <Button
         disabled={!canRecruit}
-        onClick={() => recruit({ code: selectedTroup.code, count })}
+        onClick={() => {
+          recruit({ code: selectedTroup.code, count })
+          onChange(1)
+        }}
       >
           Recruter
       </Button>

@@ -25,7 +25,7 @@ export const TroupListInProgress: React.FC = () => {
   }
 
   return <>
-    <p>En cours: {TroupTranslations[inProgress.code].name} <strong>{formatTime(remainingTime)}</strong></p>
+    <p>En cours: {inProgress.ongoing_recruitment?.remaining_count} {TroupTranslations[inProgress.code].name} <strong>{formatTime(remainingTime)}</strong></p>
     <Button onClick={handleCancel}>Annuler</Button>
   </>
 }
