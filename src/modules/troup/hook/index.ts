@@ -35,7 +35,7 @@ export const useTroup = (): HookTroup => {
     setSelectedTroupId
   } = useContext(TroupContext)
   const { token } = useAuth()
-  const { city } = useCity()
+  const { city, refresh: refreshCity } = useCity()
 
   const inProgress = useMemo(() => {
     return troups.find(troup => troup.ongoing_recruitment)
@@ -56,6 +56,7 @@ export const useTroup = (): HookTroup => {
       count
     })
     await list()
+    await refreshCity()
   }
 
   const progressRecruit = async () => {
@@ -86,6 +87,7 @@ export const useTroup = (): HookTroup => {
 
     await cancelTroup({ token, cityId: city.id })
     await list()
+    await refreshCity()
   }
 
   const list = async () => {
