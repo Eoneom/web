@@ -9,6 +9,7 @@ import { recruitTroup } from '#troup/api/recruit'
 import { progressRecruitTroup } from '#troup/api/progress-recruit'
 import { cancelTroup } from '#troup/api/cancel'
 import { troupExplore } from '#troup/api/explore'
+import { troupBase } from '#troup/api/base'
 
 interface HookTroup {
   troups: Troup[]
@@ -19,7 +20,14 @@ interface HookTroup {
   recruit: (props: RecruitProps) => Promise<void>
   cancel: () => Promise<void>
   explore: (params: { coordinates: { x: number, y: number, sector: number } }) => Promise<void>
+  base: (params: BaseProps) => Promise<void>
   progressRecruit: () => Promise<void>
+}
+
+interface BaseProps {
+  origin: { x: number, y: number, sector: number }
+  destination: { x: number, y: number, sector: number }
+  troups: {code: TroupCode, count: number}[]
 }
 
 interface RecruitProps {
@@ -72,7 +80,15 @@ export const useTroup = (): HookTroup => {
     await list()
   }
 
-  const explore = async ({coordinates}: {coordinates: { x: number, y: number, sector: number}}) => {
+  const base = async ({ origin, destination, troups  }: BaseProps) => {
+    if (!city) {
+      return
+    }
+
+    await troupBase({ token, origin, destination, troups })
+  }
+
+  const explore = async ({ coordinates }: { coordinates: { x: number, y: number, sector: number }}) => {
     if (!city) {
       return
     }
@@ -111,6 +127,7 @@ export const useTroup = (): HookTroup => {
     troups,
     selectedTroup,
     inProgress,
+    base,
     list,
     recruit,
     cancel,

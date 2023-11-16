@@ -5,6 +5,7 @@ import { useWorld } from '#map/hook/world'
 import { useTroup } from '#troup/hook'
 import { Button } from '#ui/button'
 import { LayoutDetailsContent } from '#ui/layout/details/content'
+import { MapDetailsActionBase } from '#map/details/action/base'
 
 interface Props {
   coordinates: {
@@ -36,7 +37,6 @@ export const MapDetails: React.FC<Props> = ({ coordinates }) => {
     explore({ coordinates: { sector: sector.id, x: coordinates.x, y: coordinates.y}})
   }
 
-
   return <LayoutDetailsContent>
     <h2>Cellule sélectionnée: ({coordinates.x};{coordinates.y})</h2>
     {
@@ -46,6 +46,12 @@ export const MapDetails: React.FC<Props> = ({ coordinates }) => {
     }
     {
       selectedCell && !selectedCell.characteristic && <Button onClick={handleExplore}>Explorer</Button>
+    }
+    {
+      selectedCell &&
+      selectedCell.characteristic &&
+      sector &&
+      <MapDetailsActionBase coordinates={{sector: sector.id, x: coordinates.x, y: coordinates.y}}/>
     }
   </LayoutDetailsContent>
 }
