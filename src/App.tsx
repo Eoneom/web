@@ -9,9 +9,11 @@ import { useCity } from '#city/hook'
 import { NavSide } from '#ui/nav/side'
 import { NavLocation } from '#ui/nav/location'
 import { GameProvider } from '#helpers/provider'
+import { useOutpost } from '#outpost/hook'
 
 const App: React.FC = () => {
-  const { list, gather, city } = useCity()
+  const { list: listCities } = useCity()
+  const { list: listOutposts } = useOutpost()
   const { token, retrieveStoredToken } = useAuth()
 
   useEffect(() => {
@@ -23,37 +25,20 @@ const App: React.FC = () => {
       return
     }
 
-    list()
+    listCities()
+    listOutposts()
   }, [token])
-
-  useEffect(() => {
-    if (!city?.id) {
-      return
-    }
-
-    gather()
-
-    const interval = setInterval(() => {
-      gather()
-    }, 10000)
-
-    return () => clearInterval(interval)
-  }, [city?.id])
 
   return (
     <main>
       <GameProvider>
         <AuthLoginForm />
-        {
-          city && <>
-            <NavBar />
-            <div id="main">
-              <NavSide />
-              <Outlet />
-              <NavLocation />
-            </div>
-          </>
-        }
+        <NavBar />
+        <div id="main">
+          <NavSide />
+          <Outlet />
+          <NavLocation />
+        </div>
       </GameProvider>
 
       <ToastContainer

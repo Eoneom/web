@@ -5,6 +5,7 @@ import { RouterProvider } from 'react-router-dom'
 import { router } from './router'
 import { AuthContextProvider } from '#auth/hook/context'
 import { CityContextProvider } from '#city/hook/context'
+import { OutpostContextProvider } from '#outpost/hook/context'
 
 import 'react-toastify/dist/ReactToastify.css'
 import './index.css'
@@ -17,7 +18,9 @@ root.render(
   <React.StrictMode>
     <AuthContextProvider>
       <CityContextProvider>
-        <RouterProvider router={router} />
+        <OutpostContextProvider>
+          <RouterProvider router={router} />
+        </OutpostContextProvider>
       </CityContextProvider>
     </AuthContextProvider>
   </React.StrictMode>

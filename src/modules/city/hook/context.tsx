@@ -4,7 +4,7 @@ import React, { createContext, useState } from 'react'
 
 interface CityContextState {
   city: City | null
-  setCity: (city: City) => void
+  setCity: (city: City | null) => void
 
   cities: {
     id: string
@@ -32,8 +32,7 @@ export const CityContextProvider: React.FC<Props> = ({ children }) => {
   return (
     <CityContext.Provider value={{
       city,
-      setCity: (city: City) => setCity(city),
-
+      setCity,
       cities,
       setCities
     }}>

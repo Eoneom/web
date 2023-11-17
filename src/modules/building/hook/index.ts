@@ -8,7 +8,6 @@ import { cancelBuilding } from '#building/api/cancel'
 import { useCity } from '#city/hook'
 import { BuildingCode } from '@kroust/swarm-client'
 import { buildingFinishUpgrade } from '#building/api/finish-upgrade'
-import { toast } from 'react-toastify'
 import { getBuilding } from '#building/api/get'
 
 interface HookUseBuilding {
@@ -94,7 +93,6 @@ export const useBuilding = (): HookUseBuilding => {
 
   const list = async () => {
     if (!city?.id) {
-      toast.error('cityId is undefined')
       return
     }
 

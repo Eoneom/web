@@ -9,6 +9,7 @@ import { getCity } from '#city/api/get'
 interface HookCity {
   city: City | null
   cities: { id: string, name: string }[]
+  select: (props: { cityId: string }) => Promise<void>
   list: () => Promise<void>
   gather: () => Promise<void>
   refresh: () => Promise<void>
@@ -52,10 +53,6 @@ export const useCity = (): HookCity => {
     }
 
     setCities(response.cities)
-
-    if (!city) {
-      await select({ cityId: response.cities[0].id })
-    }
   }
 
   const gather = async () => {
@@ -70,6 +67,7 @@ export const useCity = (): HookCity => {
   return {
     city,
     cities,
+    select,
     list,
     gather,
     refresh

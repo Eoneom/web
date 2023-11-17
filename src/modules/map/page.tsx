@@ -5,7 +5,7 @@ import { MapDetails } from '#map/details'
 import { useTroup } from '#troup/hook'
 
 export const MapPage: React.FC = () => {
-  const {list} = useTroup()
+  const { list } = useTroup()
   const [selectedCoordinates, setSelectedCoordinates] = useState<{ x: number, y: number} | null>(null)
 
   useEffect(() => {

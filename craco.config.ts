@@ -12,6 +12,7 @@ module.exports = {
       '#communication': path.resolve(__dirname, 'src/modules/communication'),
       '#map': path.resolve(__dirname, 'src/modules/map'),
       '#movement': path.resolve(__dirname, 'src/modules/movement'),
+      '#outpost': path.resolve(__dirname, 'src/modules/outpost'),
       '#requirement': path.resolve(__dirname, 'src/modules/requirement'),
       '#technology': path.resolve(__dirname, 'src/modules/technology'),
       '#troup': path.resolve(__dirname, 'src/modules/troup'),

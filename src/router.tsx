@@ -9,6 +9,7 @@ import { CityPage } from '#city/page'
 import { TroupPage } from '#troup/page'
 import { MovementPage } from '#movement/page'
 import { ReportPage } from '#communication/page'
+import { CityRoot } from '#city/root'
 
 export const router = createBrowserRouter([
   {
@@ -17,19 +18,39 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '',
-        element: <CityPage />
+        element: 'empty route'
       },
       {
-        path: 'building',
-        element: <BuildingPage />
+        path: 'city/:cityId',
+        element: <CityRoot />,
+        children: [
+          {
+            path: '',
+            element: <CityPage />
+          },
+          {
+            path: 'building',
+            element: <BuildingPage />
+          },
+          {
+            path: 'technology',
+            element: <TechnologyPage />
+          },
+          {
+            path: 'troup',
+            element: <TroupPage />
+          },
+        ]
       },
       {
-        path: 'technology',
-        element: <TechnologyPage />
-      },
-      {
-        path: 'troup',
-        element: <TroupPage />
+        path: 'outpost',
+        element: <>Outpost</>,
+        children: [
+          {
+            path: ':outpostId',
+            element: <>Outpost</>
+          }
+        ]
       },
       {
         path: 'map',
