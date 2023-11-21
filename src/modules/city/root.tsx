@@ -28,7 +28,5 @@ export const CityRoot: React.FC = () => {
     return () => clearInterval(interval)
   }, [city?.id])
 
-  return <>
-    <Outlet />
-  </>
+  return <Outlet />
 }

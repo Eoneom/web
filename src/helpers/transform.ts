@@ -18,7 +18,7 @@ export const formatTime = (seconds: number): string => {
 }
 
 export const formatCoordinates = (coordinates: Coordinates): string => {
-  return `${coordinates.sector};${coordinates.x};${coordinates.y}`
+  return `${coordinates.sector}.${coordinates.x}.${coordinates.y}`
 }
 
 export const formatDate = (seconds: number): string => {

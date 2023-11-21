@@ -12,6 +12,7 @@ import { ReportPage } from '#communication/page'
 import { CityRoot } from '#city/root'
 import { OutpostRoot } from '#outpost/root'
 import { OutpostPage } from '#outpost/page'
+import { SharedRoot } from './modules/shared/root'
 
 export const router = createBrowserRouter([
   {
@@ -20,7 +21,25 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '',
-        element: 'empty route'
+        element: <SharedRoot />,
+        children: [
+          {
+            path: '',
+            element: <section id="content"><h1>Bienvenue</h1></section>
+          },
+          {
+            path: 'map',
+            element: <MapPage />
+          },
+          {
+            path: 'movement',
+            element: <MovementPage />
+          },
+          {
+            path: 'report',
+            element: <ReportPage />
+          }
+        ]
       },
       {
         path: 'city/:cityId',
@@ -53,18 +72,6 @@ export const router = createBrowserRouter([
             element: <OutpostPage />
           }
         ]
-      },
-      {
-        path: 'map',
-        element: <MapPage />
-      },
-      {
-        path: 'movement',
-        element: <MovementPage />
-      },
-      {
-        path: 'report',
-        element: <ReportPage />
       }
     ]
   },

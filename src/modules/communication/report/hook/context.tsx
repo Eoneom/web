@@ -1,14 +1,19 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import React, { createContext, useState } from 'react'
-import { Report } from '#types'
+import { Report, ReportItem } from '#types'
 
 interface ReportContextState {
-  reports: Report[]
-  setReports: (reports: Report[]) => void
+  report: Report | null
+  setReport: (report: Report) => void
+  reports: ReportItem[]
+  setReports: (reports: ReportItem[]) => void
 }
 
 export const ReportContext = createContext<ReportContextState>({
+  report: null,
+  setReport: () => {},
+
   reports: [],
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   setReports: () => {}
 })
 
@@ -17,11 +22,15 @@ interface Props {
 }
 
 export const ReportContextProvider: React.FC<Props> = ({ children }) => {
-  const [ reports, setReports ] = useState<Report[]>([])
+  const [ report, setReport ] = useState<Report | null>(null)
+  const [ reports, setReports ] = useState<ReportItem[]>([])
   return (
     <ReportContext.Provider value={{
+      report,
+      setReport,
+
       reports,
-      setReports: (reports: Report[]) => setReports(reports)
+      setReports
     }}>
       {children}
     </ReportContext.Provider>

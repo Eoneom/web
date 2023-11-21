@@ -33,12 +33,15 @@ const App: React.FC = () => {
     <main>
       <GameProvider>
         <AuthLoginForm />
-        <NavBar />
-        <div id="main">
-          <NavSide />
-          <Outlet />
-          <NavLocation />
-        </div>
+        { token && <>
+          <NavBar />
+          <div id="main">
+            <NavSide />
+            <Outlet />
+            <NavLocation />
+          </div>
+        </>
+        }
       </GameProvider>
 
       <ToastContainer

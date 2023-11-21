@@ -1,21 +1,23 @@
 import { LayoutPage } from '#ui/layout/page'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect } from 'react'
 import { ReportList } from '#communication/report/list'
 import { useReport } from '#communication/report/hook'
 import { ReportExploration } from '#communication/report/exploration'
+import { useAuth } from '#auth/hook'
 
 export const ReportPage: React.FC = () => {
-  const [selectedReportId, setSelectedReportId] = useState('')
-  const { reports } = useReport()
+  const { reports, report, list } = useReport()
+  const { token } = useAuth()
 
-  const selectedReport = useMemo(() => {
-    return reports.find(report => report.id === selectedReportId)
-  }, [reports, selectedReportId])
+  useEffect(() => {
+    if (!token) {
+      return
+    }
 
-  return <LayoutPage details={selectedReport && <ReportExploration report={selectedReport}/>}>
-    <ReportList
-      reports={reports}
-      onSelectReport={({id}) => setSelectedReportId(id)}
-    />
+    list()
+  }, [token])
+
+  return <LayoutPage details={report && <ReportExploration report={report}/>}>
+    <ReportList reports={reports} />
   </LayoutPage>
 }
