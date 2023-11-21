@@ -6,7 +6,6 @@ import { listTechnologies } from '#technology/api/list'
 import { researchTechnology } from '#technology/api/research'
 import { cancelTechnology } from '#technology/api/cancel'
 import { useCity } from '#city/hook'
-import { useTimer } from '#hook/timer'
 import { TechnologyCode } from '@kroust/swarm-client'
 import { technologyFinishResearch } from '#technology/api/finish-research'
 import { getTechnology } from '#technology/api/get'
@@ -14,10 +13,8 @@ import { getTechnology } from '#technology/api/get'
 interface HookTechnology {
   technologies: TechnologyItem[]
   technology: Technology | null
-  inProgress?: {
-    code: TechnologyCode
-    remainingTime: number
-  }
+  inProgress?: TechnologyItem
+  finishResearch: () => Promise<void>
   list: () => Promise<void>
   research: (props: ResearchProps) => Promise<void>
   cancel: () => Promise<void>
@@ -36,16 +33,10 @@ export const useTechnology = (): HookTechnology => {
   const { technologies, setTechnologies, technology, setTechnology } = useContext(TechnologyContext)
   const { token } = useAuth()
   const { city, refresh } = useCity()
-  const technologyInProgress = useMemo(() => {
+
+  const inProgress = useMemo(() => {
     return technologies.find(technology => technology.research_at)
   }, [technologies])
-
-  const { remainingTime, reset } = useTimer({
-    doneAt: technologyInProgress?.research_at,
-    onDone: async () => {
-      await finishResearch()
-    }
-  })
 
   const select = async ({ code }: SelectProps) => {
     if (!city) {
@@ -77,7 +68,6 @@ export const useTechnology = (): HookTechnology => {
   const finishResearch = async () => {
     await technologyFinishResearch({ token })
     await list()
-    reset()
   }
 
   const list = async () => {
@@ -97,16 +87,6 @@ export const useTechnology = (): HookTechnology => {
     await cancelTechnology({ token })
     await list()
   }
-
-  const inProgress = useMemo(() => {
-    return technologyInProgress
-      ? {
-        code: technologyInProgress.code,
-        remainingTime
-      }
-      : undefined
-  }, [technologyInProgress])
-
   return {
     technology,
     technologies,
@@ -115,5 +95,6 @@ export const useTechnology = (): HookTechnology => {
     cancel,
     list,
     research,
+    finishResearch,
   }
 }
