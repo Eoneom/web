@@ -1,15 +1,21 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { OutpostItem } from '#types'
+import { Outpost, OutpostItem } from '#types'
 import React, { createContext, useState } from 'react'
 
 interface OutpostContextState {
   outposts: OutpostItem[]
   setOutposts: (outposts: OutpostItem[]) => void
+
+  outpost: Outpost | null
+  setOutpost: (outpost: Outpost | null) => void
 }
 
 export const OutpostContext = createContext<OutpostContextState>({
   outposts: [],
-  setOutposts: () => {}
+  setOutposts: () => {},
+
+  outpost: null,
+  setOutpost: () => {}
 })
 
 interface Props {
@@ -18,11 +24,15 @@ interface Props {
 
 export const OutpostContextProvider: React.FC<Props> = ({ children }) => {
   const [ outposts, setOutposts ] = useState<OutpostItem[]>([])
+  const [ outpost, setOutpost ] = useState<Outpost | null>(null)
 
   return (
     <OutpostContext.Provider value={{
       outposts,
-      setOutposts
+      setOutposts,
+
+      outpost,
+      setOutpost
     }}>
       {children}
     </OutpostContext.Provider>

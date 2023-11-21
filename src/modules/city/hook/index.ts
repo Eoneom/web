@@ -9,6 +9,7 @@ import { getCity } from '#city/api/get'
 interface HookCity {
   city: City | null
   cities: { id: string, name: string }[]
+  deselect: () => void
   select: (props: { cityId: string }) => Promise<void>
   list: () => Promise<void>
   gather: () => Promise<void>
@@ -23,6 +24,10 @@ export const useCity = (): HookCity => {
     cities,
     setCities
   } = useContext(CityContext)
+
+  const deselect = () => {
+    setCity(null)
+  }
 
   const select = async ({ cityId }: { cityId: string }) => {
     const city = await getCity({ token, cityId })
@@ -67,6 +72,7 @@ export const useCity = (): HookCity => {
   return {
     city,
     cities,
+    deselect,
     select,
     list,
     gather,

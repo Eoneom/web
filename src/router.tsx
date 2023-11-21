@@ -10,6 +10,8 @@ import { TroupPage } from '#troup/page'
 import { MovementPage } from '#movement/page'
 import { ReportPage } from '#communication/page'
 import { CityRoot } from '#city/root'
+import { OutpostRoot } from '#outpost/root'
+import { OutpostPage } from '#outpost/page'
 
 export const router = createBrowserRouter([
   {
@@ -44,11 +46,11 @@ export const router = createBrowserRouter([
       },
       {
         path: 'outpost',
-        element: <>Outpost</>,
+        element: <OutpostRoot />,
         children: [
           {
             path: ':outpostId',
-            element: <>Outpost</>
+            element: <OutpostPage />
           }
         ]
       },

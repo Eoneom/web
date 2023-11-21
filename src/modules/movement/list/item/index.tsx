@@ -17,7 +17,7 @@ export const MovementListItem: React.FC<Props> = ({ movement }) => {
   return <li>
     {movement.action}
     {movement.origin.sector} {movement.origin.x} {movement.origin.y}
-    {' --> '}
+    {' -> '}
     {movement.destination.sector} { movement.destination.x} {movement.destination.y} {' : '}
     {formatTime(remainingTime)}
   </li>

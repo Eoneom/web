@@ -1,8 +1,8 @@
 import { useCity } from '#city/hook'
 import React from 'react'
-import { useOutpost } from '#outpost/hook'
 import { NavLocationCities } from '#ui/nav/location/city'
 import { NavLocationOutposts } from '#ui/nav/location/outpost'
+import { useOutpost } from '#outpost/hook'
 
 export const NavLocation: React.FC = () => {
   const { cities } = useCity()

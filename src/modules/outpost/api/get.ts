@@ -2,10 +2,10 @@ import { toast } from 'react-toastify'
 
 import { client } from '#helpers/api'
 import { isError } from '#helpers/assertion'
-import { OutpostListDataResponse } from '@kroust/swarm-client'
+import { OutpostGetDataResponse } from '@kroust/swarm-client'
 
-export const listOutposts = async ({ token }: { token: string }): Promise<OutpostListDataResponse | null> => {
-  const res = await client.outpost.list(token)
+export const getOutpost = async ({ token, outpostId }: { token: string, outpostId: string }): Promise<OutpostGetDataResponse | null> => {
+  const res = await client.outpost.get(token, { outpost_id: outpostId })
   if (isError(res)) {
     toast.error(res.error_code)
     return null
@@ -13,11 +13,6 @@ export const listOutposts = async ({ token }: { token: string }): Promise<Outpos
 
   if (!res.data) {
     toast.warn('data not found')
-    return null
-  }
-
-  const { data } = res
-  if (!data.outposts.length) {
     return null
   }
 

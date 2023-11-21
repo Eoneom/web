@@ -4,6 +4,7 @@ import {
   CityGetDataResponse,
   CityListDataResponse,
   CommunicationListReportDataResponse,
+  OutpostGetDataResponse,
   OutpostListDataResponse,
   TechnologyGetDataResponse,
   TechnologyListDataResponse,
@@ -23,3 +24,4 @@ export type Troup = TroupListDataResponse['troups'][number]
 export type Movement = TroupListMovementDataResponse['movements'][number]
 export type Report = CommunicationListReportDataResponse['reports'][number]
 export type OutpostItem = OutpostListDataResponse['outposts'][number]
+export type Outpost = OutpostGetDataResponse

@@ -1,3 +1,5 @@
+import { Coordinates } from '@kroust/swarm-client'
+
 export const formatTime = (seconds: number): string => {
   const hours = Math.floor(seconds / 3600)
   const secondsWithoutHours = seconds % 3600
@@ -13,6 +15,10 @@ export const formatTime = (seconds: number): string => {
   }
 
   return `${remainingSeconds}s`
+}
+
+export const formatCoordinates = (coordinates: Coordinates): string => {
+  return `${coordinates.sector};${coordinates.x};${coordinates.y}`
 }
 
 export const formatDate = (seconds: number): string => {

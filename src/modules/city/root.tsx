@@ -1,16 +1,17 @@
 import { useCity } from '#city/hook'
 import React, { useEffect } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useParams } from 'react-router-dom'
 
 export const CityRoot: React.FC = () => {
+  const { cityId } = useParams()
   const { city, cities, select, gather } = useCity()
 
   useEffect(() => {
-    if (!cities.length || city) {
+    if (!cities.length || city || !cityId) {
       return
     }
 
-    select({ cityId: cities[0].id })
+    select({ cityId })
   }, [cities.length, city])
 
   useEffect(() => {
