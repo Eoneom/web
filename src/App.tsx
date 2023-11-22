@@ -10,11 +10,13 @@ import { NavSide } from '#ui/nav/side'
 import { NavLocation } from '#ui/nav/location'
 import { GameProvider } from '#helpers/provider'
 import { useOutpost } from '#outpost/hook'
+import { useReport } from '#communication/report/hook'
 
 const App: React.FC = () => {
   const { list: listCities } = useCity()
   const { list: listOutposts } = useOutpost()
   const { token, retrieveStoredToken } = useAuth()
+  const { countUnread } = useReport()
 
   useEffect(() => {
     retrieveStoredToken()
@@ -27,6 +29,7 @@ const App: React.FC = () => {
 
     listCities()
     listOutposts()
+    countUnread()
   }, [token])
 
   return (

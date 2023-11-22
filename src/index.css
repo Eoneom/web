@@ -340,3 +340,7 @@ button:disabled {
   left: 50%;
   margin-left: -4em;
 }
+
+li.unread {
+  font-weight: bold;
+}

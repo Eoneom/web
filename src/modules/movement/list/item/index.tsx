@@ -3,6 +3,7 @@ import { formatTime } from '#helpers/transform'
 import { useTimer } from '#hook/timer'
 import { Movement } from '#types'
 import { useMovement } from '#movement/hook'
+import { useReport } from '#communication/report/hook'
 
 interface Props {
   movement: Movement
@@ -10,8 +11,12 @@ interface Props {
 
 export const MovementListItem: React.FC<Props> = ({ movement }) => {
   const { finish } = useMovement()
+  const { countUnread } = useReport()
   const { remainingTime } = useTimer({
-    onDone: () => finish({ movementId: movement.id }),
+    onDone: async () => {
+      await finish({ movementId: movement.id })
+      await countUnread()
+    },
     doneAt: movement.arrive_at
   })
   return <li>

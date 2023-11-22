@@ -9,6 +9,7 @@ import { OutpostContextProvider } from '#outpost/hook/context'
 
 import 'react-toastify/dist/ReactToastify.css'
 import './index.css'
+import { ReportContextProvider } from '#communication/report/hook/context'
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -19,7 +20,9 @@ root.render(
     <AuthContextProvider>
       <CityContextProvider>
         <OutpostContextProvider>
-          <RouterProvider router={router} />
+          <ReportContextProvider>
+            <RouterProvider router={router} />
+          </ReportContextProvider>
         </OutpostContextProvider>
       </CityContextProvider>
     </AuthContextProvider>

@@ -4,6 +4,8 @@ import { useAuth } from '#auth/hook'
 import { listReports } from '#communication/report/api/list'
 import { ReportContext } from '#communication/report/hook/context'
 import { getReport } from '#communication/report/api/get'
+import { countUnreadReports } from '#communication/report/api/count-unread'
+import { markReport } from '#communication/report/api/mark'
 
 interface HookUseReport {
   report: Report | null
@@ -11,6 +13,9 @@ interface HookUseReport {
 
   reports: ReportItem[]
   list: () => Promise<void>
+
+  unreadCount: number
+  countUnread: () => Promise<void>
 }
 
 interface SelectParams {
@@ -18,8 +23,14 @@ interface SelectParams {
 }
 
 export const useReport = (): HookUseReport => {
-  const { reports, setReports, report, setReport } = useContext(ReportContext)
+  const { reports, setReports, report, setReport, unreadCount, setUnreadCount } = useContext(ReportContext)
   const { token } = useAuth()
+
+  const markReportAsReadAndRefresh = async ({ reportId }: { reportId: string }) => {
+    await markReport({ token, reportId, wasRead: true })
+    await list()
+    await countUnread()
+  }
 
   const select = async ({ reportId }: SelectParams) => {
     const data = await getReport({ token, reportId })
@@ -28,6 +39,10 @@ export const useReport = (): HookUseReport => {
     }
 
     setReport(data)
+
+    if (!data.was_read) {
+      markReportAsReadAndRefresh({ reportId })
+    }
   }
 
   const list = async () => {
@@ -39,11 +54,23 @@ export const useReport = (): HookUseReport => {
     setReports(data.reports)
   }
 
+  const countUnread = async () => {
+    const data = await countUnreadReports({ token })
+    if (!data) {
+      return
+    }
+
+    setUnreadCount(data.count)
+  }
+
   return {
     report,
     select,
 
     reports,
     list,
+
+    unreadCount,
+    countUnread
   }
 }
