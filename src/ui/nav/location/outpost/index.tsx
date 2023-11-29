@@ -9,15 +9,18 @@ interface Props {
 }
 
 export const NavLocationOutposts: React.FC<Props> = ({ outposts }) => {
-  return <ul>
-    {
-      outposts.map(outpost =>
-        <NavLocationItem
-          key={outpost.id}
-          to={`/outpost/${outpost.id}`}
-          text={formatCoordinates(outpost.coordinates)}
-        />
-      )
-    }
-  </ul>
+  return <>
+    <h3>Avant-postes</h3>
+    <ul>
+      {
+        outposts.map(outpost =>
+          <NavLocationItem
+            key={outpost.id}
+            to={`/outpost/${outpost.id}`}
+            text={formatCoordinates(outpost.coordinates)}
+          />
+        )
+      }
+    </ul>
+  </>
 }

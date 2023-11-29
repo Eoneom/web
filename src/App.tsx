@@ -4,9 +4,9 @@ import { ToastContainer } from 'react-toastify'
 
 import { AuthLoginForm } from '#auth/login-form'
 import { useAuth } from '#auth/hook'
-import { NavBar } from '#ui/nav/bar'
+import { Header } from '#ui/header'
 import { useCity } from '#city/hook'
-import { NavSide } from '#ui/nav/side'
+import { NavMenu } from '#ui/nav/menu'
 import { NavLocation } from '#ui/nav/location'
 import { GameProvider } from '#helpers/provider'
 import { useOutpost } from '#outpost/hook'
@@ -33,25 +33,23 @@ const App: React.FC = () => {
   }, [token])
 
   return (
-    <main>
-      <GameProvider>
-        <AuthLoginForm />
-        { token && <>
-          <NavBar />
-          <div id="main">
-            <NavSide />
-            <Outlet />
-            <NavLocation />
-          </div>
-        </>
-        }
-      </GameProvider>
+    <GameProvider>
+      <Header />
+      <div id="main">
+        <NavMenu />
+        <main>
+          <AuthLoginForm />
+          <Outlet />
+        </main>
+
+        <NavLocation />
+      </div>
 
       <ToastContainer
         position='bottom-right'
         autoClose={3000}
       />
-    </main>
+    </GameProvider>
   )
 }
 

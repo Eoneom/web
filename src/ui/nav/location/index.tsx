@@ -8,8 +8,8 @@ export const NavLocation: React.FC = () => {
   const { cities } = useCity()
   const { outposts } = useOutpost()
 
-  return <aside id="nav-location">
+  return <nav id="location">
     { Boolean(cities.length) && <NavLocationCities cities={cities} /> }
     { Boolean(outposts.length) && <NavLocationOutposts outposts={outposts} />}
-  </aside>
+  </nav>
 }

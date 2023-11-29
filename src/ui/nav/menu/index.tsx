@@ -4,12 +4,12 @@ import { getActiveClassName } from '#helpers/classname'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 
-export const NavSide: React.FC = () => {
+export const NavMenu: React.FC = () => {
   const { city } = useCity()
   const { unreadCount } = useReport()
 
   return (
-    <aside id="nav-side">
+    <nav id="menu">
       {
         city && (
           <>
@@ -42,6 +42,6 @@ export const NavSide: React.FC = () => {
         <li>Paramètres</li>
         <li>Se déconnecter</li>
       </ul>
-    </aside>
+    </nav>
   )
 }

@@ -48,9 +48,6 @@ a {
   color: var(--dark-primary);
 }
 
-main {
-  max-height: 100vh;
-}
 
 #main {
   display: grid;
@@ -98,21 +95,21 @@ ul {
   line-height: 1.5em;
 }
 
-#nav-side,
-#nav-bar,
-#nav-location,
+header,
+#menu,
+#location,
 #content,
 #details {
   box-sizing: border-box;
 }
 
-#nav-location {
+#location {
   padding: 0.5em;
 
   border-left: var(--light-primary-2) 1px solid;
 }
 
-#nav-location li {
+#location li {
   margin-top: 0.5em;
   padding: 0.5em;
 
@@ -124,20 +121,23 @@ ul {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 25%);
 }
 
-#nav-location li.active {
+#location li.active {
   background-color: var(--light-primary-3);
 }
 
+#location ul {
+  margin-bottom: 1em;
+}
+
 .details-enabled {
-  height: 53vh;
+  height: 60%;
 }
 
 #details {
   position: absolute;
   bottom: 0;
-  margin-left: 14%;
-  width: 71%;
-  height: 40vh;
+  width: 70%;
+  height: 40%;
   display: flex;
   justify-content: space-between;
   background-color: var(--light-primary-2);
@@ -146,7 +146,7 @@ ul {
 }
 
 #details-content {
-  width: 75%;
+  width: 80%;
   padding: 16px;
 }
 
@@ -165,18 +165,18 @@ ul {
   line-height: 1.5em;
 }
 
-#nav-bar {
+header {
   height: 7vh;
   display: flex;
   justify-content: space-evenly;
-  color: var(--dark-primary)
+  color: var(--dark-primary);
 }
 
-#nav-bar a {
+header a {
   text-decoration: none;
 }
 
-#nav-bar h1 {
+header h1 {
   display: flex;
   margin: 0 2%;
   justify-content: center;
@@ -184,7 +184,7 @@ ul {
   background-color: var(--light-primary);
 }
 
-#nav-bar h3 {
+header h3 {
   width: 100%;
   display: flex;
   align-items: center;
@@ -193,7 +193,7 @@ ul {
   background-color: var(--light-primary-2);
 }
 
-#nav-bar ul {
+header ul {
   display: flex;
   justify-content: space-evenly;
   width: 100%;
@@ -201,19 +201,19 @@ ul {
   background-color: var(--light-primary-2);
 }
 
-#nav-bar li {
+header li {
   font-weight: bold;
   display: flex;
   align-items: center;
   gap: 0.5em;
 }
 
-#nav-bar li progress {
+header li progress {
   width: 5em;
   accent-color: var(--success-color);
 }
 
-#nav-bar li progress.warn {
+header li progress.warn {
   accent-color: var(--danger-color);
 }
 
@@ -231,20 +231,20 @@ ul {
 #content {
   padding: 1em;
   overflow: scroll;
+  max-height: 93vh;
 }
 
-#nav-side {
+#menu {
   height: 93vh;
-  max-width: 14vw;
   padding: 1.5em 1em;
   border-right: var(--light-primary-2) 1px solid;
 }
 
-#nav-side ul {
+#menu ul {
   margin-bottom: 24px;
 }
 
-#nav-side li {
+#menu li {
   margin: 0.75em 0;
 }
 
@@ -281,7 +281,7 @@ a.active {
   font-weight: bold;
 }
 
-#nav-side a:hover {
+#menu a:hover {
   color: var(--primary);
 }
 

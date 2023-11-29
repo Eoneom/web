@@ -10,7 +10,7 @@ interface Props {
   icon: React.ReactNode
 }
 
-export const NavBarResourcesItem: React.FC<Props> = ({ value, warehouse_capacity, earnings_per_second, icon }) => {
+export const HeaderResourcesItem: React.FC<Props> = ({ value, warehouse_capacity, earnings_per_second, icon }) => {
   const warnCapacity = 70/100
   const className = value >= warehouse_capacity ? 'danger' : ''
   const earningsPerHour = transformHourlyEarnings(earnings_per_second)

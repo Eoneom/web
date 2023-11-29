@@ -6,6 +6,6 @@ interface Props {
   text: string
 }
 
-export const NavBarTitle: React.FC<Props> = ({ to, text }) => {
+export const HeaderTitle: React.FC<Props> = ({ to, text }) => {
   return <h1><Link to={to}>{text}</Link></h1>
 }
