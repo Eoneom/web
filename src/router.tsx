@@ -28,10 +28,6 @@ export const router = createBrowserRouter([
             element: <section id="content"><h1>Bienvenue</h1></section>
           },
           {
-            path: 'map',
-            element: <MapPage />
-          },
-          {
             path: 'movement',
             element: <MovementPage />
           },
@@ -50,6 +46,10 @@ export const router = createBrowserRouter([
             element: <CityPage />
           },
           {
+            path: 'map',
+            element: <MapPage />
+          },
+          {
             path: 'building',
             element: <BuildingPage />
           },
@@ -64,13 +64,17 @@ export const router = createBrowserRouter([
         ]
       },
       {
-        path: 'outpost',
+        path: 'outpost/:outpostId',
         element: <OutpostRoot />,
         children: [
           {
-            path: ':outpostId',
-            element: <OutpostPage />
-          }
+            path: '',
+            element: <OutpostPage />,
+          },
+          {
+            path: 'map',
+            element: <MapPage />
+          },
         ]
       }
     ]

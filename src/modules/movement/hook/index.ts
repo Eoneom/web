@@ -1,6 +1,5 @@
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { useAuth } from '#auth/hook'
-import { useCity } from '#city/hook'
 import { MovementContext } from '#movement/hook/context'
 import { listMovements } from '#troup/api/list-movement'
 import { Movement } from '#types'
@@ -15,14 +14,9 @@ interface HookMovement {
 export const useMovement = (): HookMovement => {
   const { movements, setMovements } = useContext(MovementContext)
   const { token } = useAuth()
-  const { city } = useCity()
 
   const list = async () => {
-    if (!city) {
-      return
-    }
-
-    const data = await listMovements({ token, cityId: city.id })
+    const data = await listMovements({ token })
     if (!data) {
       return
     }
@@ -34,10 +28,6 @@ export const useMovement = (): HookMovement => {
     await finishMovement({ token, movementId })
     await list()
   }
-
-  useEffect(() => {
-    list()
-  }, [city?.id])
 
   return {
     movements,

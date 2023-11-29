@@ -1,19 +1,17 @@
-import { useCity } from '#city/hook'
 import { getCellFillStyle } from '#map/helper'
-import { useWorld } from '#map/hook/world'
+import { Sector } from '#types'
 import React, { useEffect, useRef } from 'react'
 
 interface Props {
   onCellClicked: (params: { x: number, y: number }) => void
+  sector: Sector
 }
 
-export const MapCanvas: React.FC<Props> = ({ onCellClicked }) => {
+export const MapCanvas: React.FC<Props> = ({ onCellClicked, sector }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
-  const { sector } = useWorld()
-  const { city } = useCity()
 
   const handleCanvasClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!canvasRef.current || !sector) {
+    if (!canvasRef.current) {
       return
     }
 
@@ -32,7 +30,7 @@ export const MapCanvas: React.FC<Props> = ({ onCellClicked }) => {
   }
 
   useEffect(() => {
-    if (!canvasRef.current || !sector || !city) {
+    if (!canvasRef.current || !sector) {
       return
     }
 
@@ -47,12 +45,7 @@ export const MapCanvas: React.FC<Props> = ({ onCellClicked }) => {
     const HEIGHT = TOTAL_HEIGHT /  Math.sqrt(sector.cells.length)
 
     sector.cells.forEach(cell => {
-      ctx.fillStyle = getCellFillStyle({
-        x: cell.coordinates.x,
-        y: cell.coordinates.y,
-        city,
-        type: cell.characteristic?.type
-      })
+      ctx.fillStyle = getCellFillStyle({ type: cell.characteristic?.type })
 
       const square_x = (cell.coordinates.x - 1)*WIDTH
       const square_y = TOTAL_HEIGHT-cell.coordinates.y*HEIGHT
@@ -63,12 +56,10 @@ export const MapCanvas: React.FC<Props> = ({ onCellClicked }) => {
 
       ctx.strokeRect(square_x, square_y, WIDTH, HEIGHT)
     })
-  }, [sector, city?.coordinates])
+  }, [sector])
 
   return sector && <>
-    <h2>
-      Secteur {sector.id}
-    </h2>
+    <h2>Secteur {sector.id}</h2>
     <canvas
       id="map"
       ref={canvasRef}

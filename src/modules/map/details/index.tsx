@@ -1,26 +1,26 @@
 import React, { useMemo } from 'react'
 
 import { useCity } from '#city/hook'
-import { useWorld } from '#map/hook/world'
 import { useTroup } from '#troup/hook'
 import { Button } from '#ui/button'
 import { LayoutDetailsContent } from '#ui/layout/details/content'
 import { MapDetailsActionBase } from '#map/details/action/base'
+import { Sector } from '#types'
 
 interface Props {
   coordinates: {
     x: number
     y: number
   }
+  sector: Sector
 }
 
-export const MapDetails: React.FC<Props> = ({ coordinates }) => {
+export const MapDetails: React.FC<Props> = ({ coordinates, sector }) => {
   const { city } = useCity()
-  const { sector } = useWorld()
   const { explore } = useTroup()
 
   const selectedCell = useMemo(() => {
-    if (!sector || !coordinates) {
+    if (!coordinates) {
       return null
     }
     return sector.cells.find(cell =>

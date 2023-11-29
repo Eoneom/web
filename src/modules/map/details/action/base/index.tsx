@@ -1,4 +1,5 @@
 import { useCity } from '#city/hook'
+import { useOutpost } from '#outpost/hook'
 import { useTroup } from '#troup/hook'
 import { TroupTranslations } from '#troup/translations'
 import { Button } from '#ui/button'
@@ -16,11 +17,13 @@ interface Props {
 export const MapDetailsActionBase: React.FC<Props> = ({ coordinates }) => {
   const { troups, base } = useTroup()
   const { city } = useCity()
+  const { outpost } = useOutpost()
 
   const [troupsToBase, setTroupsToBase] = useState<Partial<Record<TroupCode, number>>>({})
 
   const handleBase = () => {
-    if (!city) {
+    const origin = city ? city.coordinates : outpost?.coordinates
+    if (!origin) {
       return
     }
 
@@ -37,7 +40,11 @@ export const MapDetailsActionBase: React.FC<Props> = ({ coordinates }) => {
       return
     }
 
-    base({ origin: city.coordinates, destination: coordinates, troups: finalTroups })
+    base({
+      origin,
+      destination: coordinates,
+      troups: finalTroups
+    })
   }
 
   return  <>
@@ -49,7 +56,7 @@ export const MapDetailsActionBase: React.FC<Props> = ({ coordinates }) => {
           <input type="number" max={troup.count} onChange={event => setTroupsToBase({
             ...troupsToBase,
             [troup.code]: event.target.value
-          })} />
+          })} /> / {troup.count}
           <br />
         </li>
       })}

@@ -1,11 +1,6 @@
-import { City } from '#types'
 import { CellType } from '@kroust/swarm-client'
 
-export const getCellFillStyle = ({ type, city, x, y }: { type?: CellType, city: City, x: number, y: number }): string => {
-  if (city.coordinates.x === x && city.coordinates.y === y) {
-    return '#FFF'
-  }
-
+export const getCellFillStyle = ({ type }: { type?: CellType }): string => {
   switch(type) {
   case CellType.FOREST:
     return '#0F0'

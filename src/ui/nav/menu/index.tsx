@@ -1,12 +1,16 @@
 import { useCity } from '#city/hook'
 import { useReport } from '#communication/report/hook'
 import { getActiveClassName } from '#helpers/classname'
+import { useOutpost } from '#outpost/hook'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 
 export const NavMenu: React.FC = () => {
   const { city } = useCity()
+  const { outpost } = useOutpost()
   const { unreadCount } = useReport()
+
+  const urlPrefix = city ? `/city/${city.id}`: outpost ? `outpost/${outpost.id}`: ''
 
   return (
     <nav id="menu">
@@ -25,7 +29,7 @@ export const NavMenu: React.FC = () => {
 
       <h2>Monde</h2>
       <ul>
-        <li><NavLink className={getActiveClassName} to={'map'}>Carte</NavLink></li>
+        <li><NavLink className={getActiveClassName} to={`${urlPrefix}/map`}>Carte</NavLink></li>
         <li><NavLink className={getActiveClassName} to={'movement'}>Déplacement</NavLink></li>
         <li>Alliance</li>
         <li>Empire</li>
