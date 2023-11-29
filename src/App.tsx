@@ -33,12 +33,11 @@ const App: React.FC = () => {
   }, [token])
 
   return (
-    <GameProvider>
+    token ? <GameProvider>
       <Header />
       <div id="main">
         <NavMenu />
         <main>
-          <AuthLoginForm />
           <Outlet />
         </main>
 
@@ -49,7 +48,7 @@ const App: React.FC = () => {
         position='bottom-right'
         autoClose={3000}
       />
-    </GameProvider>
+    </GameProvider>: <AuthLoginForm />
   )
 }
 

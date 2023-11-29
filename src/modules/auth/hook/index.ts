@@ -2,6 +2,8 @@ import { useContext } from 'react'
 
 import { AuthContext } from '#auth/hook/context'
 import { login as doLogin } from '#auth/api/login'
+import { doSignup } from '#auth/api/signup'
+import { toast } from 'react-toastify'
 
 interface HookUseAuth {
   token: string
@@ -25,7 +27,18 @@ export const useAuth = (): HookUseAuth => {
   }
 
   const login = async ({ playerName }: LoginProps) => {
-    const token = await doLogin({ playerName })
+    let token
+    try {
+      token = await doLogin({ playerName })
+    } catch (err) {
+      await doSignup({ playerName, cityName: `${playerName}City` })
+      token = await doLogin({ playerName })
+    }
+
+    if (!token) {
+      toast.error('error occured during login/signup')
+      return
+    }
     window.localStorage.setItem('token', token)
     setToken(token)
   }
