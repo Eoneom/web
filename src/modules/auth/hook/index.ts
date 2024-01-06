@@ -2,6 +2,7 @@ import { useContext } from 'react'
 
 import { AuthContext } from '#auth/hook/context'
 import { login as doLogin } from '#auth/api/login'
+import { logout as doLogout } from '#auth/api/logout'
 import { doSignup } from '#auth/api/signup'
 import { toast } from 'react-toastify'
 
@@ -44,6 +45,7 @@ export const useAuth = (): HookUseAuth => {
   }
 
   const logout = async () => {
+    await doLogout({ token })
     window.localStorage.removeItem('token')
     setToken('')
   }

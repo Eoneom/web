@@ -1,3 +1,4 @@
+import { useAuth } from '#auth/hook'
 import { useCity } from '#city/hook'
 import { useReport } from '#communication/report/hook'
 import { getActiveClassName } from '#helpers/classname'
@@ -9,6 +10,7 @@ export const NavMenu: React.FC = () => {
   const { city } = useCity()
   const { outpost } = useOutpost()
   const { unreadCount } = useReport()
+  const { logout } = useAuth()
 
   const urlPrefix = city ? `/city/${city.id}`: outpost ? `outpost/${outpost.id}`: ''
 
@@ -44,7 +46,7 @@ export const NavMenu: React.FC = () => {
       <h2>Compte</h2>
       <ul>
         <li>Paramètres</li>
-        <li>Se déconnecter</li>
+        <li><NavLink to={''} onClick={(e) => {e.preventDefault(); logout()}}>Se déconnecter</NavLink></li>
       </ul>
     </nav>
   )
