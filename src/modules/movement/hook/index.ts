@@ -8,7 +8,7 @@ import { finishMovement } from '#troup/api/finish-movement'
 interface HookMovement {
   movements: Movement[]
   list: () => Promise<void>
-  finish: (props: { movementId: string }) => Promise<void>
+  finish: () => Promise<void>
 }
 
 export const useMovement = (): HookMovement => {
@@ -24,8 +24,8 @@ export const useMovement = (): HookMovement => {
     setMovements(data.movements)
   }
 
-  const finish = async ({ movementId }: { movementId: string }) => {
-    await finishMovement({ token, movementId })
+  const finish = async () => {
+    await finishMovement({ token })
     await list()
   }
 

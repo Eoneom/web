@@ -14,7 +14,7 @@ export const MovementListItem: React.FC<Props> = ({ movement }) => {
   const { countUnread } = useReport()
   const { remainingTime } = useTimer({
     onDone: async () => {
-      await finish({ movementId: movement.id })
+      await finish()
       await countUnread()
     },
     doneAt: movement.arrive_at
