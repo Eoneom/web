@@ -29,7 +29,13 @@ export const router = createBrowserRouter([
           },
           {
             path: 'movement',
-            element: <MovementPage />
+            element: <MovementPage />,
+            children: [
+              {
+                path: ':movementId',
+                element: <MovementPage />
+              }
+            ]
           },
           {
             path: 'report',

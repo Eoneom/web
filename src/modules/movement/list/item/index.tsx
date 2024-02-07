@@ -1,12 +1,13 @@
 import React from 'react'
 import { formatTime } from '#helpers/transform'
 import { useTimer } from '#hook/timer'
-import { Movement } from '#types'
+import { MovementItem } from '#types'
 import { useMovement } from '#movement/hook'
 import { useReport } from '#communication/report/hook'
+import { NavLink } from 'react-router-dom'
 
 interface Props {
-  movement: Movement
+  movement: MovementItem
 }
 
 export const MovementListItem: React.FC<Props> = ({ movement }) => {
@@ -20,10 +21,12 @@ export const MovementListItem: React.FC<Props> = ({ movement }) => {
     doneAt: movement.arrive_at
   })
   return <li>
-    {movement.action}
-    {movement.origin.sector} {movement.origin.x} {movement.origin.y}
-    {' -> '}
-    {movement.destination.sector} { movement.destination.x} {movement.destination.y} {' : '}
-    {formatTime(remainingTime)}
+    <NavLink to={`/movement/${movement.id}`}>
+      {movement.action}
+      {movement.origin.sector} {movement.origin.x} {movement.origin.y}
+      {' -> '}
+      {movement.destination.sector} { movement.destination.x} {movement.destination.y} {' : '}
+      {formatTime(remainingTime)}
+    </NavLink>
   </li>
 }

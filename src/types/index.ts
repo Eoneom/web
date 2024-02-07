@@ -9,6 +9,7 @@ import {
   OutpostListDataResponse,
   TechnologyGetDataResponse,
   TechnologyListDataResponse,
+  TroupGetMovementDataResponse,
   TroupListDataResponse,
   TroupListMovementDataResponse,
   WorldGetSectorDataResponse,
@@ -26,7 +27,8 @@ export type TechnologyItem = TechnologyListDataResponse['technologies'][number]
 export type Sector = WorldGetSectorDataResponse & { id: number }
 
 export type Troup = TroupListDataResponse['troups'][number]
-export type Movement = TroupListMovementDataResponse['movements'][number]
+export type Movement = TroupGetMovementDataResponse
+export type MovementItem = TroupListMovementDataResponse['movements'][number]
 
 export type Report = CommunicationGetReportDataResponse
 export type ReportItem = CommunicationListReportDataResponse['reports'][number]
