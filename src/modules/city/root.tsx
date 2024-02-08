@@ -23,7 +23,7 @@ export const CityRoot: React.FC = () => {
 
     const interval = setInterval(() => {
       gather()
-    }, 10000)
+    }, 3000)
 
     return () => clearInterval(interval)
   }, [city?.id])

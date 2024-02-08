@@ -14,6 +14,22 @@ import { OutpostRoot } from '#outpost/root'
 import { OutpostPage } from '#outpost/page'
 import { SharedRoot } from './modules/shared/root'
 
+const map = {
+  path: 'map',
+  element: <MapPage />
+}
+
+const movement = {
+  path: 'movement',
+  element: <MovementPage />,
+  children: [
+    {
+      path: ':movementId',
+      element: <MovementPage />
+    }
+  ]
+}
+
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -26,16 +42,6 @@ export const router = createBrowserRouter([
           {
             path: '',
             element: <section id="content"><h1>Bienvenue</h1></section>
-          },
-          {
-            path: 'movement',
-            element: <MovementPage />,
-            children: [
-              {
-                path: ':movementId',
-                element: <MovementPage />
-              }
-            ]
           },
           {
             path: 'report',
@@ -52,10 +58,6 @@ export const router = createBrowserRouter([
             element: <CityPage />
           },
           {
-            path: 'map',
-            element: <MapPage />
-          },
-          {
             path: 'building',
             element: <BuildingPage />
           },
@@ -67,6 +69,8 @@ export const router = createBrowserRouter([
             path: 'troup',
             element: <TroupPage />
           },
+          map,
+          movement
         ]
       },
       {
@@ -81,6 +85,8 @@ export const router = createBrowserRouter([
             path: 'map',
             element: <MapPage />
           },
+          map,
+          movement
         ]
       }
     ]

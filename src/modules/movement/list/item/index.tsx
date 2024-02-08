@@ -5,6 +5,9 @@ import { MovementItem } from '#types'
 import { useMovement } from '#movement/hook'
 import { useReport } from '#communication/report/hook'
 import { NavLink } from 'react-router-dom'
+import { useCity } from '#city/hook'
+import { useOutpost } from '#outpost/hook'
+import { getUrlPrefix } from '#helpers/url'
 
 interface Props {
   movement: MovementItem
@@ -13,6 +16,8 @@ interface Props {
 export const MovementListItem: React.FC<Props> = ({ movement }) => {
   const { finish } = useMovement()
   const { countUnread } = useReport()
+  const { city } = useCity()
+  const { outpost } = useOutpost()
   const { remainingTime } = useTimer({
     onDone: async () => {
       await finish()
@@ -20,8 +25,11 @@ export const MovementListItem: React.FC<Props> = ({ movement }) => {
     },
     doneAt: movement.arrive_at
   })
+
+  const urlPrefix = getUrlPrefix({ city, outpost })
+
   return <li>
-    <NavLink to={`/movement/${movement.id}`}>
+    <NavLink to={`${urlPrefix}/movement/${movement.id}`}>
       {movement.action}
       {movement.origin.sector} {movement.origin.x} {movement.origin.y}
       {' -> '}

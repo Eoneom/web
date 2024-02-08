@@ -12,6 +12,7 @@ import {
   TroupGetMovementDataResponse,
   TroupListDataResponse,
   TroupListMovementDataResponse,
+  TroupMovementEstimateDataResponse,
   WorldGetSectorDataResponse,
 } from '@kroust/swarm-client'
 
@@ -29,6 +30,7 @@ export type Sector = WorldGetSectorDataResponse & { id: number }
 export type Troup = TroupListDataResponse['troups'][number]
 export type Movement = TroupGetMovementDataResponse
 export type MovementItem = TroupListMovementDataResponse['movements'][number]
+export type MovementEstimation = TroupMovementEstimateDataResponse
 
 export type Report = CommunicationGetReportDataResponse
 export type ReportItem = CommunicationListReportDataResponse['reports'][number]

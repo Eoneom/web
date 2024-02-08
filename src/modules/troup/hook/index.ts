@@ -2,14 +2,13 @@ import { useContext, useMemo } from 'react'
 import {  Troup } from '#types'
 import { useAuth } from '#auth/hook'
 import { useCity } from '#city/hook'
-import { TroupCode } from '@kroust/swarm-client'
+import { Coordinates, MovementAction, TroupCode } from '@kroust/swarm-client'
 import { TroupContext } from '#troup/hook/context'
 import { listCityTroups } from '#troup/api/list/city'
 import { recruitTroup } from '#troup/api/recruit'
 import { progressRecruitTroup } from '#troup/api/progress-recruit'
 import { cancelTroup } from '#troup/api/cancel'
-import { troupExplore } from '#troup/api/explore'
-import { troupBase } from '#troup/api/base'
+import { createMovement } from '#movement/api/create'
 import { useOutpost } from '#outpost/hook'
 import { listOutpostTroups } from '#troup/api/list/outpost'
 
@@ -21,15 +20,20 @@ interface HookTroup {
   list: () => Promise<void>
   recruit: (props: RecruitProps) => Promise<void>
   cancel: () => Promise<void>
-  explore: (params: { coordinates: { x: number, y: number, sector: number } }) => Promise<void>
+  explore: (params: ExploreProps) => Promise<void>
   base: (params: BaseProps) => Promise<void>
   progressRecruit: () => Promise<void>
 }
 
 interface BaseProps {
-  origin: { x: number, y: number, sector: number }
-  destination: { x: number, y: number, sector: number }
+  origin: Coordinates
+  destination: Coordinates
   troups: {code: TroupCode, count: number}[]
+}
+
+interface ExploreProps {
+  origin: Coordinates
+  destination: Coordinates
 }
 
 interface RecruitProps {
@@ -84,15 +88,23 @@ export const useTroup = (): HookTroup => {
   }
 
   const base = async ({ origin, destination, troups  }: BaseProps) => {
-    await troupBase({ token, origin, destination, troups })
+    await createMovement({
+      token,
+      action: MovementAction.BASE,
+      origin,
+      destination,
+      troups
+    })
   }
 
-  const explore = async ({ coordinates }: { coordinates: { x: number, y: number, sector: number }}) => {
-    if (!city) {
-      return
-    }
-
-    await troupExplore({ token, cityId: city.id, coordinates })
+  const explore = async ({ origin, destination }: ExploreProps) => {
+    await createMovement({
+      token,
+      action: MovementAction.EXPLORE,
+      origin,
+      destination,
+      troups: [{code: TroupCode.EXPLORER, count: 1}]
+    })
   }
 
   const cancel = async () => {

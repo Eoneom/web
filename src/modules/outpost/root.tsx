@@ -17,7 +17,7 @@ export const OutpostRoot: React.FC = () => {
 
     deselectCity()
     select({ outpostId })
-  }, [token])
+  }, [outpostId, token])
 
   return <>
     <Outlet />

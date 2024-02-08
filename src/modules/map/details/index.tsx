@@ -6,6 +6,7 @@ import { Button } from '#ui/button'
 import { LayoutDetailsContent } from '#ui/layout/details/content'
 import { MapDetailsActionBase } from '#map/details/action/base'
 import { Sector } from '#types'
+import { useOutpost } from '#outpost/hook'
 
 interface Props {
   coordinates: {
@@ -17,12 +18,14 @@ interface Props {
 
 export const MapDetails: React.FC<Props> = ({ coordinates, sector }) => {
   const { city } = useCity()
+  const { outpost } = useOutpost()
   const { explore } = useTroup()
 
   const selectedCell = useMemo(() => {
     if (!coordinates) {
       return null
     }
+
     return sector.cells.find(cell =>
       cell.coordinates.x === coordinates.x &&
       cell.coordinates.y === coordinates.y
@@ -34,7 +37,15 @@ export const MapDetails: React.FC<Props> = ({ coordinates, sector }) => {
       return
     }
 
-    explore({ coordinates: { sector: sector.id, x: coordinates.x, y: coordinates.y}})
+    const origin = city ? city.coordinates : outpost?.coordinates
+    if (!origin) {
+      return
+    }
+
+    explore({
+      origin,
+      destination: { sector: sector.id, x: coordinates.x, y: coordinates.y }
+    })
   }
 
   return <LayoutDetailsContent>
@@ -42,7 +53,7 @@ export const MapDetails: React.FC<Props> = ({ coordinates, sector }) => {
     {
       city?.coordinates.x === coordinates.x &&
       city?.coordinates.y === coordinates.y &&
-    <>{city.name}</>
+      <>{city.name}</>
     }
     {
       selectedCell && !selectedCell.characteristic && <Button onClick={handleExplore}>Explorer</Button>

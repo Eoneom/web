@@ -5,15 +5,42 @@ import { listMovements } from '#movement/api/list'
 import { Movement, MovementItem } from '#types'
 import { finishMovement } from '#movement/api/finish'
 import { getMovement } from '#movement/api/get'
+import { Coordinates, MovementAction, TroupCode } from '@kroust/swarm-client'
+import { estimateMovement } from '#movement/api/estimate'
+import { createMovement } from '#movement/api/create'
 
 interface HookMovement {
   movements: MovementItem[]
   movement: Movement | null
+  create: (params: CreateMovementParams) => Promise<void>
+  estimate: (params: EstimateMovementParams) => Promise<EstimateMovementResult>
   list: () => Promise<void>
   finish: () => Promise<void>
   select: ({ movementId }: { movementId: string }) => Promise<void>
   deselect: () => void
 }
+
+interface CreateMovementParams {
+  action: MovementAction
+  origin: Coordinates
+  destination: Coordinates
+  troups: {
+    code: TroupCode
+    count: number
+  }[]
+}
+
+interface EstimateMovementParams {
+  origin: Coordinates
+  destination: Coordinates
+  troupCodes: TroupCode[]
+}
+
+type EstimateMovementResult = {
+  distance: number
+  speed: number
+  duration: number
+} | null
 
 export const useMovement = (): HookMovement => {
   const { movement, setMovement, movements, setMovements } = useContext(MovementContext)
@@ -46,9 +73,26 @@ export const useMovement = (): HookMovement => {
     await list()
   }
 
+  const estimate = async ({ origin, destination, troupCodes }: EstimateMovementParams): Promise<EstimateMovementResult> => {
+    const data = await estimateMovement({ token, origin, destination, troupCodes })
+    if (!data) {
+      return null
+    }
+
+    return data
+  }
+
+  const create = async ({ action, origin, destination, troups }: CreateMovementParams) => {
+    await createMovement({ token, action,  origin, destination, troups })
+
+    await list()
+  }
+
   return {
     movement,
     movements,
+    create,
+    estimate,
     list,
     finish,
     select,

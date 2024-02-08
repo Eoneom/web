@@ -9,7 +9,14 @@ export const MovementList: React.FC = () => {
     list()
   }, [])
 
-  return <ul>
-    {movements.map(movement => <MovementListItem key={movement.id} movement={movement}/>)}
-  </ul>
+  return <>
+    <h2>En cours</h2>
+    {
+      movements.length ?
+        <ul>
+          {movements.map(movement => <MovementListItem key={movement.id} movement={movement}/>)}
+        </ul>:
+        <p>Pas de déplacement actuellement</p>
+    }
+  </>
 }

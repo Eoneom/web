@@ -285,7 +285,8 @@ a.active {
   color: var(--primary);
 }
 
-button {
+button,
+input[type="submit"] {
   border: none;
   cursor: pointer;
   outline: none;
@@ -296,7 +297,8 @@ button {
   font-family: 'Montserrat';
 }
 
-button:disabled {
+button:disabled,
+input[type="submit"]:disabled {
   cursor: no-drop;
   background-color: grey;
 }
@@ -343,4 +345,27 @@ button:disabled {
 
 li.unread {
   font-weight: bold;
+}
+
+#movement-creation {
+  display: flex;
+}
+
+#troup-selection {
+  width: 65%;
+}
+
+#movement-submit ul li {
+  display: flex;
+  justify-content: space-between;
+}
+
+#coordinates {
+  display: flex;
+  flex-direction: column;
+}
+
+#coordinates span {
+  display: flex;
+  justify-content: space-between;
 }
