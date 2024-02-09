@@ -11,11 +11,15 @@ interface Props {
 
 export const NavLocationOutposts: React.FC<Props> = ({ outposts }) => {
   const temporaries = useMemo(() => {
-    return outposts.filter(outpost => outpost.type === OutpostType.TEMPORARY)
+    return outposts
+      .filter(outpost => outpost.type === OutpostType.TEMPORARY)
+      .sort((a, b) => formatCoordinates(a.coordinates).localeCompare(formatCoordinates(b.coordinates)))
   }, [outposts])
 
   const permanents = useMemo(() => {
-    return outposts.filter(outpost => outpost.type !== OutpostType.TEMPORARY)
+    return outposts
+      .filter(outpost => outpost.type !== OutpostType.TEMPORARY)
+      .sort((a, b) => formatCoordinates(a.coordinates).localeCompare(formatCoordinates(b.coordinates)))
   }, [outposts])
 
   if (!outposts.length) {

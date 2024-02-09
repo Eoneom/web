@@ -15,7 +15,7 @@ interface HookMovement {
   create: (params: CreateMovementParams) => Promise<{ deletedOutpostId?: string }>
   estimate: (params: EstimateMovementParams) => Promise<EstimateMovementResult>
   list: () => Promise<void>
-  finish: () => Promise<void>
+  finish: () => Promise<{ isOutpostCreated: boolean }>
   select: ({ movementId }: { movementId: string }) => Promise<void>
   deselect: () => void
 }
@@ -68,9 +68,11 @@ export const useMovement = (): HookMovement => {
     setMovements(data.movements)
   }
 
-  const finish = async () => {
-    await finishMovement({ token })
+  const finish = async (): Promise<{ isOutpostCreated: boolean }> => {
+    const { isOutpostCreated } = await finishMovement({ token })
     await list()
+
+    return { isOutpostCreated }
   }
 
   const estimate = async ({ origin, destination, troupCodes }: EstimateMovementParams): Promise<EstimateMovementResult> => {

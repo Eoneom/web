@@ -17,10 +17,13 @@ export const MovementListItem: React.FC<Props> = ({ movement }) => {
   const { finish } = useMovement()
   const { countUnread } = useReport()
   const { city } = useCity()
-  const { outpost } = useOutpost()
+  const { list, outpost } = useOutpost()
   const { remainingTime } = useTimer({
     onDone: async () => {
-      await finish()
+      const { isOutpostCreated } = await finish()
+      if (isOutpostCreated) {
+        await list()
+      }
       await countUnread()
     },
     doneAt: movement.arrive_at
