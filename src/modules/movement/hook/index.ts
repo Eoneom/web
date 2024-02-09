@@ -12,7 +12,7 @@ import { createMovement } from '#movement/api/create'
 interface HookMovement {
   movements: MovementItem[]
   movement: Movement | null
-  create: (params: CreateMovementParams) => Promise<void>
+  create: (params: CreateMovementParams) => Promise<{ deletedOutpostId?: string }>
   estimate: (params: EstimateMovementParams) => Promise<EstimateMovementResult>
   list: () => Promise<void>
   finish: () => Promise<void>
@@ -82,10 +82,12 @@ export const useMovement = (): HookMovement => {
     return data
   }
 
-  const create = async ({ action, origin, destination, troups }: CreateMovementParams) => {
-    await createMovement({ token, action,  origin, destination, troups })
+  const create = async ({ action, origin, destination, troups }: CreateMovementParams): Promise<{ deletedOutpostId?: string }> => {
+    const result = await createMovement({ token, action,  origin, destination, troups })
 
     await list()
+
+    return result
   }
 
   return {

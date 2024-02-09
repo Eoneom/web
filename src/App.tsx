@@ -48,7 +48,7 @@ const App: React.FC = () => {
         position='bottom-right'
         autoClose={3000}
       />
-    </GameProvider>: <AuthLoginForm />
+    </GameProvider> : <AuthLoginForm />
   )
 }
 

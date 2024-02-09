@@ -1,19 +1,23 @@
 import { useCity } from '#city/hook'
+import { useGo } from '#hook/go'
 import { MovementCreateAction } from '#movement/create/action'
 import { MovementCreateDestination } from '#movement/create/destination'
 import { MovementCreateEstimation } from '#movement/create/estimation'
 import { MovementCreateTroups } from '#movement/create/troups'
+import { MovementCreateWarning } from '#movement/create/warning'
 import { useMovement } from '#movement/hook'
 import { useOutpost } from '#outpost/hook'
 import { useTroup } from '#troup/hook'
 import { MovementEstimation } from '#types'
-import { Coordinates, MovementAction, TroupCode } from '@kroust/swarm-client'
+import { Coordinates, MovementAction, OutpostType, TroupCode } from '@kroust/swarm-client'
 import React, { useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 
 export const MovementCreate: React.FC = () => {
   const { troups } = useTroup()
   const { city } = useCity()
   const { outpost } = useOutpost()
+  const { goToFirstCity } = useGo()
 
   const { create, estimate } = useMovement()
   const [ selectedTroups, setSelectedTroups ] = useState<Partial<Record<TroupCode, number>>>({})
@@ -50,7 +54,7 @@ export const MovementCreate: React.FC = () => {
     setEstimation(result)
   }
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const origin = city ? city.coordinates : outpost?.coordinates
     if (!origin) {
@@ -70,7 +74,11 @@ export const MovementCreate: React.FC = () => {
       return
     }
 
-    create({ action, origin, destination, troups: moveTroups })
+    const { deletedOutpostId } = await create({ action, origin, destination, troups: moveTroups })
+    if (deletedOutpostId && outpost?.id === deletedOutpostId) {
+      toast.info('L\'avant poste temporaire a été supprimé, retour à la ville')
+      goToFirstCity()
+    }
   }
 
   return <form id="movement-creation" onSubmit={(event) => onSubmit(event)}>
@@ -93,6 +101,12 @@ export const MovementCreate: React.FC = () => {
         onChange={setDestination}
       />
       <MovementCreateEstimation estimation={estimation}/>
+
+      <MovementCreateWarning
+        isTemporaryOutpost={Boolean(outpost?.type === OutpostType.TEMPORARY)}
+        troups={troups}
+        selectedTroups={selectedTroups}
+      /><br />
       <input disabled={!estimation.distance} type="submit" value="Envoyer" />
     </div>
   </form>

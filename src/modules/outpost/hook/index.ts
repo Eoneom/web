@@ -8,6 +8,7 @@ import { useContext } from 'react'
 export interface HookUseOutpost {
   outpost: Outpost | null
   outposts: OutpostItem[]
+  deselect: () => void
   select: (params: { outpostId: string }) => Promise<void>
   list: () => Promise<void>
 }
@@ -31,6 +32,10 @@ export const useOutpost = (): HookUseOutpost => {
     setOutpost(outpost)
   }
 
+  const deselect = () => {
+    setOutpost(null)
+  }
+
   const list = async () => {
     const data = await listOutposts({ token })
     if (!data) {
@@ -43,6 +48,7 @@ export const useOutpost = (): HookUseOutpost => {
   return {
     outpost,
     outposts,
+    deselect,
     select,
     list,
   }
