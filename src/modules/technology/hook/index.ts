@@ -2,20 +2,21 @@ import { useContext, useMemo } from 'react'
 import { Technology, TechnologyItem } from '#types'
 import { TechnologyContext } from '#technology/hook/context'
 import { useAuth } from '#auth/hook'
-import { listTechnologies } from '#technology/api/list'
 import { researchTechnology } from '#technology/api/research'
 import { cancelTechnology } from '#technology/api/cancel'
-import { useCity } from '#city/hook'
 import { TechnologyCode } from '@kroust/swarm-client'
 import { technologyFinishResearch } from '#technology/api/finish-research'
 import { getTechnology } from '#technology/api/get'
+import { useAppDispatch, useAppSelector } from '#store/type'
+import { refreshCity } from '#city/slice/thunk'
+import { selectCityId } from '#city/slice'
+import { listTechnologies } from '#technology/slice/thunk'
 
 interface HookTechnology {
   technologies: TechnologyItem[]
   technology: Technology | null
   inProgress?: TechnologyItem
   finishResearch: () => Promise<void>
-  list: () => Promise<void>
   research: (props: ResearchProps) => Promise<void>
   cancel: () => Promise<void>
   select: (props: SelectProps) => Promise<void>
@@ -30,20 +31,21 @@ interface ResearchProps {
 }
 
 export const useTechnology = (): HookTechnology => {
-  const { technologies, setTechnologies, technology, setTechnology } = useContext(TechnologyContext)
+  const { technologies, technology, setTechnology } = useContext(TechnologyContext)
   const { token } = useAuth()
-  const { city, refresh } = useCity()
+  const cityId = useAppSelector(selectCityId)
+  const dispatch = useAppDispatch()
 
   const inProgress = useMemo(() => {
     return technologies.find(technology => technology.research_at)
   }, [technologies])
 
   const select = async ({ code }: SelectProps) => {
-    if (!city) {
+    if (!cityId) {
       return
     }
 
-    const fetchedBuilding = await getTechnology({ token, cityId: city.id, technologyCode: code })
+    const fetchedBuilding = await getTechnology({ token, cityId, technologyCode: code })
     if (!fetchedBuilding) {
       return
     }
@@ -52,48 +54,35 @@ export const useTechnology = (): HookTechnology => {
   }
 
   const research = async ({ code }: ResearchProps) => {
-    if (!city) {
+    if (!cityId) {
       return
     }
 
     await researchTechnology({
       token,
-      cityId: city.id,
+      cityId,
       code
     })
-    await list()
-    await refresh()
+    dispatch(listTechnologies(token))
+    dispatch(refreshCity(token))
   }
 
   const finishResearch = async () => {
     await technologyFinishResearch({ token })
-    await list()
-  }
-
-  const list = async () => {
-    if (!city) {
-      return
-    }
-
-    const data = await listTechnologies({ token })
-    if (!data) {
-      return
-    }
-
-    setTechnologies(data.technologies)
+    dispatch(listTechnologies(token))
   }
 
   const cancel = async () => {
     await cancelTechnology({ token })
-    await list()
+    dispatch(listTechnologies(token))
   }
+
   return {
     technology,
     technologies,
     inProgress,
     select,
     cancel,
-    list,
     research,
     finishResearch,
   }

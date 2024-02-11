@@ -5,9 +5,10 @@ import { MovementItem } from '#types'
 import { useMovement } from '#movement/hook'
 import { useReport } from '#communication/report/hook'
 import { NavLink } from 'react-router-dom'
-import { useCity } from '#city/hook'
 import { useOutpost } from '#outpost/hook'
 import { getUrlPrefix } from '#helpers/url'
+import { useAppSelector } from '#store/type'
+import { selectCityId } from '#city/slice'
 
 interface Props {
   movement: MovementItem
@@ -16,7 +17,7 @@ interface Props {
 export const MovementListItem: React.FC<Props> = ({ movement }) => {
   const { finish } = useMovement()
   const { countUnread } = useReport()
-  const { city } = useCity()
+  const cityId = useAppSelector(selectCityId)
   const { list, outpost } = useOutpost()
   const { remainingTime } = useTimer({
     onDone: async () => {
@@ -29,7 +30,7 @@ export const MovementListItem: React.FC<Props> = ({ movement }) => {
     doneAt: movement.arrive_at
   })
 
-  const urlPrefix = getUrlPrefix({ city, outpost })
+  const urlPrefix = getUrlPrefix({ cityId, outpostId: outpost?.id })
 
   return <li>
     <NavLink to={`${urlPrefix}/movement/${movement.id}`}>

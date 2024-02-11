@@ -1,11 +1,12 @@
 import React from 'react'
 
-import { useCity } from '#city/hook'
 import { hasEnoughResources } from '#city/helper'
 import { useTechnology } from '#technology/hook'
 import { Technology } from '#types'
 import { Button } from '#ui/button'
 import { useRequirement } from '#requirement/hook'
+import { useAppSelector } from '#store/type'
+import { selectCity } from '#city/slice'
 
 interface Props {
   technology: Technology
@@ -13,7 +14,7 @@ interface Props {
 
 export const TechnologyDetailsResearch: React.FC<Props> = ({ technology }) => {
   const { inProgress, research } = useTechnology()
-  const { city } = useCity()
+  const city = useAppSelector(selectCity)
   const { isRequirementMet } = useRequirement({ requirement: technology.requirement })
 
   const canResearch = !inProgress &&

@@ -1,5 +1,6 @@
-import { useCity } from '#city/hook'
+import { selectCityCoordinates } from '#city/slice'
 import { useGo } from '#hook/go'
+import { useAppSelector } from '#store/type'
 import { MovementCreateAction } from '#movement/create/action'
 import { MovementCreateDestination } from '#movement/create/destination'
 import { MovementCreateEstimation } from '#movement/create/estimation'
@@ -15,7 +16,7 @@ import { toast } from 'react-toastify'
 
 export const MovementCreate: React.FC = () => {
   const { troups } = useTroup()
-  const { city } = useCity()
+  const cityCoordinates = useAppSelector(selectCityCoordinates)
   const { outpost } = useOutpost()
   const { goToFirstCity } = useGo()
 
@@ -30,7 +31,7 @@ export const MovementCreate: React.FC = () => {
   }, [selectedTroups, destination])
 
   const launchMovementEstimation = async () => {
-    const origin = city ? city.coordinates : outpost?.coordinates
+    const origin = cityCoordinates ? cityCoordinates : outpost?.coordinates
     if (!origin) {
       return
     }
@@ -56,7 +57,7 @@ export const MovementCreate: React.FC = () => {
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    const origin = city ? city.coordinates : outpost?.coordinates
+    const origin = cityCoordinates ? cityCoordinates : outpost?.coordinates
     if (!origin) {
       return
     }

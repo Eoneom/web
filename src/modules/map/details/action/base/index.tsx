@@ -1,4 +1,5 @@
-import { useCity } from '#city/hook'
+import { selectCityCoordinates } from '#city/slice'
+import { useAppSelector } from '#store/type'
 import { useOutpost } from '#outpost/hook'
 import { useTroup } from '#troup/hook'
 import { TroupTranslations } from '#troup/translations'
@@ -16,13 +17,13 @@ interface Props {
 
 export const MapDetailsActionBase: React.FC<Props> = ({ coordinates }) => {
   const { troups, base } = useTroup()
-  const { city } = useCity()
+  const cityCoordinates = useAppSelector(selectCityCoordinates)
   const { outpost } = useOutpost()
 
   const [troupsToBase, setTroupsToBase] = useState<Partial<Record<TroupCode, number>>>({})
 
   const handleBase = () => {
-    const origin = city ? city.coordinates : outpost?.coordinates
+    const origin = cityCoordinates ? cityCoordinates : outpost?.coordinates
     if (!origin) {
       return
     }

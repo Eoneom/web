@@ -3,22 +3,25 @@ import { BuildingDetails } from '#building/details'
 import { useBuilding } from '#building/hook'
 import { LayoutPage } from '#ui/layout/page'
 import React, { useEffect } from 'react'
-import { useTechnology } from '#technology/hook'
-import { useCity } from '#city/hook'
+import { selectCityId } from '#city/slice'
+import { useAppDispatch, useAppSelector } from '#store/type'
+import { listTechnologies } from '#technology/slice/thunk'
+import { useAuth } from '#auth/hook'
 
 export const BuildingPage: React.FC = () => {
-  const { city } = useCity()
+  const dispatch = useAppDispatch()
+  const cityId = useAppSelector(selectCityId)
+  const { token } = useAuth()
   const { building, list } = useBuilding()
-  const { list: listTechnologies } = useTechnology()
 
   useEffect(() => {
-    if (!city) {
+    if (!cityId) {
       return
     }
 
     list()
-    listTechnologies()
-  }, [city?.id])
+    dispatch(listTechnologies(token))
+  }, [cityId])
 
   return <LayoutPage details={building && <BuildingDetails building={building}/>}>
     <BuildingList />

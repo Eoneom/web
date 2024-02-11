@@ -1,7 +1,6 @@
 import { useContext, useMemo } from 'react'
 import {  Troup } from '#types'
 import { useAuth } from '#auth/hook'
-import { useCity } from '#city/hook'
 import { Coordinates, MovementAction, TroupCode } from '@kroust/swarm-client'
 import { TroupContext } from '#troup/hook/context'
 import { listCityTroups } from '#troup/api/list/city'
@@ -11,6 +10,9 @@ import { cancelTroup } from '#troup/api/cancel'
 import { createMovement } from '#movement/api/create'
 import { useOutpost } from '#outpost/hook'
 import { listOutpostTroups } from '#troup/api/list/outpost'
+import { refreshCity } from '#city/slice/thunk'
+import { useAppDispatch, useAppSelector } from '#store/type'
+import { selectCityId } from '#city/slice'
 
 interface HookTroup {
   troups: Troup[]
@@ -48,8 +50,9 @@ export const useTroup = (): HookTroup => {
     selectedTroupId,
     setSelectedTroupId
   } = useContext(TroupContext)
+  const dispatch = useAppDispatch()
   const { token } = useAuth()
-  const { city, refresh: refreshCity } = useCity()
+  const cityId = useAppSelector(selectCityId)
   const { outpost } = useOutpost()
 
   const inProgress = useMemo(() => {
@@ -61,25 +64,25 @@ export const useTroup = (): HookTroup => {
   }
 
   const recruit = async ({ code, count }: RecruitProps) => {
-    if (!city) {
+    if (!cityId) {
       return
     }
     await recruitTroup({
       token,
-      cityId: city.id,
+      cityId,
       code,
       count
     })
     await list()
-    await refreshCity()
+    dispatch(refreshCity(token))
   }
 
   const progressRecruit = async () => {
-    if (!city) {
+    if (!cityId) {
       return
     }
 
-    const res = await progressRecruitTroup({ token, cityId: city.id })
+    const res = await progressRecruitTroup({ token, cityId })
     if (!res) {
       return
     }
@@ -108,22 +111,22 @@ export const useTroup = (): HookTroup => {
   }
 
   const cancel = async () => {
-    if (!city) {
+    if (!cityId) {
       return
     }
 
-    await cancelTroup({ token, cityId: city.id })
+    await cancelTroup({ token, cityId })
     await list()
-    await refreshCity()
+    dispatch(refreshCity(token))
   }
 
   const list = async () => {
-    if (!city && !outpost) {
+    if (!cityId && !outpost) {
       return
     }
 
-    const data = city ?
-      await listCityTroups({ token, cityId: city.id }) : outpost ?
+    const data = cityId ?
+      await listCityTroups({ token, cityId }) : outpost ?
         await listOutpostTroups({ token, outpostId: outpost.id}) :
         null
     if (!data) {

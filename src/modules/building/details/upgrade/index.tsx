@@ -1,11 +1,12 @@
 import React from 'react'
 
 import { useBuilding } from '#building/hook'
-import { useCity } from '#city/hook'
 import { Building } from '#types'
 import { Button } from '#ui/button'
 import { hasEnoughResources } from '#city/helper'
 import { useRequirement } from '#requirement/hook'
+import { useAppSelector } from '#store/type'
+import { selectCity } from '#city/slice'
 
 interface Props {
   building: Building
@@ -13,7 +14,7 @@ interface Props {
 
 export const BuildingDetailsUpgrade: React.FC<Props> = ({ building }) => {
   const { upgrade, inProgress, levelsTotal } = useBuilding()
-  const { city } = useCity()
+  const city = useAppSelector(selectCity)
   const { isRequirementMet } = useRequirement({ requirement: building.requirement })
 
   const canBuild = !inProgress &&

@@ -1,12 +1,13 @@
 import React, { useMemo } from 'react'
 
-import { useCity } from '#city/hook'
 import { useTroup } from '#troup/hook'
 import { Button } from '#ui/button'
 import { LayoutDetailsContent } from '#ui/layout/details/content'
 import { MapDetailsActionBase } from '#map/details/action/base'
 import { Sector } from '#types'
 import { useOutpost } from '#outpost/hook'
+import { useAppSelector } from '#store/type'
+import { selectCity } from '#city/slice'
 
 interface Props {
   coordinates: {
@@ -17,7 +18,7 @@ interface Props {
 }
 
 export const MapDetails: React.FC<Props> = ({ coordinates, sector }) => {
-  const { city } = useCity()
+  const city = useAppSelector(selectCity)
   const { outpost } = useOutpost()
   const { explore } = useTroup()
 

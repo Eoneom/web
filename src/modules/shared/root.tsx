@@ -1,14 +1,20 @@
-import { useCity } from '#city/hook'
+import { useAuth } from '#auth/hook'
+import { selectAllCities, selectCityId } from '#city/slice'
+import { getCity } from '#city/slice/thunk'
+import { useAppDispatch, useAppSelector } from '#store/type'
 import { useOutpost } from '#outpost/hook'
 import React, { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 
 export const SharedRoot: React.FC = () => {
-  const { city, cities, select } = useCity()
+  const cities = useAppSelector(selectAllCities)
+  const cityId = useAppSelector(selectCityId)
+  const { token } = useAuth()
   const { outpost } = useOutpost()
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if (city || outpost) {
+    if (cityId || outpost) {
       return
     }
 
@@ -16,7 +22,7 @@ export const SharedRoot: React.FC = () => {
       return
     }
 
-    select({ cityId: cities[0].id })
-  }, [city, outpost, cities])
+    dispatch(getCity({ token, cityId: cities[0].id }))
+  }, [cityId, outpost, cities])
   return <Outlet />
 }

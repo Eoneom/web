@@ -40,6 +40,9 @@
       "#requirement/*": [
         "./src/modules/requirement/*"
       ],
+      "#store/*": [
+        "./src/store/*"
+      ],
       "#technology/*": [
         "./src/modules/technology/*"
       ],

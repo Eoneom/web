@@ -14,6 +14,7 @@ module.exports = {
       '#movement': path.resolve(__dirname, 'src/modules/movement'),
       '#outpost': path.resolve(__dirname, 'src/modules/outpost'),
       '#requirement': path.resolve(__dirname, 'src/modules/requirement'),
+      '#store': path.resolve(__dirname, 'src/store'),
       '#technology': path.resolve(__dirname, 'src/modules/technology'),
       '#troup': path.resolve(__dirname, 'src/modules/troup'),
       '#types': path.resolve(__dirname, 'src/types'),

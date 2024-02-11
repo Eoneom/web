@@ -2,30 +2,31 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 
 import { useAuth } from '#auth/hook'
-import { useCity } from '#city/hook'
 import { useReport } from '#communication/report/hook'
 import { getActiveClassName } from '#helpers/classname'
 import { getUrlPrefix } from '#helpers/url'
 import { useOutpost } from '#outpost/hook'
+import { useAppSelector } from '#store/type'
+import { selectCityId } from '#city/slice'
 
 export const NavMenu: React.FC = () => {
-  const { city } = useCity()
   const { outpost } = useOutpost()
   const { unreadCount } = useReport()
   const { logout } = useAuth()
+  const cityId = useAppSelector(selectCityId)
 
-  const urlPrefix = getUrlPrefix({ city, outpost })
+  const urlPrefix = getUrlPrefix({ cityId, outpostId: outpost?.id })
 
   return (
     <nav id="menu">
       {
-        city && (
+        cityId && (
           <>
             <h2>Ville</h2>
             <ul>
-              <li><NavLink className={getActiveClassName} to={`/city/${city.id}/building`}>Construction</NavLink></li>
-              <li><NavLink className={getActiveClassName} to={`/city/${city.id}/technology`}>Recherche</NavLink></li>
-              <li><NavLink className={getActiveClassName} to={`/city/${city.id}/troup`}>Recrutement</NavLink></li>
+              <li><NavLink className={getActiveClassName} to={`/city/${cityId}/building`}>Construction</NavLink></li>
+              <li><NavLink className={getActiveClassName} to={`/city/${cityId}/technology`}>Recherche</NavLink></li>
+              <li><NavLink className={getActiveClassName} to={`/city/${cityId}/troup`}>Recrutement</NavLink></li>
             </ul>
           </>
         )

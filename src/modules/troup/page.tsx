@@ -5,21 +5,22 @@ import { TroupList } from '#troup/list'
 import { useTroup } from '#troup/hook'
 import { TroupDetails } from '#troup/details'
 import { useBuilding } from '#building/hook'
-import { useCity } from '#city/hook'
+import { useAppSelector } from '#store/type'
+import { selectCityId } from '#city/slice'
 
 export const TroupPage: React.FC = () => {
   const { list, selectedTroup } = useTroup()
   const { list: listBuildings } = useBuilding()
-  const { city } = useCity()
+  const cityId = useAppSelector(selectCityId)
 
   useEffect(() => {
-    if (!city) {
+    if (!cityId) {
       return
     }
 
     list()
     listBuildings()
-  }, [city?.id])
+  }, [cityId])
 
   return <LayoutPage details={selectedTroup && <TroupDetails />}>
     <TroupList />

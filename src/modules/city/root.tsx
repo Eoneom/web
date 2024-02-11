@@ -1,32 +1,33 @@
-import { useCity } from '#city/hook'
+import { useAuth } from '#auth/hook'
+import { selectCityId } from '#city/slice'
+import { gatherCity, getCity } from '#city/slice/thunk'
+import { useAppDispatch, useAppSelector } from '#store/type'
 import React, { useEffect } from 'react'
 import { Outlet, useParams } from 'react-router-dom'
 
 export const CityRoot: React.FC = () => {
-  const { cityId } = useParams()
-  const { city, cities, select, gather } = useCity()
+  const { cityId: cityIdFromParams } = useParams()
+  const cityId = useAppSelector(selectCityId)
+  const { token } = useAuth()
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if (!cities.length || city || !cityId) {
+    if (!cityIdFromParams) {
       return
     }
 
-    select({ cityId })
-  }, [cities.length, city])
+    dispatch(getCity({ token, cityId: cityIdFromParams }))
+  }, [cityIdFromParams])
 
   useEffect(() => {
-    if (!city?.id) {
-      return
-    }
-
-    gather()
+    dispatch(gatherCity(token))
 
     const interval = setInterval(() => {
-      gather()
+      dispatch(gatherCity(token))
     }, 3000)
 
     return () => clearInterval(interval)
-  }, [city?.id])
+  }, [cityId])
 
   return <Outlet />
 }

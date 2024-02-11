@@ -7,12 +7,13 @@ import { Requirement } from '#requirement/index'
 import { LayoutDetailsContent } from '#ui/layout/details/content'
 import { Cost } from '#cost/index'
 import { hasEnoughResources } from '#city/helper'
-import { useCity } from '#city/hook'
 import { useRequirement } from '#requirement/hook'
+import { useAppSelector } from '#store/type'
+import { selectCity } from '#city/slice'
 
 export const TroupDetails: React.FC = () => {
   const { selectedTroup, inProgress } = useTroup()
-  const { city } = useCity()
+  const city = useAppSelector(selectCity)
   const [count, setCount] = useState(1)
 
   if (!selectedTroup) {

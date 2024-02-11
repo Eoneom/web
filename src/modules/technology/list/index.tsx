@@ -7,9 +7,11 @@ import { formatTime } from '#helpers/transform'
 import { Button } from '#ui/button'
 import { List } from '#ui/list'
 import { useTimer } from '#hook/timer'
+import { useAppSelector } from '#store/type'
 
 export const TechnologyList: React.FC = () => {
-  const { technologies, technology, cancel, inProgress, finishResearch } = useTechnology()
+  const technologies = useAppSelector(state => state.technology.technologies)
+  const { technology, cancel, inProgress, finishResearch } = useTechnology()
   const { remainingTime } = useTimer({
     onDone: () => finishResearch(),
     doneAt: inProgress?.research_at

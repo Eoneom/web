@@ -1,11 +1,12 @@
 import React from 'react'
 
 import { formatTime, transformDecimals } from '#helpers/transform'
-import { useCity } from '#city/hook'
 import { IconPlastic } from '#ui/icon/plastic'
 import { IconMushroom } from '#ui/icon/mushroom'
 import { ResourceItem } from '#ui/resource-item'
 import { IconDuration } from '#ui/icon/duration'
+import { useAppSelector } from '#store/type'
+import { selectCity } from '#city/slice'
 
 interface Props {
   plastic: number
@@ -15,7 +16,7 @@ interface Props {
 }
 
 export const Cost: React.FC<Props> = ({ plastic, mushroom, duration, action }) => {
-  const { city } = useCity()
+  const city = useAppSelector(selectCity)
   const plasticClassName = plastic > (city?.plastic ?? 0) ? 'danger' : 'success'
   const mushroomClassName = mushroom > (city?.mushroom ?? 0) ? 'danger' : 'success'
 

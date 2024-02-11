@@ -1,9 +1,10 @@
 import React  from 'react'
-import { useCity } from '#city/hook'
 import { formatCoordinates } from '#helpers/transform'
+import { selectCity } from '#city/slice'
+import { useAppSelector } from '#store/type'
 
 export const CityPage: React.FC = () => {
-  const { city } = useCity()
+  const city = useAppSelector(selectCity)
 
   return city && <section id="content">
     <h2>{city.name}</h2>
