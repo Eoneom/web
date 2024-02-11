@@ -34,24 +34,26 @@ const App: React.FC = () => {
     countUnread()
   }, [token])
 
-  return (
-    token ? <GameProvider>
-      <Header />
-      <div id="main">
-        <NavMenu />
-        <main>
-          <Outlet />
-        </main>
+  if (!token) {
+    return <AuthLoginForm />
+  }
 
-        <NavLocation />
-      </div>
+  return <GameProvider>
+    <Header />
+    <div id="main">
+      <NavMenu />
+      <main>
+        <Outlet />
+      </main>
 
-      <ToastContainer
-        position='bottom-right'
-        autoClose={3000}
-      />
-    </GameProvider> : <AuthLoginForm />
-  )
+      <NavLocation />
+    </div>
+
+    <ToastContainer
+      position='bottom-right'
+      autoClose={3000}
+    />
+  </GameProvider>
 }
 
 export default App

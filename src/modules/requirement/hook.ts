@@ -1,11 +1,12 @@
-import { useBuilding } from '#building/hook'
+import { selectBuildings } from '#building/slice'
+import { useAppSelector } from '#store/type'
 import { useTechnology } from '#technology/hook'
 import { BuildingItem, TechnologyItem } from '#types'
 import { Requirement } from '@kroust/swarm-client'
 import { useMemo } from 'react'
 
 export const useRequirement = ({ requirement }: { requirement: Requirement }) => {
-  const { buildings } = useBuilding()
+  const buildings = useAppSelector(selectBuildings)
   const { technologies } = useTechnology()
 
   const isRequirementMet = useMemo(() => {

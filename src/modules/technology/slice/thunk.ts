@@ -4,7 +4,7 @@ import { isError } from '#helpers/assertion'
 import { createAppAsyncThunk } from '#store/type'
 import { toast } from 'react-toastify'
 
-export const listTechnologies = createAppAsyncThunk('technologies/list', async (_, { getState }) => {
+export const listTechnologies = createAppAsyncThunk('technology/list', async (_, { getState }) => {
   const token = selectToken(getState())
   if (!token) {
     return

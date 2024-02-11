@@ -1,22 +1,28 @@
 import React, { useMemo } from 'react'
 
 import { BuildingListItem } from '#building/list/item'
-import { useBuilding } from '#building/hook'
 import { BuildingTranslations } from '#building/translations'
 import { formatTime } from '#helpers/transform'
 import { Button } from '#ui/button'
 import { List } from '#ui/list'
 import { useTimer } from '#hook/timer'
+import { useAppDispatch, useAppSelector } from '#store/type'
+import { cancelBuildingUpgrade, finishBuildingUpgrade } from '#building/slice/thunk'
+import { selectBuilding, selectBuildingInProgress, selectBuildings } from '#building/slice'
 
 export const BuildingList: React.FC = () => {
-  const { building, buildings, inProgress, cancel, finishUpgrade } = useBuilding()
+  const dispatch = useAppDispatch()
+  const inProgress = useAppSelector(selectBuildingInProgress)
+  const building = useAppSelector(selectBuilding)
+  const buildings = useAppSelector(selectBuildings)
+
   const { remainingTime, reset } = useTimer({
-    onDone: () => finishUpgrade(),
+    onDone: () => dispatch(finishBuildingUpgrade()),
     doneAt: inProgress?.upgrade_at
   })
 
   const handleCancel = () => {
-    cancel()
+    dispatch(cancelBuildingUpgrade())
     reset()
   }
 

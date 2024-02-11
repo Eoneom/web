@@ -4,13 +4,13 @@ import { LayoutPage } from '#ui/layout/page'
 import { TroupList } from '#troup/list'
 import { useTroup } from '#troup/hook'
 import { TroupDetails } from '#troup/details'
-import { useBuilding } from '#building/hook'
-import { useAppSelector } from '#store/type'
+import { useAppDispatch, useAppSelector } from '#store/type'
 import { selectCityId } from '#city/slice'
+import { listBuildings } from '#building/slice/thunk'
 
 export const TroupPage: React.FC = () => {
   const { list, selectedTroup } = useTroup()
-  const { list: listBuildings } = useBuilding()
+  const dispatch = useAppDispatch()
   const cityId = useAppSelector(selectCityId)
 
   useEffect(() => {
@@ -19,7 +19,7 @@ export const TroupPage: React.FC = () => {
     }
 
     list()
-    listBuildings()
+    dispatch(listBuildings())
   }, [cityId])
 
   return <LayoutPage details={selectedTroup && <TroupDetails />}>
