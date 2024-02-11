@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client'
 import { RouterProvider } from 'react-router-dom'
 
 import { router } from './router'
-import { AuthContextProvider } from '#auth/hook/context'
 import { OutpostContextProvider } from '#outpost/hook/context'
 
 import 'react-toastify/dist/ReactToastify.css'
@@ -19,13 +18,11 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <AuthContextProvider>
-        <OutpostContextProvider>
-          <ReportContextProvider>
-            <RouterProvider router={router} />
-          </ReportContextProvider>
-        </OutpostContextProvider>
-      </AuthContextProvider>
+      <OutpostContextProvider>
+        <ReportContextProvider>
+          <RouterProvider router={router} />
+        </ReportContextProvider>
+      </OutpostContextProvider>
     </Provider>
   </React.StrictMode>
 )

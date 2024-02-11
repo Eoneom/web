@@ -1,18 +1,18 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 
-import { useAuth } from '#auth/hook'
 import { useReport } from '#communication/report/hook'
 import { getActiveClassName } from '#helpers/classname'
 import { getUrlPrefix } from '#helpers/url'
 import { useOutpost } from '#outpost/hook'
-import { useAppSelector } from '#store/type'
+import { useAppDispatch, useAppSelector } from '#store/type'
 import { selectCityId } from '#city/slice'
+import { logout } from '#auth/slice/thunk'
 
 export const NavMenu: React.FC = () => {
   const { outpost } = useOutpost()
   const { unreadCount } = useReport()
-  const { logout } = useAuth()
+  const dispatch = useAppDispatch()
   const cityId = useAppSelector(selectCityId)
 
   const urlPrefix = getUrlPrefix({ cityId, outpostId: outpost?.id })
@@ -49,7 +49,7 @@ export const NavMenu: React.FC = () => {
       <h2>Compte</h2>
       <ul>
         <li>Paramètres</li>
-        <li><NavLink to={''} onClick={(e) => {e.preventDefault(); logout()}}>Se déconnecter</NavLink></li>
+        <li><NavLink to={'logout'} onClick={(e) => {e.preventDefault(); dispatch(logout())}}>Se déconnecter</NavLink></li>
       </ul>
     </nav>
   )

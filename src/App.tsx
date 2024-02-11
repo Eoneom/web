@@ -3,24 +3,25 @@ import { Outlet } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 
 import { AuthLoginForm } from '#auth/login-form'
-import { useAuth } from '#auth/hook'
 import { Header } from '#ui/header'
 import { NavMenu } from '#ui/nav/menu'
 import { NavLocation } from '#ui/nav/location'
 import { GameProvider } from '#helpers/provider'
 import { useOutpost } from '#outpost/hook'
 import { useReport } from '#communication/report/hook'
-import { useAppDispatch } from './store/type'
+import { useAppDispatch, useAppSelector } from './store/type'
 import { listCities } from '#city/slice/thunk'
+import { retrieveStoredToken } from '#auth/slice/thunk'
+import { selectToken } from '#auth/slice'
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch()
   const { list: listOutposts } = useOutpost()
-  const { token, retrieveStoredToken } = useAuth()
+  const token = useAppSelector(selectToken)
   const { countUnread } = useReport()
 
   useEffect(() => {
-    retrieveStoredToken()
+    dispatch(retrieveStoredToken())
   }, [])
 
   useEffect(() => {
@@ -28,7 +29,7 @@ const App: React.FC = () => {
       return
     }
 
-    dispatch(listCities(token))
+    dispatch(listCities())
     listOutposts()
     countUnread()
   }, [token])

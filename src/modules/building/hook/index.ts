@@ -3,7 +3,6 @@ import { Building, BuildingItem } from '#types'
 import { listBuildings } from '#building/api/list'
 import { BuildingContext } from '#building/hook/context'
 import { upgradeBuilding } from '#building/api/upgrade'
-import { useAuth } from '#auth/hook'
 import { cancelBuilding } from '#building/api/cancel'
 import { BuildingCode } from '@kroust/swarm-client'
 import { buildingFinishUpgrade } from '#building/api/finish-upgrade'
@@ -11,6 +10,7 @@ import { getBuilding } from '#building/api/get'
 import { useAppDispatch, useAppSelector } from '#store/type'
 import { refreshCity } from '#city/slice/thunk'
 import { selectCityId } from '#city/slice'
+import { selectToken } from '#auth/slice'
 
 interface HookUseBuilding {
   building: Building | null
@@ -42,7 +42,7 @@ export const useBuilding = (): HookUseBuilding => {
     setBuildings
   } = useContext(BuildingContext)
 
-  const { token } = useAuth()
+  const token = useAppSelector(selectToken)
   const cityId = useAppSelector(selectCityId)
   const dispatch = useAppDispatch()
 
@@ -51,7 +51,7 @@ export const useBuilding = (): HookUseBuilding => {
   }, [buildings])
 
   const select = async ({ code }: SelectProps) => {
-    if (!cityId) {
+    if (!cityId || !token) {
       return
     }
 
@@ -64,7 +64,7 @@ export const useBuilding = (): HookUseBuilding => {
   }
 
   const finishUpgrade = async () => {
-    if (!cityId) {
+    if (!cityId || !token) {
       return
     }
 
@@ -73,11 +73,11 @@ export const useBuilding = (): HookUseBuilding => {
       await select({ code: building.code })
     }
     await list()
-    await dispatch(refreshCity(token))
+    await dispatch(refreshCity())
   }
 
   const upgrade = async ({ code }: UpgradeProps) => {
-    if (!cityId) {
+    if (!cityId || !token) {
       return
     }
 
@@ -87,7 +87,7 @@ export const useBuilding = (): HookUseBuilding => {
       code
     })
     await list()
-    await dispatch(refreshCity(token))
+    await dispatch(refreshCity())
 
     if (code === building?.code) {
       await select({ code })
@@ -95,7 +95,7 @@ export const useBuilding = (): HookUseBuilding => {
   }
 
   const list = async () => {
-    if (!cityId) {
+    if (!cityId || !token) {
       return
     }
 
@@ -108,13 +108,13 @@ export const useBuilding = (): HookUseBuilding => {
   }
 
   const cancel = async () => {
-    if (!cityId) {
+    if (!cityId || !token) {
       return
     }
 
     await cancelBuilding({ token, cityId })
     await list()
-    await dispatch(refreshCity(token))
+    await dispatch(refreshCity())
   }
 
   const levelsTotal = useMemo(() => {

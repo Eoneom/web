@@ -1,4 +1,3 @@
-import { useAuth } from '#auth/hook'
 import { selectCityId } from '#city/slice'
 import { gatherCity, getCity } from '#city/slice/thunk'
 import { useAppDispatch, useAppSelector } from '#store/type'
@@ -8,7 +7,6 @@ import { Outlet, useParams } from 'react-router-dom'
 export const CityRoot: React.FC = () => {
   const { cityId: cityIdFromParams } = useParams()
   const cityId = useAppSelector(selectCityId)
-  const { token } = useAuth()
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -16,14 +14,14 @@ export const CityRoot: React.FC = () => {
       return
     }
 
-    dispatch(getCity({ token, cityId: cityIdFromParams }))
+    dispatch(getCity(cityIdFromParams))
   }, [cityIdFromParams])
 
   useEffect(() => {
-    dispatch(gatherCity(token))
+    dispatch(gatherCity())
 
     const interval = setInterval(() => {
-      dispatch(gatherCity(token))
+      dispatch(gatherCity())
     }, 3000)
 
     return () => clearInterval(interval)

@@ -1,5 +1,4 @@
 import { useContext } from 'react'
-import { useAuth } from '#auth/hook'
 import { MovementContext } from '#movement/hook/context'
 import { listMovements } from '#movement/api/list'
 import { Movement, MovementItem } from '#types'
@@ -8,6 +7,8 @@ import { getMovement } from '#movement/api/get'
 import { Coordinates, MovementAction, TroupCode } from '@kroust/swarm-client'
 import { estimateMovement } from '#movement/api/estimate'
 import { createMovement } from '#movement/api/create'
+import { useAppSelector } from '#store/type'
+import { selectToken } from '#auth/slice'
 
 interface HookMovement {
   movements: MovementItem[]
@@ -44,9 +45,13 @@ type EstimateMovementResult = {
 
 export const useMovement = (): HookMovement => {
   const { movement, setMovement, movements, setMovements } = useContext(MovementContext)
-  const { token } = useAuth()
+  const token = useAppSelector(selectToken)
 
   const select = async ({ movementId }: { movementId: string }) => {
+    if (!token) {
+      return
+    }
+
     const data = await getMovement({ token, movementId })
     if (!data) {
       return
@@ -60,6 +65,10 @@ export const useMovement = (): HookMovement => {
   }
 
   const list = async () => {
+    if (!token) {
+      return
+    }
+
     const data = await listMovements({ token })
     if (!data) {
       return
@@ -69,6 +78,10 @@ export const useMovement = (): HookMovement => {
   }
 
   const finish = async (): Promise<{ isOutpostCreated: boolean }> => {
+    if (!token) {
+      return { isOutpostCreated: false }
+    }
+
     const { isOutpostCreated } = await finishMovement({ token })
     await list()
 
@@ -76,6 +89,10 @@ export const useMovement = (): HookMovement => {
   }
 
   const estimate = async ({ origin, destination, troupCodes }: EstimateMovementParams): Promise<EstimateMovementResult> => {
+    if (!token) {
+      return null
+    }
+
     const data = await estimateMovement({ token, origin, destination, troupCodes })
     if (!data) {
       return null
@@ -85,6 +102,10 @@ export const useMovement = (): HookMovement => {
   }
 
   const create = async ({ action, origin, destination, troups }: CreateMovementParams): Promise<{ deletedOutpostId?: string }> => {
+    if (!token) {
+      return { }
+    }
+
     const result = await createMovement({ token, action,  origin, destination, troups })
 
     await list()

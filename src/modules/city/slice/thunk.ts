@@ -1,29 +1,45 @@
 import { client } from '#helpers/api'
 import { isError } from '#helpers/assertion'
-import { selectCity } from '#city/slice'
+import { selectCityId } from '#city/slice'
 import { createAppAsyncThunk } from '#store/type'
+import { selectToken } from '#auth/slice'
 
-export const gatherCity = createAppAsyncThunk('city/gather', async (token: string, { getState, dispatch }) => {
-  const city = selectCity(getState())
-  if (!city) {
+export const gatherCity = createAppAsyncThunk('city/gather', async (_, { getState, dispatch, rejectWithValue }) => {
+  const token = selectToken(getState())
+  if (!token) {
+    throw rejectWithValue('empty token')
+  }
+
+  const cityId = selectCityId(getState())
+  if (!cityId) {
     return
   }
 
-  await client.city.gather(token, { city_id: city.id })
+  await client.city.gather(token, { city_id: cityId })
 
-  dispatch(getCity({ token, cityId: city.id }))
+  dispatch(getCity(cityId))
 })
 
-export const refreshCity = createAppAsyncThunk('city/refresh', async (token: string, { getState, dispatch }) => {
-  const city = selectCity(getState())
-  if (!city) {
+export const refreshCity = createAppAsyncThunk('city/refresh', async (_, { getState, dispatch, rejectWithValue }) => {
+  const token = selectToken(getState())
+  if (!token) {
+    throw rejectWithValue('empty token')
+  }
+
+  const cityId = selectCityId(getState())
+  if (!cityId) {
     return
   }
 
-  dispatch(getCity({ token, cityId: city.id }))
+  dispatch(getCity(cityId))
 })
 
-export const getCity = createAppAsyncThunk('city/get', async ({ token, cityId }: { token: string, cityId: string }, { rejectWithValue }) => {
+export const getCity = createAppAsyncThunk('city/get', async (cityId: string, { getState, rejectWithValue }) => {
+  const token = selectToken(getState())
+  if (!token) {
+    throw rejectWithValue('empty token')
+  }
+
   const res = await client.city.get(token, { city_id: cityId })
   if (isError(res)) {
     throw rejectWithValue(res.error_code)
@@ -36,7 +52,12 @@ export const getCity = createAppAsyncThunk('city/get', async ({ token, cityId }:
   return res.data
 })
 
-export const listCities = createAppAsyncThunk('city/list', async (token: string, { rejectWithValue }) => {
+export const listCities = createAppAsyncThunk('city/list', async (_, { getState, rejectWithValue }) => {
+  const token = selectToken(getState())
+  if (!token) {
+    throw rejectWithValue('empty token')
+  }
+
   const res = await client.city.list(token)
   if (isError(res)) {
     throw rejectWithValue(res.error_code)

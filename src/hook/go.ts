@@ -1,4 +1,3 @@
-import { useAuth } from '#auth/hook'
 import { selectAllCities } from '#city/slice'
 import { getCity } from '#city/slice/thunk'
 import { useAppDispatch, useAppSelector } from '#store/type'
@@ -11,7 +10,6 @@ interface HookGo {
 
 export const useGo = (): HookGo => {
   const navigate = useNavigate()
-  const { token } = useAuth()
   const cities = useAppSelector(selectAllCities)
   const { deselect, list } = useOutpost()
   const dispatch = useAppDispatch()
@@ -21,7 +19,7 @@ export const useGo = (): HookGo => {
     deselect()
 
     const cityId = cities[0].id
-    dispatch(getCity({ token, cityId }))
+    dispatch(getCity(cityId))
     navigate(`/city/${cityId}`)
   }
 

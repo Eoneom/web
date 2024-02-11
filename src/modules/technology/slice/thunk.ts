@@ -1,9 +1,15 @@
+import { selectToken } from '#auth/slice'
 import { client } from '#helpers/api'
 import { isError } from '#helpers/assertion'
-import { createAsyncThunk } from '@reduxjs/toolkit'
+import { createAppAsyncThunk } from '#store/type'
 import { toast } from 'react-toastify'
 
-export const listTechnologies = createAsyncThunk('technologies/list', async (token: string) => {
+export const listTechnologies = createAppAsyncThunk('technologies/list', async (_, { getState }) => {
+  const token = selectToken(getState())
+  if (!token) {
+    return
+  }
+
   const res = await client.technology.list(token)
   if (isError(res)) {
     toast.error(res.error_code)

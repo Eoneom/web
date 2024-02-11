@@ -1,7 +1,8 @@
-import { useAuth } from '#auth/hook'
+import { selectToken } from '#auth/slice'
 import { getOutpost } from '#outpost/api/get'
 import { listOutposts } from '#outpost/api/list'
 import { OutpostContext } from '#outpost/hook/context'
+import { useAppSelector } from '#store/type'
 import { Outpost, OutpostItem } from '#types'
 import { useContext } from 'react'
 
@@ -21,9 +22,13 @@ export const useOutpost = (): HookUseOutpost => {
     setOutpost
   } = useContext(OutpostContext)
 
-  const { token } = useAuth()
+  const token = useAppSelector(selectToken)
 
   const select = async ({ outpostId }: { outpostId: string; }) => {
+    if (!token) {
+      return
+    }
+
     const outpost = await getOutpost({ token, outpostId })
     if (!outpost) {
       return
@@ -37,6 +42,10 @@ export const useOutpost = (): HookUseOutpost => {
   }
 
   const list = async () => {
+    if (!token) {
+      return
+    }
+
     const data = await listOutposts({ token })
     if (!data) {
       return

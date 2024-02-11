@@ -6,12 +6,10 @@ import React, { useEffect } from 'react'
 import { selectCityId } from '#city/slice'
 import { useAppDispatch, useAppSelector } from '#store/type'
 import { listTechnologies } from '#technology/slice/thunk'
-import { useAuth } from '#auth/hook'
 
 export const BuildingPage: React.FC = () => {
   const dispatch = useAppDispatch()
   const cityId = useAppSelector(selectCityId)
-  const { token } = useAuth()
   const { building, list } = useBuilding()
 
   useEffect(() => {
@@ -20,7 +18,7 @@ export const BuildingPage: React.FC = () => {
     }
 
     list()
-    dispatch(listTechnologies(token))
+    dispatch(listTechnologies())
   }, [cityId])
 
   return <LayoutPage details={building && <BuildingDetails building={building}/>}>

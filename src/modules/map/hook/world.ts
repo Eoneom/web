@@ -1,7 +1,8 @@
-import { useAuth } from '#auth/hook'
 import { Sector } from '#types'
 import { getSector } from '#map/api/sector'
 import { useState } from 'react'
+import { useAppSelector } from '#store/type'
+import { selectToken } from '#auth/slice'
 
 export interface HookWorld {
   fetch: (params: FetchParams) => Promise<void>
@@ -13,9 +14,13 @@ interface FetchParams {
 
 export const useWorld = () => {
   const [sector, setSector] = useState<Sector | null>(null)
-  const { token } = useAuth()
+  const token = useAppSelector(selectToken)
 
   const fetch = async ({ sectorId }: FetchParams) => {
+    if (!token) {
+      return
+    }
+
     const fetched_sector = await getSector({ token, sectorId })
 
     if (!fetched_sector) {

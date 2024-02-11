@@ -1,7 +1,6 @@
 import { useContext, useMemo } from 'react'
 import { Technology, TechnologyItem } from '#types'
 import { TechnologyContext } from '#technology/hook/context'
-import { useAuth } from '#auth/hook'
 import { researchTechnology } from '#technology/api/research'
 import { cancelTechnology } from '#technology/api/cancel'
 import { TechnologyCode } from '@kroust/swarm-client'
@@ -11,6 +10,7 @@ import { useAppDispatch, useAppSelector } from '#store/type'
 import { refreshCity } from '#city/slice/thunk'
 import { selectCityId } from '#city/slice'
 import { listTechnologies } from '#technology/slice/thunk'
+import { selectToken } from '#auth/slice'
 
 interface HookTechnology {
   technologies: TechnologyItem[]
@@ -32,7 +32,7 @@ interface ResearchProps {
 
 export const useTechnology = (): HookTechnology => {
   const { technologies, technology, setTechnology } = useContext(TechnologyContext)
-  const { token } = useAuth()
+  const token = useAppSelector(selectToken)
   const cityId = useAppSelector(selectCityId)
   const dispatch = useAppDispatch()
 
@@ -41,7 +41,7 @@ export const useTechnology = (): HookTechnology => {
   }, [technologies])
 
   const select = async ({ code }: SelectProps) => {
-    if (!cityId) {
+    if (!cityId || !token) {
       return
     }
 
@@ -54,7 +54,7 @@ export const useTechnology = (): HookTechnology => {
   }
 
   const research = async ({ code }: ResearchProps) => {
-    if (!cityId) {
+    if (!cityId || !token) {
       return
     }
 
@@ -63,18 +63,25 @@ export const useTechnology = (): HookTechnology => {
       cityId,
       code
     })
-    dispatch(listTechnologies(token))
-    dispatch(refreshCity(token))
+    dispatch(listTechnologies())
+    dispatch(refreshCity())
   }
 
   const finishResearch = async () => {
+    if (!token) {
+      return
+    }
     await technologyFinishResearch({ token })
-    dispatch(listTechnologies(token))
+    dispatch(listTechnologies())
   }
 
   const cancel = async () => {
+    if (!token) {
+      return
+    }
+
     await cancelTechnology({ token })
-    dispatch(listTechnologies(token))
+    dispatch(listTechnologies())
   }
 
   return {
