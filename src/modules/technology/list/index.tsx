@@ -1,27 +1,30 @@
 import React, { useMemo } from 'react'
 
 import { TechnologyListItem } from '#technology/list/item'
-import { useTechnology } from '#technology/hook'
 import { TechnologyTranslations } from '#technology/translations'
 import { formatTime } from '#helpers/transform'
 import { Button } from '#ui/button'
 import { List } from '#ui/list'
 import { useTimer } from '#hook/timer'
-import { useAppSelector } from '#store/type'
-import { selectTechnologyInProgress, selectTechnologies } from '#technology/slice'
+import { useAppDispatch, useAppSelector } from '#store/type'
+import { selectTechnologyInProgress, selectTechnologies, selectTechnology } from '#technology/slice'
+import { cancelTechnology, finishResearch } from '#technology/slice/thunk'
 
 export const TechnologyList: React.FC = () => {
+  const dispatch = useAppDispatch()
+
+  const technology = useAppSelector(selectTechnology)
   const technologies = useAppSelector(selectTechnologies)
   const inProgress = useAppSelector(selectTechnologyInProgress)
-  const { technology, cancel, finishResearch } = useTechnology()
+
   const { remainingTime } = useTimer({
-    onDone: () => finishResearch(),
+    onDone: () => dispatch(finishResearch()),
     doneAt: inProgress?.research_at
   })
 
   const inProgressComponent = inProgress && <>
     <p>En cours: {TechnologyTranslations[inProgress.code].name} <strong>{formatTime(remainingTime)}</strong></p>
-    <Button onClick={() => cancel()}>Annuler</Button>
+    <Button onClick={() => dispatch(cancelTechnology())}>Annuler</Button>
   </>
 
   const items = useMemo(() => {
