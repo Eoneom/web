@@ -5,9 +5,9 @@ import { Button } from '#ui/button'
 import { LayoutDetailsContent } from '#ui/layout/details/content'
 import { MapDetailsActionBase } from '#map/details/action/base'
 import { Sector } from '#types'
-import { useOutpost } from '#outpost/hook'
 import { useAppSelector } from '#store/type'
 import { selectCity } from '#city/slice'
+import { selectOutpostCoordinates } from '#outpost/slice'
 
 interface Props {
   coordinates: {
@@ -19,7 +19,7 @@ interface Props {
 
 export const MapDetails: React.FC<Props> = ({ coordinates, sector }) => {
   const city = useAppSelector(selectCity)
-  const { outpost } = useOutpost()
+  const outpostCoordinates = useAppSelector(selectOutpostCoordinates)
   const { explore } = useTroup()
 
   const selectedCell = useMemo(() => {
@@ -38,7 +38,7 @@ export const MapDetails: React.FC<Props> = ({ coordinates, sector }) => {
       return
     }
 
-    const origin = city ? city.coordinates : outpost?.coordinates
+    const origin = city ? city.coordinates : outpostCoordinates
     if (!origin) {
       return
     }

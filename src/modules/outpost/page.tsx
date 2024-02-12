@@ -1,10 +1,11 @@
 import React from 'react'
 
 import { formatCoordinates } from '#helpers/transform'
-import { useOutpost } from '#outpost/hook'
+import { useAppSelector } from '#store/type'
+import { selectOutpost } from '#outpost/slice'
 
 export const OutpostPage: React.FC = () => {
-  const { outpost } = useOutpost()
+  const outpost = useAppSelector(selectOutpost)
 
   return outpost && <section id="content">
     {outpost.id} {formatCoordinates(outpost.coordinates)}

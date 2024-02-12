@@ -3,29 +3,27 @@ import { MapCanvas } from '#map/canvas'
 import { LayoutPage } from '#ui/layout/page'
 import { MapDetails } from '#map/details'
 import { useTroup } from '#troup/hook'
-import { useOutpost } from '#outpost/hook'
 import { useWorld } from '#map/hook/world'
 import { useAppSelector } from '#store/type'
 import { selectCityCoordinates } from '#city/slice'
-import { selectToken } from '#auth/slice'
+import { selectOutpostCoordinates } from '#outpost/slice'
 
 export const MapPage: React.FC = () => {
   const { list } = useTroup()
   const cityCoordinates = useAppSelector(selectCityCoordinates)
-  const { outpost } = useOutpost()
-  const token = useAppSelector(selectToken)
+  const outpostCoordinates = useAppSelector(selectOutpostCoordinates)
   const { fetch, sector } = useWorld()
   const [selectedCoordinates, setSelectedCoordinates] = useState<{ x: number, y: number} | null>(null)
 
   useEffect(() => {
-    const sectorId = cityCoordinates ? cityCoordinates.sector : outpost?.coordinates.sector
+    const sectorId = cityCoordinates ? cityCoordinates.sector : outpostCoordinates?.sector
     if (!sectorId) {
       return
     }
 
     list()
     fetch({ sectorId })
-  }, [token, cityCoordinates, outpost])
+  }, [cityCoordinates, outpostCoordinates])
 
   const details = useMemo(() => {
     if (!selectedCoordinates || !sector) {

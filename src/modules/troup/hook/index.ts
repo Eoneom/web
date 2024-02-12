@@ -1,5 +1,5 @@
 import { useContext, useMemo } from 'react'
-import {  Troup } from '#types'
+import { Troup } from '#types'
 import { Coordinates, MovementAction, TroupCode } from '@kroust/swarm-client'
 import { TroupContext } from '#troup/hook/context'
 import { listCityTroups } from '#troup/api/list/city'
@@ -7,12 +7,12 @@ import { recruitTroup } from '#troup/api/recruit'
 import { progressRecruitTroup } from '#troup/api/progress-recruit'
 import { cancelTroup } from '#troup/api/cancel'
 import { createMovement } from '#movement/api/create'
-import { useOutpost } from '#outpost/hook'
 import { listOutpostTroups } from '#troup/api/list/outpost'
 import { refreshCity } from '#city/slice/thunk'
 import { useAppDispatch, useAppSelector } from '#store/type'
 import { selectCityId } from '#city/slice'
 import { selectToken } from '#auth/slice'
+import { selectOutpostId } from '#outpost/slice'
 
 interface HookTroup {
   troups: Troup[]
@@ -53,7 +53,7 @@ export const useTroup = (): HookTroup => {
   const dispatch = useAppDispatch()
   const token = useAppSelector(selectToken)
   const cityId = useAppSelector(selectCityId)
-  const { outpost } = useOutpost()
+  const outpostId = useAppSelector(selectOutpostId)
 
   const inProgress = useMemo(() => {
     return troups.find(troup => troup.ongoing_recruitment)
@@ -129,13 +129,13 @@ export const useTroup = (): HookTroup => {
   }
 
   const list = async () => {
-    if (!cityId && !outpost || !token) {
+    if (!cityId && !outpostId || !token) {
       return
     }
 
     const data = cityId ?
-      await listCityTroups({ token, cityId }) : outpost ?
-        await listOutpostTroups({ token, outpostId: outpost.id}) :
+      await listCityTroups({ token, cityId }) : outpostId ?
+        await listOutpostTroups({ token, outpostId }) :
         null
     if (!data) {
       return

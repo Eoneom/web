@@ -1,7 +1,8 @@
 import { selectAllCities } from '#city/slice'
 import { getCity } from '#city/slice/thunk'
+import { resetOutpost } from '#outpost/slice'
+import { listOutposts } from '#outpost/slice/thunk'
 import { useAppDispatch, useAppSelector } from '#store/type'
-import { useOutpost } from '#outpost/hook'
 import { useNavigate } from 'react-router-dom'
 
 interface HookGo {
@@ -11,12 +12,11 @@ interface HookGo {
 export const useGo = (): HookGo => {
   const navigate = useNavigate()
   const cities = useAppSelector(selectAllCities)
-  const { deselect, list } = useOutpost()
   const dispatch = useAppDispatch()
 
   const goToFirstCity = async () => {
-    await list()
-    deselect()
+    dispatch(listOutposts())
+    dispatch(resetOutpost())
 
     const cityId = cities[0].id
     dispatch(getCity(cityId))

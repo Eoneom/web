@@ -7,17 +7,17 @@ import { MovementCreateEstimation } from '#movement/create/estimation'
 import { MovementCreateTroups } from '#movement/create/troups'
 import { MovementCreateWarning } from '#movement/create/warning'
 import { useMovement } from '#movement/hook'
-import { useOutpost } from '#outpost/hook'
 import { useTroup } from '#troup/hook'
 import { MovementEstimation } from '#types'
 import { Coordinates, MovementAction, OutpostType, TroupCode } from '@kroust/swarm-client'
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
+import { selectOutpost } from '#outpost/slice'
 
 export const MovementCreate: React.FC = () => {
   const { troups } = useTroup()
+  const outpost = useAppSelector(selectOutpost)
   const cityCoordinates = useAppSelector(selectCityCoordinates)
-  const { outpost } = useOutpost()
   const { goToFirstCity } = useGo()
 
   const { create, estimate } = useMovement()

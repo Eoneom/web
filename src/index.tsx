@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client'
 import { RouterProvider } from 'react-router-dom'
 
 import { router } from './router'
-import { OutpostContextProvider } from '#outpost/hook/context'
 
 import 'react-toastify/dist/ReactToastify.css'
 import './index.css'
@@ -17,9 +16,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <OutpostContextProvider>
-        <RouterProvider router={router} />
-      </OutpostContextProvider>
+      <RouterProvider router={router} />
     </Provider>
   </React.StrictMode>
 )

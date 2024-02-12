@@ -7,24 +7,24 @@ import { useMovement } from '#movement/hook'
 import { MovementDetails } from '#movement/details'
 import { MovementCreate } from '#movement/create'
 import { useTroup } from '#troup/hook'
-import { useOutpost } from '#outpost/hook'
 import { useAppSelector } from '#store/type'
 import {  selectCityId } from '#city/slice'
+import { selectOutpostId } from '#outpost/slice'
 
 export const MovementPage: React.FC = () => {
   const { movementId } = useParams()
   const { movement, select, deselect } = useMovement()
   const { list: listTroups } = useTroup()
   const cityId = useAppSelector(selectCityId)
-  const { outpost } = useOutpost()
+  const outpostId = useAppSelector(selectOutpostId)
 
   useEffect(() => {
-    if (!cityId && !outpost) {
+    if (!cityId && !outpostId) {
       return
     }
 
     listTroups()
-  }, [cityId, outpost])
+  }, [cityId, outpostId])
 
   useEffect(() => {
     if (!movementId) {

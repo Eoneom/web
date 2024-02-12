@@ -7,16 +7,15 @@ import { Header } from '#ui/header'
 import { NavMenu } from '#ui/nav/menu'
 import { NavLocation } from '#ui/nav/location'
 import { GameProvider } from '#helpers/provider'
-import { useOutpost } from '#outpost/hook'
 import { useAppDispatch, useAppSelector } from './store/type'
 import { listCities } from '#city/slice/thunk'
 import { retrieveStoredToken } from '#auth/slice/thunk'
 import { selectToken } from '#auth/slice'
 import { countUnreadReports } from '#communication/report/slice/thunk'
+import { listOutposts } from '#outpost/slice/thunk'
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch()
-  const { list: listOutposts } = useOutpost()
   const token = useAppSelector(selectToken)
 
   useEffect(() => {
@@ -29,7 +28,7 @@ const App: React.FC = () => {
     }
 
     dispatch(listCities())
-    listOutposts()
+    dispatch(listOutposts())
     dispatch(countUnreadReports())
   }, [token])
 
