@@ -3,29 +3,30 @@ import { formatTime } from '#helpers/transform'
 import { useTimer } from '#hook/timer'
 import { MovementItem } from '#types'
 import { useMovement } from '#movement/hook'
-import { useReport } from '#communication/report/hook'
 import { NavLink } from 'react-router-dom'
 import { useOutpost } from '#outpost/hook'
 import { getUrlPrefix } from '#helpers/url'
-import { useAppSelector } from '#store/type'
+import { useAppDispatch, useAppSelector } from '#store/type'
 import { selectCityId } from '#city/slice'
+import { countUnreadReports } from '#communication/report/slice/thunk'
 
 interface Props {
   movement: MovementItem
 }
 
 export const MovementListItem: React.FC<Props> = ({ movement }) => {
-  const { finish } = useMovement()
-  const { countUnread } = useReport()
+  const dispatch = useAppDispatch()
   const cityId = useAppSelector(selectCityId)
+  const { finish } = useMovement()
   const { list, outpost } = useOutpost()
+
   const { remainingTime } = useTimer({
     onDone: async () => {
       const { isOutpostCreated } = await finish()
       if (isOutpostCreated) {
         await list()
       }
-      await countUnread()
+      dispatch(countUnreadReports())
     },
     doneAt: movement.arrive_at
   })

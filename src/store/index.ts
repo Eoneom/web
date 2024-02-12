@@ -1,6 +1,7 @@
 import { authSliceReducer } from '#auth/slice'
 import { buildingSliceReducer } from '#building/slice'
 import { citySliceReducer } from '#city/slice'
+import { reportSliceReducer } from '#communication/report/slice'
 import { technologySliceReducer } from '#technology/slice'
 import { configureStore } from '@reduxjs/toolkit'
 
@@ -9,6 +10,7 @@ export const store = configureStore({
     auth: authSliceReducer,
     building: buildingSliceReducer,
     city: citySliceReducer,
+    report: reportSliceReducer,
     technology: technologySliceReducer
   }
 })

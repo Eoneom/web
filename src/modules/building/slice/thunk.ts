@@ -61,7 +61,7 @@ export const upgradeBuilding = createAppAsyncThunk('building/upgrade', async (co
     throw rejectWithValue(res.error_code)
   }
 
-  const buildingCode = useAppSelector(selectBuildingCode)
+  const buildingCode = selectBuildingCode(getState())
   if (buildingCode === code) {
     dispatch(getBuilding(buildingCode))
   }

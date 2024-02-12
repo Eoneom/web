@@ -1,3 +1,4 @@
+import { RootState } from '#store/index'
 import { listTechnologies } from '#technology/slice/thunk'
 import { TechnologyItem } from '#types'
 import { createSlice } from '@reduxjs/toolkit'
@@ -20,4 +21,8 @@ export const technologySlice = createSlice({
     })
   }
 })
+
+export const selectTechnologies = (state: RootState) => state.technology.technologies
+export const selectTechnologyInProgress = (state: RootState) => state.technology.technologies.find(technology => technology.research_at)
+
 export const technologySliceReducer = technologySlice.reducer

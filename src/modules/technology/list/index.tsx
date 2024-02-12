@@ -8,10 +8,12 @@ import { Button } from '#ui/button'
 import { List } from '#ui/list'
 import { useTimer } from '#hook/timer'
 import { useAppSelector } from '#store/type'
+import { selectTechnologyInProgress, selectTechnologies } from '#technology/slice'
 
 export const TechnologyList: React.FC = () => {
-  const technologies = useAppSelector(state => state.technology.technologies)
-  const { technology, cancel, inProgress, finishResearch } = useTechnology()
+  const technologies = useAppSelector(selectTechnologies)
+  const inProgress = useAppSelector(selectTechnologyInProgress)
+  const { technology, cancel, finishResearch } = useTechnology()
   const { remainingTime } = useTimer({
     onDone: () => finishResearch(),
     doneAt: inProgress?.research_at

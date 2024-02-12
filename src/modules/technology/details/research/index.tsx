@@ -7,13 +7,15 @@ import { Button } from '#ui/button'
 import { useRequirement } from '#requirement/hook'
 import { useAppSelector } from '#store/type'
 import { selectCity } from '#city/slice'
+import { selectTechnologyInProgress } from '#technology/slice'
 
 interface Props {
   technology: Technology
 }
 
 export const TechnologyDetailsResearch: React.FC<Props> = ({ technology }) => {
-  const { inProgress, research } = useTechnology()
+  const { research } = useTechnology()
+  const inProgress = useAppSelector(selectTechnologyInProgress)
   const city = useAppSelector(selectCity)
   const { isRequirementMet } = useRequirement({ requirement: technology.requirement })
 

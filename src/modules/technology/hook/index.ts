@@ -1,4 +1,4 @@
-import { useContext, useMemo } from 'react'
+import { useContext } from 'react'
 import { Technology, TechnologyItem } from '#types'
 import { TechnologyContext } from '#technology/hook/context'
 import { researchTechnology } from '#technology/api/research'
@@ -15,7 +15,6 @@ import { selectToken } from '#auth/slice'
 interface HookTechnology {
   technologies: TechnologyItem[]
   technology: Technology | null
-  inProgress?: TechnologyItem
   finishResearch: () => Promise<void>
   research: (props: ResearchProps) => Promise<void>
   cancel: () => Promise<void>
@@ -35,10 +34,6 @@ export const useTechnology = (): HookTechnology => {
   const token = useAppSelector(selectToken)
   const cityId = useAppSelector(selectCityId)
   const dispatch = useAppDispatch()
-
-  const inProgress = useMemo(() => {
-    return technologies.find(technology => technology.research_at)
-  }, [technologies])
 
   const select = async ({ code }: SelectProps) => {
     if (!cityId || !token) {
@@ -87,7 +82,6 @@ export const useTechnology = (): HookTechnology => {
   return {
     technology,
     technologies,
-    inProgress,
     select,
     cancel,
     research,
