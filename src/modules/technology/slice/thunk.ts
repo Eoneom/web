@@ -6,27 +6,27 @@ import { isError } from '#helpers/assertion'
 import { createAppAsyncThunk } from '#store/type'
 import { TechnologyCode } from '@kroust/swarm-client'
 
-export const getTechnology = createAppAsyncThunk('technology/get', async (code: TechnologyCode, { getState, rejectWithValue }) => {
+export const getTechnology = createAppAsyncThunk('technology/get', async (code: TechnologyCode, { getState }) => {
   const state = getState()
   const token = selectToken(state)
   const cityId = selectCityId(state)
   if (!cityId || !token) {
-    throw rejectWithValue('no cityId or token')
+    throw new Error('no cityId or token')
   }
 
   const res = await client.technology.get(token, { city_id: cityId, technology_code: code })
   if (isError(res)) {
-    throw rejectWithValue(res.error_code)
+    throw new Error(res.error_code)
   }
 
   if (!res.data) {
-    throw rejectWithValue('no data')
+    throw new Error('no data')
   }
 
   return res.data
 })
 
-export const listTechnologies = createAppAsyncThunk('technology/list', async (_, { getState, rejectWithValue }) => {
+export const listTechnologies = createAppAsyncThunk('technology/list', async (_, { getState }) => {
   const token = selectToken(getState())
   if (!token) {
     return
@@ -34,13 +34,13 @@ export const listTechnologies = createAppAsyncThunk('technology/list', async (_,
 
   const res = await client.technology.list(token)
   if (isError(res)) {
-    throw rejectWithValue(res.error_code)
+    throw new Error(res.error_code)
   }
 
   return res.data?.technologies ?? null
 })
 
-export const cancelTechnology = createAppAsyncThunk('technology/cancel', async (_, { getState, dispatch, rejectWithValue }) => {
+export const cancelTechnology = createAppAsyncThunk('technology/cancel', async (_, { getState, dispatch }) => {
   const token = selectToken(getState())
   if (!token) {
     return
@@ -48,13 +48,13 @@ export const cancelTechnology = createAppAsyncThunk('technology/cancel', async (
 
   const res = await client.technology.cancel(token)
   if (isError(res)) {
-    throw rejectWithValue(res.error_code)
+    throw new Error(res.error_code)
   }
 
   dispatch(listTechnologies())
 })
 
-export const researchTechnology = createAppAsyncThunk('technology/research', async (code: TechnologyCode, { getState, dispatch, rejectWithValue }) => {
+export const researchTechnology = createAppAsyncThunk('technology/research', async (code: TechnologyCode, { getState, dispatch }) => {
   const state = getState()
   const token = selectToken(state)
   const cityId = selectCityId(state)
@@ -67,14 +67,14 @@ export const researchTechnology = createAppAsyncThunk('technology/research', asy
     technology_code: code
   })
   if (isError(res)) {
-    throw rejectWithValue(res.error_code)
+    throw new Error(res.error_code)
   }
 
   dispatch(listTechnologies())
   dispatch(refreshCity())
 })
 
-export const finishResearch = createAppAsyncThunk('technology/finish', async (_, { getState, dispatch, rejectWithValue }) => {
+export const finishResearch = createAppAsyncThunk('technology/finish', async (_, { getState, dispatch }) => {
   const token = selectToken(getState())
   if (!token) {
     return
@@ -82,7 +82,7 @@ export const finishResearch = createAppAsyncThunk('technology/finish', async (_,
 
   const res = await client.technology.finishResearch(token)
   if (isError(res)) {
-    throw rejectWithValue(res.error_code)
+    throw new Error(res.error_code)
   }
 
   dispatch(listTechnologies())

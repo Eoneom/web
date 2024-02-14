@@ -1,4 +1,6 @@
-import { useTroup } from '#troup/hook'
+import { useAppDispatch, useAppSelector } from '#store/type'
+import { selectTroup, selectTroupInProgress } from '#troup/slice'
+import { recruitTroup } from '#troup/slice/thunk'
 import { Button } from '#ui/button'
 import React from 'react'
 
@@ -9,8 +11,11 @@ interface Props {
 }
 
 export const TroupDetailsRecruit: React.FC<Props> = ({ onChange, count, canRecruit }) => {
-  const { inProgress, recruit, selectedTroup } = useTroup()
-  if (inProgress || !selectedTroup) {
+  const dispatch = useAppDispatch()
+  const inProgress = useAppSelector(selectTroupInProgress)
+  const troup = useAppSelector(selectTroup)
+
+  if (inProgress || !troup) {
     return null
   }
 
@@ -32,7 +37,7 @@ export const TroupDetailsRecruit: React.FC<Props> = ({ onChange, count, canRecru
       <Button
         disabled={!canRecruit}
         onClick={() => {
-          recruit({ code: selectedTroup.code, count })
+          dispatch(recruitTroup({ code: troup.code, count }))
           onChange(1)
         }}
       >

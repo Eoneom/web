@@ -1,11 +1,14 @@
+import React, { useState } from 'react'
+
+import { MovementAction, TroupCode } from '@kroust/swarm-client'
+
 import { selectCityCoordinates } from '#city/slice'
 import { selectOutpostCoordinates } from '#outpost/slice'
-import { useAppSelector } from '#store/type'
-import { useTroup } from '#troup/hook'
+import { useAppDispatch, useAppSelector } from '#store/type'
+import { selectTroups } from '#troup/slice'
+import { createMovement } from '#troup/slice/thunk'
 import { TroupTranslations } from '#troup/translations'
 import { Button } from '#ui/button'
-import { TroupCode } from '@kroust/swarm-client'
-import React, { useState } from 'react'
 
 interface Props {
   coordinates: {
@@ -16,7 +19,9 @@ interface Props {
 }
 
 export const MapDetailsActionBase: React.FC<Props> = ({ coordinates }) => {
-  const { troups, base } = useTroup()
+  const dispatch = useAppDispatch()
+
+  const troups = useAppSelector(selectTroups)
   const cityCoordinates = useAppSelector(selectCityCoordinates)
   const outpostCoordinates = useAppSelector(selectOutpostCoordinates)
 
@@ -41,11 +46,12 @@ export const MapDetailsActionBase: React.FC<Props> = ({ coordinates }) => {
       return
     }
 
-    base({
+    dispatch(createMovement({
+      action: MovementAction.BASE,
       origin,
       destination: coordinates,
       troups: finalTroups
-    })
+    }))
   }
 
   return  <>

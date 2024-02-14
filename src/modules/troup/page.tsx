@@ -2,15 +2,17 @@ import React, { useEffect } from 'react'
 
 import { LayoutPage } from '#ui/layout/page'
 import { TroupList } from '#troup/list'
-import { useTroup } from '#troup/hook'
 import { TroupDetails } from '#troup/details'
 import { useAppDispatch, useAppSelector } from '#store/type'
 import { selectCityId } from '#city/slice'
 import { listBuildings } from '#building/slice/thunk'
+import { listTroups } from '#troup/slice/thunk'
+import { selectTroup } from '#troup/slice'
 
 export const TroupPage: React.FC = () => {
-  const { list, selectedTroup } = useTroup()
   const dispatch = useAppDispatch()
+
+  const troup = useAppSelector(selectTroup)
   const cityId = useAppSelector(selectCityId)
 
   useEffect(() => {
@@ -18,11 +20,11 @@ export const TroupPage: React.FC = () => {
       return
     }
 
-    list()
+    dispatch(listTroups())
     dispatch(listBuildings())
   }, [cityId])
 
-  return <LayoutPage details={selectedTroup && <TroupDetails />}>
+  return <LayoutPage details={troup && <TroupDetails />}>
     <TroupList />
   </LayoutPage>
 }

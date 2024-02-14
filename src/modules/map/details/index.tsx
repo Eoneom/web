@@ -1,13 +1,15 @@
 import React, { useMemo } from 'react'
 
-import { useTroup } from '#troup/hook'
+import { MovementAction, TroupCode } from '@kroust/swarm-client'
+
 import { Button } from '#ui/button'
 import { LayoutDetailsContent } from '#ui/layout/details/content'
 import { MapDetailsActionBase } from '#map/details/action/base'
 import { Sector } from '#types'
-import { useAppSelector } from '#store/type'
+import { useAppDispatch, useAppSelector } from '#store/type'
 import { selectCity } from '#city/slice'
 import { selectOutpostCoordinates } from '#outpost/slice'
+import { createMovement } from '#troup/slice/thunk'
 
 interface Props {
   coordinates: {
@@ -18,9 +20,10 @@ interface Props {
 }
 
 export const MapDetails: React.FC<Props> = ({ coordinates, sector }) => {
+  const dispatch = useAppDispatch()
+
   const city = useAppSelector(selectCity)
   const outpostCoordinates = useAppSelector(selectOutpostCoordinates)
-  const { explore } = useTroup()
 
   const selectedCell = useMemo(() => {
     if (!coordinates) {
@@ -43,10 +46,15 @@ export const MapDetails: React.FC<Props> = ({ coordinates, sector }) => {
       return
     }
 
-    explore({
+    dispatch(createMovement({
+      action: MovementAction.EXPLORE,
       origin,
-      destination: { sector: sector.id, x: coordinates.x, y: coordinates.y }
-    })
+      destination: { sector: sector.id, x: coordinates.x, y: coordinates.y },
+      troups: [{
+        code: TroupCode.EXPLORER,
+        count: 1
+      }]
+    }))
   }
 
   return <LayoutDetailsContent>

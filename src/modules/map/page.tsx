@@ -2,14 +2,14 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { MapCanvas } from '#map/canvas'
 import { LayoutPage } from '#ui/layout/page'
 import { MapDetails } from '#map/details'
-import { useTroup } from '#troup/hook'
 import { useWorld } from '#map/hook/world'
-import { useAppSelector } from '#store/type'
+import { useAppDispatch, useAppSelector } from '#store/type'
 import { selectCityCoordinates } from '#city/slice'
 import { selectOutpostCoordinates } from '#outpost/slice'
+import { listTroups } from '#troup/slice/thunk'
 
 export const MapPage: React.FC = () => {
-  const { list } = useTroup()
+  const dispatch = useAppDispatch()
   const cityCoordinates = useAppSelector(selectCityCoordinates)
   const outpostCoordinates = useAppSelector(selectOutpostCoordinates)
   const { fetch, sector } = useWorld()
@@ -21,7 +21,7 @@ export const MapPage: React.FC = () => {
       return
     }
 
-    list()
+    dispatch(listTroups())
     fetch({ sectorId })
   }, [cityCoordinates, outpostCoordinates])
 

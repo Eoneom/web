@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 
 import { TroupTranslations } from '#troup/translations'
-import { useTroup } from '#troup/hook'
 import { TroupDetailsRecruit } from '#troup/details/recruit'
 import { Requirement } from '#requirement/index'
 import { LayoutDetailsContent } from '#ui/layout/details/content'
@@ -10,22 +9,24 @@ import { hasEnoughResources } from '#city/helper'
 import { useRequirement } from '#requirement/hook'
 import { useAppSelector } from '#store/type'
 import { selectCity } from '#city/slice'
+import { selectTroup, selectTroupInProgress } from '#troup/slice'
 
 export const TroupDetails: React.FC = () => {
-  const { selectedTroup, inProgress } = useTroup()
   const city = useAppSelector(selectCity)
+  const troup = useAppSelector(selectTroup)
+  const inProgress = useAppSelector(selectTroupInProgress)
   const [count, setCount] = useState(1)
 
-  if (!selectedTroup) {
+  if (!troup) {
     return null
   }
 
-  const { name, description, effect } = TroupTranslations[selectedTroup.code]
+  const { name, description, effect } = TroupTranslations[troup.code]
   const numberCount = Number.isNaN(count) ? 1 : count
-  const plasticCost = numberCount*selectedTroup.cost.plastic
-  const mushroomCost = numberCount*selectedTroup.cost.mushroom
+  const plasticCost = numberCount*troup.cost.plastic
+  const mushroomCost = numberCount*troup.cost.mushroom
 
-  const { isRequirementMet } = useRequirement({ requirement: selectedTroup.requirement })
+  const { isRequirementMet } = useRequirement({ requirement: troup.requirement })
 
   const canRecruit = !inProgress &&
     hasEnoughResources({
@@ -51,11 +52,11 @@ export const TroupDetails: React.FC = () => {
     </LayoutDetailsContent>
 
     <aside id="requirement">
-      <Requirement requirements={selectedTroup.requirement} />
+      <Requirement requirements={troup.requirement} />
       <Cost
         plastic={plasticCost}
         mushroom={mushroomCost}
-        duration={numberCount*selectedTroup.cost.duration}
+        duration={numberCount*troup.cost.duration}
       />
     </aside>
   </>

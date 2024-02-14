@@ -1,12 +1,16 @@
-import { useMovement } from '#movement/hook'
-import { MovementListItem } from '#movement/list/item'
 import React, { useEffect } from 'react'
 
+import { MovementListItem } from '#movement/list/item'
+import { useAppDispatch, useAppSelector } from '#store/type'
+import { selectMovements } from '#troup/slice'
+import { listMovements } from '#troup/slice/thunk'
+
 export const MovementList: React.FC = () => {
-  const { movements, list } = useMovement()
+  const dispatch = useAppDispatch()
+  const movements = useAppSelector(selectMovements)
 
   useEffect(() => {
-    list()
+    dispatch(listMovements())
   }, [])
 
   return <>

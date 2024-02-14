@@ -19,6 +19,9 @@ const outpostSlice = createSlice({
   reducers: {
     resetOutpost: state => {
       state.outpost = null
+    },
+    removeOutpost: (state, action) => {
+      state.outposts = state.outposts.filter(outpost => outpost.id !== action.payload)
     }
   },
   extraReducers(builder) {
@@ -32,7 +35,7 @@ const outpostSlice = createSlice({
   }
 })
 
-export const { resetOutpost } = outpostSlice.actions
+export const { resetOutpost, removeOutpost } = outpostSlice.actions
 
 export const selectOutposts = (state: RootState) => state.outpost.outposts
 

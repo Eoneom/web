@@ -1,21 +1,21 @@
 import React from 'react'
-import {  Troup } from '#types'
+import { TroupItem } from '#types'
 import { TroupTranslations } from '#troup/translations'
-import { useTroup } from '#troup/hook'
 import { ListItemCount } from '#ui/list/item/count'
+import { useAppDispatch } from '#store/type'
+import { getTroup } from '#troup/slice/thunk'
 
 interface Props {
   active: boolean
-  troup: Troup
+  troup: TroupItem
 }
 
 export const TroupListItem: React.FC<Props> = ({ active, troup }) => {
-  const { selectTroup } = useTroup()
-
+  const dispatch = useAppDispatch()
   return <ListItemCount
     active={active}
     name={TroupTranslations[troup.code].name}
     count={troup.count}
-    onSelect={() => selectTroup(troup.id)}
+    onSelect={() => dispatch(getTroup(troup.id))}
   />
 }

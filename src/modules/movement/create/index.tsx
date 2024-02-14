@@ -1,26 +1,26 @@
 import { selectCityCoordinates } from '#city/slice'
-import { useGo } from '#hook/go'
-import { useAppSelector } from '#store/type'
-import { MovementCreateAction } from '#movement/create/action'
-import { MovementCreateDestination } from '#movement/create/destination'
-import { MovementCreateEstimation } from '#movement/create/estimation'
-import { MovementCreateTroups } from '#movement/create/troups'
-import { MovementCreateWarning } from '#movement/create/warning'
-import { useMovement } from '#movement/hook'
-import { useTroup } from '#troup/hook'
+import { useAppDispatch, useAppSelector } from '#store/type'
+import { MovementCreateAction } from './action'
+import { MovementCreateDestination } from './destination'
+import { MovementCreateEstimation } from './estimation'
+import { MovementCreateTroups } from './troups'
+import { MovementCreateWarning } from './warning'
 import { MovementEstimation } from '#types'
 import { Coordinates, MovementAction, OutpostType, TroupCode } from '@kroust/swarm-client'
 import React, { useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
 import { selectOutpost } from '#outpost/slice'
+import { selectTroups } from '#troup/slice'
+import { estimateMovement } from '../api/estimate'
+import { selectToken } from '#auth/slice'
+import { createMovement } from '#troup/slice/thunk'
 
 export const MovementCreate: React.FC = () => {
-  const { troups } = useTroup()
+  const dispatch = useAppDispatch()
+  const troups = useAppSelector(selectTroups)
   const outpost = useAppSelector(selectOutpost)
   const cityCoordinates = useAppSelector(selectCityCoordinates)
-  const { goToFirstCity } = useGo()
+  const token = useAppSelector(selectToken)
 
-  const { create, estimate } = useMovement()
   const [ selectedTroups, setSelectedTroups ] = useState<Partial<Record<TroupCode, number>>>({})
   const [ destination, setDestination ] = useState<Coordinates>({ x: 1, y: 1, sector: 1 })
   const [ estimation, setEstimation ] = useState<MovementEstimation>({ speed: 0, duration: 0, distance: 0 })
@@ -31,24 +31,28 @@ export const MovementCreate: React.FC = () => {
   }, [selectedTroups, destination])
 
   const launchMovementEstimation = async () => {
+    if (!token) {
+      return
+    }
+
     const origin = cityCoordinates ? cityCoordinates : outpost?.coordinates
     if (!origin) {
       return
     }
 
     const troupCodes: TroupCode[] = Object.keys(selectedTroups).filter(code => selectedTroups[code as TroupCode]).map(code => code as TroupCode)
-
     if (!troupCodes.length) {
       return
     }
 
-    const result = await estimate({ origin, destination, troupCodes })
+    const result = await estimateMovement({ token, origin, destination, troupCodes })
     if (!result) {
       setEstimation({
         speed: 0,
         duration: 0,
         distance: 0
       })
+
       return
     }
 
@@ -75,11 +79,7 @@ export const MovementCreate: React.FC = () => {
       return
     }
 
-    const { deletedOutpostId } = await create({ action, origin, destination, troups: moveTroups })
-    if (deletedOutpostId && outpost?.id === deletedOutpostId) {
-      toast.info('L\'avant poste temporaire a été supprimé, retour à la ville')
-      goToFirstCity()
-    }
+    dispatch(createMovement({ action, origin, destination, troups: moveTroups }))
   }
 
   return <form id="movement-creation" onSubmit={(event) => onSubmit(event)}>

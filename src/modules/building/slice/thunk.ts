@@ -7,27 +7,27 @@ import { isError } from '#helpers/assertion'
 import { createAppAsyncThunk, useAppSelector } from '#store/type'
 import { BuildingCode } from '@kroust/swarm-client'
 
-export const getBuilding = createAppAsyncThunk('building/get', async (code: BuildingCode, { rejectWithValue, getState }) => {
+export const getBuilding = createAppAsyncThunk('building/get', async (code: BuildingCode, { getState }) => {
   const token = selectToken(getState())
   const cityId = selectCityId(getState())
   if (!cityId || !token) {
-    throw rejectWithValue('no token or city id')
+    throw new Error('no token or city id')
   }
 
 
   const res = await client.building.get(token, { city_id: cityId, building_code: code })
   if (isError(res)) {
-    throw rejectWithValue(res.error_code)
+    throw new Error(res.error_code)
   }
 
   if (!res.data) {
-    throw rejectWithValue('no data')
+    throw new Error('no data')
   }
 
   return res.data
 })
 
-export const listBuildings = createAppAsyncThunk('building/list', async (_, { rejectWithValue, getState }) => {
+export const listBuildings = createAppAsyncThunk('building/list', async (_, { getState }) => {
   const token = selectToken(getState())
   const cityId = selectCityId(getState())
   if (!token || !cityId) {
@@ -36,17 +36,17 @@ export const listBuildings = createAppAsyncThunk('building/list', async (_, { re
 
   const res = await client.building.list(token, { city_id: cityId })
   if (isError(res)) {
-    throw rejectWithValue(res.error_code)
+    throw new Error(res.error_code)
   }
 
   if (!res.data) {
-    throw rejectWithValue('empty response')
+    throw new Error('empty response')
   }
 
   return res.data.buildings
 })
 
-export const upgradeBuilding = createAppAsyncThunk('building/upgrade', async (code: BuildingCode, { dispatch, rejectWithValue, getState }) => {
+export const upgradeBuilding = createAppAsyncThunk('building/upgrade', async (code: BuildingCode, { dispatch, getState }) => {
   const token = selectToken(getState())
   const cityId = selectCityId(getState())
   if (!cityId || !token) {
@@ -58,7 +58,7 @@ export const upgradeBuilding = createAppAsyncThunk('building/upgrade', async (co
     building_code: code
   })
   if (isError(res)) {
-    throw rejectWithValue(res.error_code)
+    throw new Error(res.error_code)
   }
 
   const buildingCode = selectBuildingCode(getState())
@@ -70,7 +70,7 @@ export const upgradeBuilding = createAppAsyncThunk('building/upgrade', async (co
   dispatch(refreshCity())
 })
 
-export const finishBuildingUpgrade = createAppAsyncThunk('building/finish', async (_, { dispatch, rejectWithValue, getState }) => {
+export const finishBuildingUpgrade = createAppAsyncThunk('building/finish', async (_, { dispatch, getState }) => {
   const token = selectToken(getState())
   const cityId = selectCityId(getState())
   if (!cityId || !token) {
@@ -79,7 +79,7 @@ export const finishBuildingUpgrade = createAppAsyncThunk('building/finish', asyn
 
   const res = await client.building.finishUpgrade(token, { city_id: cityId })
   if (isError(res)) {
-    rejectWithValue(res.error_code)
+    new Error(res.error_code)
     return
   }
 
@@ -92,7 +92,7 @@ export const finishBuildingUpgrade = createAppAsyncThunk('building/finish', asyn
   dispatch(refreshCity())
 })
 
-export const cancelBuildingUpgrade = createAppAsyncThunk('building/cancel', async (_, { dispatch, rejectWithValue, getState }) => {
+export const cancelBuildingUpgrade = createAppAsyncThunk('building/cancel', async (_, { dispatch, getState }) => {
   const token = selectToken(getState())
   const cityId = selectCityId(getState())
   if (!cityId || !token) {
@@ -101,7 +101,7 @@ export const cancelBuildingUpgrade = createAppAsyncThunk('building/cancel', asyn
 
   const res = await client.building.cancel(token, {city_id: cityId })
   if (isError(res)) {
-    throw rejectWithValue(res.error_code)
+    throw new Error(res.error_code)
   }
 
   dispatch(listBuildings())
