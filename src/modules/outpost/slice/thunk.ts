@@ -3,37 +3,37 @@ import { client } from '#helpers/api'
 import { isError } from '#helpers/assertion'
 import { createAppAsyncThunk } from '#store/type'
 
-export const getOutpost = createAppAsyncThunk('outpost/get', async (outpostId: string, { getState }) => {
+export const getOutpost = createAppAsyncThunk('outpost/get', async (outpostId: string, { getState, rejectWithValue }) => {
   const token = selectToken(getState())
   if (!token) {
-    throw new Error('no token')
+    throw rejectWithValue('no token')
   }
 
   const res = await client.outpost.get(token, { outpost_id: outpostId })
   if (isError(res)) {
-    throw new Error(res.error_code)
+    throw rejectWithValue(res.error_code)
   }
 
   if (!res.data) {
-    throw new Error('data not found')
+    throw rejectWithValue('data not found')
   }
 
   return res.data
 })
 
-export const listOutposts = createAppAsyncThunk('outpost/list', async (_, { getState }) => {
+export const listOutposts = createAppAsyncThunk('outpost/list', async (_, { getState, rejectWithValue }) => {
   const token = selectToken(getState())
   if (!token) {
-    throw new Error('no token')
+    throw rejectWithValue('no token')
   }
 
   const res = await client.outpost.list(token)
   if (isError(res)) {
-    throw new Error(res.error_code)
+    throw rejectWithValue(res.error_code)
   }
 
   if (!res.data) {
-    throw new Error('data not found')
+    throw rejectWithValue('data not found')
   }
 
   return res.data.outposts

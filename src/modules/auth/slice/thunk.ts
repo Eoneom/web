@@ -12,7 +12,7 @@ export const retrieveStoredToken = createAppAsyncThunk('auth/retrieveStoredToken
   dispatch(setToken(storedToken))
 })
 
-export const login = createAppAsyncThunk('auth/login', async (playerName: string, { dispatch }) => {
+export const login = createAppAsyncThunk('auth/login', async (playerName: string, { dispatch, rejectWithValue }) => {
   let token
   try {
     token = await doLogin({ playerName })
@@ -22,7 +22,7 @@ export const login = createAppAsyncThunk('auth/login', async (playerName: string
   }
 
   if (!token) {
-    throw new Error('error occured during login/signup')
+    throw rejectWithValue('error occured during login/signup')
   }
 
   window.localStorage.setItem('token', token)
@@ -30,7 +30,7 @@ export const login = createAppAsyncThunk('auth/login', async (playerName: string
   dispatch(setToken(token))
 })
 
-export const logout = createAppAsyncThunk('auth/logout', async (_, { dispatch, getState }) => {
+export const logout = createAppAsyncThunk('auth/logout', async (_, { dispatch, getState, rejectWithValue }) => {
   const token = selectToken(getState())
   if (!token) {
     return
@@ -38,7 +38,7 @@ export const logout = createAppAsyncThunk('auth/logout', async (_, { dispatch, g
 
   const res = await client.player.logout(token)
   if (isError(res)) {
-    throw new Error(res.error_code)
+    throw rejectWithValue(res.error_code)
   }
 
   window.localStorage.removeItem('token')
